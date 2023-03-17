@@ -12,8 +12,6 @@ from transformers import AutoTokenizer, AutoModelForQuestionAnswering, BertModel
   BertPreTrainedModel, AutoModelForSequenceClassification,AutoModelForTokenClassification
 
 
-
-
 class BertForQuestionAnsweringPolar(BertPreTrainedModel):
   _keys_to_ignore_on_load_unexpected = [r"pooler"]
 
@@ -26,8 +24,9 @@ class BertForQuestionAnsweringPolar(BertPreTrainedModel):
     for k, v in self.bert.named_parameters():
       v.requires_grad = False
 
+    # what is w_inv?
     self.w_inv = w_inv
-    self.hidden_size = w_inv.shape[0]
+    self.hidden_size = w_inv.shape[0]  # to adjust for dimensionality mismatch?
 
     self.qa_outputs = nn.Linear(self.hidden_size, config.num_labels)
     ### \Custom ###
@@ -392,18 +391,6 @@ class BertForTokenClassificationPolar(BertPreTrainedModel):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 def get_word_idx(sent: str, word: str):
   try:
     return sent.split(" ").index(word)
@@ -432,7 +419,6 @@ def get_hidden_states(encoded, token_ids_word, model):
   return word_tokens_output.mean(dim=0) # dim 768
 
 
-
 def forward1Word(tokenizer, model, sentence, word):
   idx = get_word_idx(sentence, word)  # position of the antonym in the sentence. Ex: 2
   encoded = tokenizer.encode_plus(sentence, return_tensors="pt")
@@ -443,6 +429,7 @@ def forward1Word(tokenizer, model, sentence, word):
   embedding = get_hidden_states(encoded, token_ids_word, model)
 
   return embedding
+
 
 def loadAntonymsFromJson(dict_path):
   ## This function reads the antonyms and their example sentences from a json
@@ -476,7 +463,7 @@ def createPolarDimension(model, tokenizer, out_path, antonym_path=""):
       # "['disentangle', 'entangle']" to ['disentangle', 'entangle']
       antonym_list = ast.literal_eval(antonymString)
 
-      # Get Antonym names and their example sentences:
+      # Get Antonym clear names and their example sentences:
       antonym_names=list(sentences.keys())
       antonym1_name=antonym_names[0]
       antonym2_name = antonym_names[1]
@@ -485,20 +472,21 @@ def createPolarDimension(model, tokenizer, out_path, antonym_path=""):
       antonym2_sentences = sentences[antonym2_name]
 
       # left antonym
-      #iterate over the example sentences and average the word-embedding
+      # iterate over the example sentences and average the word-embedding
       cur_word = antonym1_name.split(" ")  # Ex: [disentangle], or [put, in]
       ant1_embedding_list= []
       for example_sentence in antonym1_sentences:
         ant1_wordpart_list=[]
         for antonym_part in cur_word:
           cur_sent=example_sentence #Ex: Can you disentangle the cord?
-          cur_embedding=forward1Word(tokenizer, model, cur_sent, antonym_part)
+          cur_embedding=forward1Word(tokenizer, model, cur_sent, antonym_part)  # what if parts of the word appear multiple times?
           ant1_wordpart_list.append(cur_embedding)
         cur_anti_embedding = torch.mean(torch.stack(ant1_wordpart_list), dim=0)
         if not True in torch.isnan(cur_anti_embedding):
           ant1_embedding_list.append(cur_anti_embedding)
-      ant1_embedding= torch.mean(torch.stack(ant1_embedding_list), dim=0).numpy()
-      if len(ant1_embedding) != 768 and len(ant1_embedding) != 1024:
+      ant1_embedding=torch.mean(torch.stack(ant1_embedding_list), dim=0).numpy()
+      
+      if len(ant1_embedding) != 768 and len(ant1_embedding) != 1024: # what's happening here?
         print(len(ant1_embedding))
         print(cur_word)
 
@@ -525,7 +513,7 @@ def createPolarDimension(model, tokenizer, out_path, antonym_path=""):
 
 
       cur_direction_vector=ant2_embedding - ant1_embedding
-      cur_direction_vector_numpy= cur_direction_vector
+      cur_direction_vector_numpy=cur_direction_vector
       if np.isnan(np.min(cur_direction_vector_numpy)):
         print("Nan....")
         print(antonym1_sentences)
@@ -550,11 +538,6 @@ def createPolarDimension(model, tokenizer, out_path, antonym_path=""):
 
 
 
-
-
-
-
-
 def initCustomModel(original_model, new_model_path, task):
 
   # Load original Model to initilize the new (polar) model
@@ -575,7 +558,6 @@ def initCustomModel(original_model, new_model_path, task):
     print("Please choose a correct Bert-Task")
 
 
-
   # Create (and dump) Polar space with the bert-part of the model
   print("Create (and dump) Polar space with the bert-part of the model")
   antonym_path=""
@@ -586,7 +568,7 @@ def initCustomModel(original_model, new_model_path, task):
   W, W_inverse = bertFuncs.getW(antonym_path_wordnet)
   W_inverse = torch.from_numpy(W_inverse)
 
-  # Initilize new Polar model
+  # Initialize new Polar model
   if task == "QuestionAnswering":
     class_model = BertForQuestionAnsweringPolar.from_pretrained(original_model, w_inv=W_inverse,
                                                                 output_hidden_states=True,
@@ -613,9 +595,6 @@ def initCustomModel(original_model, new_model_path, task):
   #TODO
 
   print(class_model)
-
-
-
 
 
 if __name__ == "__main__":
