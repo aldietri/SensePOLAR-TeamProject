@@ -177,7 +177,7 @@ def analyzeWord(cur_word, context, model=None,tokenizer=None, antonym_path = "",
   
   # get lookup files
   if lookup_path =="":
-    antonym_path = "antonyms/"
+    lookup_path = "antonyms/"
 
   #visualize/ print top dimensions
   antonym_path_lookup = lookup_path + "lookup_anto_example_dict.pkl"
