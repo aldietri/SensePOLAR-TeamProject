@@ -41,7 +41,6 @@ class PolarDimensions:
             model (BERTWordEmbeddings): A BERTWordEmbeddings object that provides word embeddings.
             antonym_path (str): The path to a JSON file that contains antonyms and their example sentences.
         """
-        self.bert = model
         self.model, self.tokenizer = model.model, model.tokenizer
         self.antonym_path = antonym_path
 
@@ -104,7 +103,7 @@ class PolarDimensions:
         words = name.split(" ")
         embedding_list = []
         for sent in sentences:
-            wordpart_list = [self.bert.get_word_embedding(sent, w) for w in words]
+            wordpart_list = [self.model.get_word_embedding(sent, w) for w in words]
             cur_embedding = torch.mean(torch.stack(wordpart_list), dim=0)
             if torch.isnan(cur_embedding).any():
                 print("Nan in sentence: " + sent)

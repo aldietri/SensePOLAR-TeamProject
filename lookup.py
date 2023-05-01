@@ -21,7 +21,7 @@ class LookupCreator:
         The directory path to store the lookup files.
     """
 
-    def __init__(self, antonym_pairs, out_path):
+    def __init__(self, dictionary, antonym_pairs, out_path):
         """
         Initialize the LookupCreator.
 
@@ -34,6 +34,7 @@ class LookupCreator:
         """
         self.antonym_pairs = antonym_pairs
         self.out_path = out_path
+        self.dictionary = dictionary
 
     def get_name(self, antonym):
         """
@@ -61,7 +62,7 @@ class LookupCreator:
         Returns:
             list: a list of example sentences
         """
-        examples = wn.synset(antonym).examples()
+        examples = self.dictionary.get_examples(antonym)
         # replace punctuation symbols with spaces
         examples = [sent.translate(str.maketrans({k: " " for k in string.punctuation})) for sent in examples]
         # add a space after each sentence
@@ -75,10 +76,10 @@ class LookupCreator:
             return
 
         # get all word sense definitions
-        synset_defs = [[wn.synset(anto).definition() for anto in pair] for pair in antonyms]
+        synset_defs = [[self.dictionary.get_definitions(anto) for anto in pair] for pair in antonyms]
         # get example sentences from wordnet
-        examples_readable = {str(pair):{self.get_name(anto): self.get_examples(anto) for anto in pair} for pair in antonyms}
-        examples_lookup = [[[self.get_name(anto), self.get_examples(anto)] for anto in pair] for pair in antonyms]
+        examples_readable = {str(pair):{anto: self.get_examples(anto) for anto in pair} for pair in antonyms}
+        examples_lookup = [[[anto, self.get_examples(anto)] for anto in pair] for pair in antonyms]
 
         # save 
         with open(self.out_path + 'lookup_synset_dict.txt', 'w') as t:
