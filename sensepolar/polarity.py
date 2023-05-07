@@ -1,6 +1,6 @@
 import pickle
 import torch
-from antonyms import AntonymSpace
+from sensepolar.antonyms import AntonymSpace
 
 class WordPolarity:
     "WordPolarity class is used for analyzing the polarity of a word in a given context."

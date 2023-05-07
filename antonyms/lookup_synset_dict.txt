@@ -8,8 +8,8 @@
         "incapable"
     ],
     [
-        "cold",
-        "hot"
+        "hot",
+        "cold"
     ],
     [
         "intelligent",

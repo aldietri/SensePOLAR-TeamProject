@@ -3,7 +3,7 @@ import torch
 import numpy as np
 import json
 import pickle
-from bertEmbed import BERTWordEmbeddings
+from sensepolar.bertEmbed import BERTWordEmbeddings
 
 
 class PolarDimensions:

@@ -4,9 +4,6 @@ from nltk.corpus import wordnet as wn
 import string
 import json
 import pickle
-from polarDim import PolarDimensions
-from polarity import WordPolarity
-from bertEmbed import BERTWordEmbeddings
 
 
 class LookupCreator:
