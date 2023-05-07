@@ -1,18 +1,121 @@
 [
     [
-        "(usually followed by `of') having capacity or ability",
-        "(followed by `of') lacking capacity or ability"
+        [
+            "very intense",
+            "very much; strongly",
+            "having undesirable or negative qualities",
+            "not capable of being collected",
+            "nonstandard",
+            "characterized by wickedness or immorality",
+            "physically unsound or diseased",
+            "reproduced fraudulently",
+            "(of foodstuffs) not in an edible or usable condition",
+            "feeling physical discomfort or pain (`tough' is occasionally used colloquially for `bad')",
+            "feeling or expressing regret or sorrow or a sense of loss over something done or undone",
+            "not financially safe or secure",
+            "that which is below standard or expectations as of ethics or decency",
+            "capable of harming",
+            "with great intensity (`bad' is a nonstandard variant for `badly')",
+            "below average in quality or performance",
+            "not working properly"
+        ],
+        [
+            "benefit",
+            "having the normally expected amount",
+            "having desirable or positive qualities especially those suitable for a thing specified",
+            "moral excellence or admirableness",
+            "deserving of esteem and respect",
+            "financially sound",
+            "articles of commerce",
+            "most suitable or right for a particular purpose",
+            "generally admired",
+            "not forged",
+            "promoting or enhancing well-being",
+            "agreeable or pleasing",
+            "that which is pleasing or valuable or useful",
+            "(often used as a combining form) in a good or proper or satisfactory manner or to a high standard (`good' is a nonstandard dialectal variant for `well')",
+            "exerting force or influence",
+            "appealing to the mind",
+            "resulting favorably",
+            "having or showing knowledge and skill and aptitude",
+            "in excellent physical condition",
+            "capable of pleasing",
+            "morally admirable",
+            "with or in a close or intimate relationship",
+            "of moral excellence",
+            "tending to promote physical well-being; beneficial to health",
+            "completely and absolutely (`good' is sometimes used informally for `thoroughly')",
+            "not left to spoil",
+            "thorough"
+        ]
     ],
     [
-        "the absence of heat",
-        "used of physical heat; having a high or higher than desirable temperature or giving off heat or feeling or causing a sensation of heat or burning"
+        [
+            "having the requisite qualities for",
+            "(usually followed by `of') having capacity or ability",
+            "possibly accepting or permitting",
+            "(followed by `of') having the temperament or inclination for",
+            "have the skills and qualifications to do things well"
+        ],
+        [
+            "(followed by `of') not having the temperament or inclination for",
+            "not meeting requirements",
+            "(followed by `of') lacking capacity or ability",
+            "not being susceptible to or admitting of something (usually followed by `of')"
+        ]
     ],
     [
-        "benefit",
-        "that which is below standard or expectations as of ethics or decency"
+        [
+            "having lost freshness through passage of time",
+            "without compunction or human feeling",
+            "having a low or inadequate temperature or feeling a sensation of coldness or having been made cold by e.g. ice or refrigeration",
+            "so intense as to be almost uncontrollable",
+            "lacking the warmth of life",
+            "unconscious from a blow or shock or intoxication",
+            "the absence of heat",
+            "marked by errorless familiarity",
+            "extended meanings; especially of psychological coldness; without human warmth or emotion",
+            "(color) giving no sensation of warmth",
+            "a mild viral infection involving the nose and respiratory passages (but not the lungs)",
+            "lacking originality or spontaneity; no longer new",
+            "the sensation produced by low temperatures",
+            "feeling or showing no enthusiasm",
+            "sexually unresponsive",
+            "of a seeker; far from the object sought"
+        ],
+        [
+            "having or showing great eagerness or enthusiasm",
+            "newly made",
+            "characterized by violent and forceful activity or movement; very intense",
+            "newest or most recent",
+            "very good; often used in the negative",
+            "sexually excited or exciting",
+            "very unpleasant or even dangerous",
+            "producing a burning sensation on the taste nerves",
+            "wanted by the police",
+            "extended meanings; especially of psychological heat; marked by intensity or vehemence especially of passion or enthusiasm",
+            "having or dealing with dangerously high levels of radioactivity",
+            "(color) bold and intense",
+            "charged or energized with electricity",
+            "having or bringing unusually good luck",
+            "performed or performing with unusually great skill and daring and energy",
+            "marked by excited activity",
+            "of a seeker; very near to the object sought",
+            "very popular or successful",
+            "used of physical heat; having a high or higher than desirable temperature or giving off heat or feeling or causing a sensation of heat or burning",
+            "recently stolen or smuggled",
+            "very fast; capable of quick response and great speed"
+        ]
     ],
     [
-        "having the capacity for thought and reason especially to a high degree",
-        "lacking intelligence"
+        [
+            "exercising or showing good judgment",
+            "endowed with the capacity to reason",
+            "possessing sound knowledge",
+            "having the capacity for thought and reason especially to a high degree"
+        ],
+        [
+            "lacking intelligence"
+        ]
     ]
 ]

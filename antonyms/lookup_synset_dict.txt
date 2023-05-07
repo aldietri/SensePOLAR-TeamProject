@@ -1,18 +1,18 @@
 [
     [
-        "capable.a.01",
-        "incapable.a.01"
+        "bad",
+        "good"
     ],
     [
-        "coldness.n.03",
-        "hot.a.01"
+        "capable",
+        "incapable"
     ],
     [
-        "good.n.01",
-        "bad.n.01"
+        "cold",
+        "hot"
     ],
     [
-        "intelligent.a.01",
-        "unintelligent.a.01"
+        "intelligent",
+        "unintelligent"
     ]
 ]
