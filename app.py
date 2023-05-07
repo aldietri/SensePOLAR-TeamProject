@@ -2,10 +2,10 @@ import streamlit as st
 from nltk.corpus import wordnet as wn
 import uuid
 
-from experimental.lookup import LookupCreator
-from experimental.polarity import WordPolarity
-from experimental.bertEmbed import BERTWordEmbeddings
-from experimental.polarDim import PolarDimensions
+from lookup import LookupCreator
+from sensepolar.polarity import WordPolarity
+from sensepolar.bertEmbed import BERTWordEmbeddings
+from sensepolar.polarDim import PolarDimensions
 
 import plotly.graph_objects as go
 import plotly.express as px
