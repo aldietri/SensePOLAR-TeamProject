@@ -22,8 +22,27 @@ import torch
 
 # In[2]:
 
+def text_lowercase(text):
+    return text.lower()
+
+def remove_whitespace(text):
+    return  " ".join(text.split())
 
 def get_examples_files(antonym,dictionary):
+    
+    examples=dictionary[antonym].split(".")
+    #save only examples that containt the required word
+    correct_examples=[]
+    for example in examples:
+        if re.search(r'\b'+text_lowercase(str(antonym))+'\\b', text_lowercase(example), re.I) is not None:
+            correct_examples.append(text_lowercase(remove_whitespace(example)))
+    
+
+    
+    examples = [sent.translate(str.maketrans({k: " " for k in string.punctuation})) for sent in correct_examples]
+    # add a space after each sentence
+    return ['{} '.format(sent) for sent in examples]
+'''def get_examples_files(antonym,dictionary):
     
     examples=dictionary[antonym].split(".")
     #save only examples that containt the required word
@@ -36,7 +55,7 @@ def get_examples_files(antonym,dictionary):
     
     examples = [sent.translate(str.maketrans({k: " " for k in string.punctuation})) for sent in correct_examples]
     # add a space after each sentence
-    return ['{} '.format(sent) for sent in examples]
+    return ['{} '.format(sent) for sent in examples]'''
 
 
 # In[17]:
