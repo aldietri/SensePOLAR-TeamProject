@@ -34,7 +34,7 @@ def get_examples_files(antonym,dictionary):
     #save only examples that containt the required word
     correct_examples=[]
     for example in examples:
-        if re.search(r'\b'+text_lowercase(str(antonym))+'\\b', text_lowercase(example), re.I) is not None:
+        if re.search(r'\b'+text_lowercase(str(antonym.split('.')[0]))+'\\b', text_lowercase(example), re.I) is not None:
             correct_examples.append(text_lowercase(remove_whitespace(example)))
     
 
@@ -101,13 +101,70 @@ def create_lookup_from_data_file(file_name,out_path):
     definition_dict=defaultdict()
     for index,value in enumerate(data.iloc[:,0]):
         dimensions.append(list([value,data.iloc[:,1][index]]))
-        definition_dict[value]=data.iloc[:,4][index]
-        definition_dict[data.iloc[:,1][index]]=data.iloc[:,5][index]
+        #definition_dict[value]=data.iloc[:,4][index]
+        definition_dict[value]=" "
+        #definition_dict[data.iloc[:,1][index]]=data.iloc[:,5][index]
+        definition_dict[data.iloc[:,1][index]]=" "
         ant_example_dict[value]=data.iloc[:,2][index]
         ant_example_dict[data.iloc[:,1][index]]=data.iloc[:,3][index]
     
     create_lookup_files_fromFile(dimensions,out_path,definition_dict,ant_example_dict)
     
     return 
+
+
+def create_lookupFiles_out_of_adjectives_list_using_file(file,out_path):
+    file=r'{}'.format(file)
+    adjectives = pd.read_excel(file,header=None)
+    
+    adjectives=list(adjectives[0])
+    adjectives
+    from collections import defaultdict
+    adj_ant_pairs=[]
+    d=[]
+    sorted_d=[]
+    for word in adjectives:
+        antonyms=defaultdict()
+
+        synsets=wn.synsets(word)
+         #create dictionary only with synsets that have an antonym
+        for i in synsets:
+            if(len(i.lemmas()[0].antonyms()) !=0):
+                ant=i.lemmas()[0].antonyms()[0]
+                antonyms[i]=ant.synset()
+        #keep only antonym pairs that have examples
+        for key in list(antonyms.keys()):
+            if (len(key.examples())==0 or len(antonyms[key].examples())==0):
+                del antonyms[key]
+        if len(list(antonyms.keys())) !=0:
+         #append the list of dimmensions
+            for key in list(antonyms.keys()):
+                d.append(sorted(list([key.name(),antonyms[key].name()])))
+
+    #remove duplicates
+    df=pd.DataFrame(d)
+    df.drop_duplicates(inplace=True)
+    df.reset_index(inplace=True)        
+    dims=[]
+    for index, value in enumerate(df[0]):
+        dims.append(list([value,df[1][index]]))
+        
+        
+    dimensions=dims
+    ant_example_dict=defaultdict()
+    definition_dict=defaultdict()
+    for index,value in enumerate(dimensions):
+ 
+
+        definition_dict[value[0]]=wn.synset(value[1]).definition()
+        definition_dict[value[1]]=wn.synset(value[0]).definition()
+        ant_example_dict[value[0]]='.'.join(str(x) for x in wn.synset(value[0]).examples())
+        ant_example_dict[value[1]]='.'.join(str(x) for x in wn.synset(value[1]).examples())
+        
+    create_lookup_files_fromFile(dimensions,out_path,definition_dict,ant_example_dict)
+
+    return 
+
+    
     
 
