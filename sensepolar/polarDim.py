@@ -41,7 +41,7 @@ class PolarDimensions:
             model (BERTWordEmbeddings): A BERTWordEmbeddings object that provides word embeddings.
             antonym_path (str): The path to a JSON file that contains antonyms and their example sentences.
         """
-        self.model, self.tokenizer = model.model, model.tokenizer
+        self.model = model
         self.antonym_path = antonym_path
 
     @staticmethod
