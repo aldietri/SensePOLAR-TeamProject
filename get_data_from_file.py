@@ -61,14 +61,26 @@ def get_examples_files(antonym,dictionary):
 # In[17]:
 
 
-def create_lookup_files_fromFile(antonyms, out_path,definitions,examples):
+def create_lookup_files_fromFile(antonyms_first, out_path,definitions,examples):
+    
+    #delete all dimensions with no examples after checking if they contain the antonym
+    antonyms = [pair for pair in antonyms_first if min(len(get_examples_files(pair[0],examples)),
+                                                       len(get_examples_files(pair[1],examples))) != 0]
+    
+
     if len(np.unique(antonyms, axis=0)) != len(antonyms):
         print("Your antonym list contains duplicates. Please try again!")
         return
     
+
+            
+
+    
+            
+    
     # get all word sense definitions
     synset_defs = [[definitions[anto] for anto in pair] for pair in antonyms]
-    # get example sentences from wordnet
+    # get example sentences from dicitionary
     examples_readable = {str(pair):{str(anto): get_examples_files(anto,examples) for anto in pair} for pair in antonyms}
     examples_lookup = [[[str(anto), get_examples_files(anto,examples)] for anto in pair] for pair in antonyms]
     
@@ -87,7 +99,7 @@ def create_lookup_files_fromFile(antonyms, out_path,definitions,examples):
         t.write(json.dumps(examples_lookup, indent=4))      
     with open(out_path + 'lookup_anto_example_dict.pkl', 'wb') as p:
         pickle.dump(examples_lookup, p)
-    return
+    return 
 
 
 # In[18]:
