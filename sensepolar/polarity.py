@@ -4,7 +4,7 @@ from sensepolar.antonyms import AntonymSpace
 
 class WordPolarity:
     "WordPolarity class is used for analyzing the polarity of a word in a given context."
-    def __init__(self, model, antonym_path="", lookup_path="./antonyms/", normalize_term_path="antonyms/wordnet_normalize.pkl", number_polar=5, method="base-change"):
+    def __init__(self, model, antonym_path="", lookup_path="./antonyms/", normalize_term_path="wordnet_normalize.pkl", number_polar=5, method="base-change"):
         """
         Initialize a WordPolarity object.
 
@@ -18,7 +18,7 @@ class WordPolarity:
         """
         self.antonym_path = antonym_path
         self.lookup_path = lookup_path
-        self.normalize_term_path = normalize_term_path
+        self.normalize_term_path = lookup_path + normalize_term_path
         self.number_polar = number_polar
         self.method = method
         self.model = model
@@ -113,6 +113,8 @@ class WordPolarity:
         for i in range(self.number_polar):
             cur_index = sorted_dic[i][0]
             cur_value = sorted_dic[i][1]
+            print("Index:", cur_index)
+            print(self.antonyms)
             left_polar = self.antonyms[cur_index][0][0]
             left_definition = self.definitions[cur_index][0]
             right_polar = self.antonyms[cur_index][1][0]

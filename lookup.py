@@ -36,7 +36,7 @@ class LookupCreator:
         self.examples = None
         if antonyms_file_path is not None:
             self.antonym_pairs, self.definitions, self.examples = self.retrieve_from_file(antonyms_file_path)
-            self.out_path = out_path
+        self.out_path = out_path
         self.dictionary = dictionary
 
     def get_name(self, antonym):
@@ -66,8 +66,12 @@ class LookupCreator:
             list: a list of example sentences
         """
         examples = self.dictionary.get_examples(antonym)
+        correct_examples=[]
+        for example in examples:
+            if re.search(r'\b'+ str(antonym).lower()+'\\b', example.lower(), re.I) is not None:
+                correct_examples.append(" ".join(example.split()).lower())
         # replace punctuation symbols with spaces
-        examples = [sent.translate(str.maketrans({k: " " for k in string.punctuation})) for sent in examples]
+        examples = [sent.translate(str.maketrans({k: " " for k in string.punctuation})) for sent in correct_examples]
         # add a space after each sentence
         return ['{} '.format(sent) for sent in examples]
 

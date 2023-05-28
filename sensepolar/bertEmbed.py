@@ -73,7 +73,7 @@ class BERTWordEmbeddings:
         if idx == -1:
             return None
         encoded = self.tokenizer.encode_plus(sentence, return_tensors="pt")
-        token_ids_word = torch.tensor(np.where(np.array(encoded.word_ids()) == idx)[0])
+        token_ids_word =np.where(np.array(encoded.word_ids()) == idx)
         states = self.get_hidden_states(encoded)
         output = states[-2][0]
         word_tokens_output = output[token_ids_word]
