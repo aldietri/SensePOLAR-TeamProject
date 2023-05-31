@@ -1,18 +1,22 @@
 [
     [
-        "bad",
-        "good"
-    ],
-    [
-        "capable",
-        "incapable"
+        "happy",
+        "sad"
     ],
     [
         "hot",
         "cold"
     ],
     [
-        "intelligent",
-        "unintelligent"
+        "big",
+        "small"
+    ],
+    [
+        "fast",
+        "slow"
+    ],
+    [
+        "good",
+        "bad"
     ]
 ]

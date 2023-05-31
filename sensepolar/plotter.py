@@ -223,4 +223,103 @@ class PolarityPlotter:
         fig.show()
 
 
+    def get_most_descriptive_antonym_pairs(self, words, polar_dimensions, inspect_words, n):
+        """
+        Retrieves the common antonym pairs that best describe the inspected words.
 
+        Args:
+            words (list): A list of all words.
+            polar_dimensions (list): A list of polar dimensions.
+            inspect_words (list): A subset of words to inspect.
+            n (int): Number of antonym pairs to retrieve.
+
+        Returns:
+            list: The common antonym pairs that best describe the inspected words,
+                along with the polarity values.
+
+        Note:
+            This implementation assumes that each word has only one antonym pair associated with it.
+        """
+        word_dict = {word: None for word in words}
+        for idx, item in enumerate(polar_dimensions):
+            antonym_dict = {}
+            for antonym1, antonym2, value in item:
+                antonym_dict[(antonym1, antonym2)] = value
+            word_dict[words[idx]] = antonym_dict
+
+        common_antonyms = set(word_dict[inspect_words[0]].keys())
+        for word in inspect_words[1:]:
+            common_antonyms.intersection_update(word_dict[word].keys())
+
+        descriptive_pairs = []
+        scores = []
+
+        for antonym in common_antonyms:
+            score = sum(abs(word_dict[word][antonym]) for word in inspect_words)
+            descriptive_pairs.append(antonym)
+            scores.append(score)
+
+        sorted_pairs = [pair for _, pair in sorted(zip(scores, descriptive_pairs), reverse=True)]
+
+        if len(sorted_pairs) > n:
+            sorted_pairs = sorted_pairs[:n]
+
+        result = []
+        for pair in sorted_pairs:
+            polarities = [word_dict[word][pair] for word in inspect_words]
+            result.append((pair, polarities))
+
+        return result[:n]
+
+
+    def plot_descriptive_antonym_pairs(self, words, polar_dimensions, inspect_words, n):
+        """
+        Plots each word against the descriptive antonym pairs using a horizontal bar plot.
+
+        Args:
+            words (list): A list of words.
+            descriptive_pairs (list): The descriptive antonym pairs, along with the polarity values.
+
+        Returns:
+            None
+        """
+        descriptive_pairs = self.get_most_descriptive_antonym_pairs( words, polar_dimensions, inspect_words, n)
+        fig = make_subplots(rows=len(descriptive_pairs), cols=1, shared_xaxes=True, subplot_titles=[f"{pair[0][0]}-{pair[0][1]}" for pair in descriptive_pairs])
+
+        #take max absolute value from all polarity values
+        scale = max(max([abs(n) for n in polars]) for _, polars in descriptive_pairs) + 0.5
+        min_polarity = -scale
+        max_polarity = scale
+
+        color_sequence = colors.qualitative.Plotly
+
+        for i, (antonym_pair, polarity_values) in enumerate(descriptive_pairs):
+            fig_idx = i + 1
+
+            color_map = {word: color_sequence[j % len(color_sequence)] for j, word in enumerate(inspect_words)}
+            legend_names = [] 
+
+            for j, word in enumerate(inspect_words):
+                if word not in legend_names:
+                    legend_names.append(word)
+                    fig.add_trace(go.Bar(
+                        y=[word],
+                        x=[polarity_values[j]],
+                        name=word,
+                        marker=dict(color=color_map[word]), 
+                        orientation='h',
+                        showlegend=False,
+                        offsetgroup=f"Pair {fig_idx}"
+                    ), row=fig_idx, col=1)
+
+        fig.update_layout(
+            title="Word Polarity for Descriptive Antonym Pairs",
+            xaxis_title="Polarity",
+            barmode="group",
+            legend_traceorder="reversed",
+            xaxis=dict(range=[min_polarity, max_polarity]) 
+        )
+
+        fig.update_yaxes(showticklabels=False)
+
+        fig.show()

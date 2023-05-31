@@ -127,11 +127,17 @@ class LookupCreator:
 
     def create_lookup_files(self):
         """Create and store the lookup files."""
-        antonyms = np.unique(self.antonym_pairs, axis=0)
-        if len(antonyms) != len(self.antonym_pairs):
-            print("Your antonym list contains duplicates. Please try again!")
-            return
+        if self.examples is None:
+            antonyms = [pair for pair in self.antonym_pairs if min(len(self.get_examples(pair[0])),
+                                                       len(self.get_examples(pair[1]))) != 0]
+        else:
+            antonyms = [pair for pair in self.antonym_pairs if min(len(self.get_examples_files(pair[0], self.examples)),
+                                                       len(self.get_examples_files(pair[1], self.examples))) != 0]
+        # antonyms = np.unique(self.antonym_pairs, axis=0)
 
+        # if len(antonyms) != len(self.antonym_pairs):
+        #     print("Your antonym list contains duplicates. Please try again!")
+        #     return
         if self.definitions is None:
             synset_defs = [[self.dictionary.get_definitions(anto) for anto in pair] for pair in antonyms]
         else:
@@ -144,7 +150,7 @@ class LookupCreator:
             examples_lookup = [[[str(anto), self.get_examples_files(anto, self.examples)] for anto in pair] for pair in antonyms]
         # save 
         with open(self.out_path + 'lookup_synset_dict.txt', 'w') as t:
-            t.write(json.dumps(antonyms.tolist(), indent=4))
+            t.write(json.dumps(antonyms, indent=4))
         with open(self.out_path + 'lookup_synset_dict.pkl', 'wb') as p:
             pickle.dump(antonyms, p)
         with open(self.out_path + 'lookup_synset_definition.txt', 'w') as t:

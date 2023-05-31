@@ -1,113 +1,15 @@
 [
     [
         [
-            "bad",
+            "happy",
             [
-                "take the bad with the good ",
-                "a bad report card ",
-                "his sloppy appearance made a bad impression ",
-                "a bad little boy ",
-                "clothes in bad shape ",
-                "a bad cut ",
-                "bad luck ",
-                "the news was very bad ",
-                "the reviews were bad ",
-                "the pay is bad ",
-                "it was a bad light for reading ",
-                "the movie was a bad choice ",
-                "a bad headache ",
-                "had a big  or bad  shock ",
-                "a bad earthquake ",
-                "a bad storm ",
-                "my throat feels bad ",
-                "she felt bad all over ",
-                "bad meat ",
-                "he felt bad about breaking the vase ",
-                "a bad  or uncollectible  debt ",
-                "a bad chess player ",
-                "a bad recital ",
-                "so called bad grammar ",
-                "a bad investment ",
-                "has a bad back ",
-                "a bad heart ",
-                "bad teeth ",
-                "bad air ",
-                "smoking is bad for you ",
-                "led a very bad life ",
-                "like a bad penny    ",
-                "a bad telephone connection ",
-                "it hurts bad ",
-                "we need water bad ",
-                "he wants a bicycle so bad he can taste it "
+                "i feel happy today "
             ]
         ],
         [
-            "good",
+            "sad",
             [
-                "for your own good ",
-                "what s the good of worrying  ",
-                "there is much good to be found in people ",
-                "weigh the good against the bad ",
-                "good news from the hospital ",
-                "a good report card ",
-                "when she was good she was very very good ",
-                "a good knife is one good for cutting ",
-                "this stump will make a good picnic table ",
-                "a good check ",
-                "a good joke ",
-                "a good exterior paint ",
-                "a good secretary ",
-                "a good dress for the office ",
-                "gives good measure ",
-                "a good mile from here ",
-                "ruined the family s good name ",
-                "the experience was good for her ",
-                "we all had a good time ",
-                "good manners ",
-                "a genuinely good person ",
-                "a good mechanic ",
-                "had a good workout ",
-                "gave the house a good cleaning ",
-                "a good friend ",
-                "a good investment ",
-                "a good time to plant tomatoes ",
-                "it s a good thing that i wasn t there ",
-                "it is good that you stayed ",
-                "a warranty good for two years ",
-                "good looks ",
-                "good music ",
-                "good teeth ",
-                "i still have one good leg ",
-                "a good night s sleep ",
-                "a good dollar bill ",
-                "the meat is still good ",
-                "good taste ",
-                "the baby can walk pretty good ",
-                "we beat him good "
-            ]
-        ]
-    ],
-    [
-        [
-            "capable",
-            [
-                "capable of winning ",
-                "capable of hard work ",
-                "capable of walking on two feet ",
-                "a passage capable of misinterpretation ",
-                "no one believed her capable of murder ",
-                "a capable administrator ",
-                "children as young as 14 can be extremely capable and dependable "
-            ]
-        ],
-        [
-            "incapable",
-            [
-                "incapable of carrying a tune ",
-                "he is incapable of understanding the matter ",
-                "incapable of doing the work ",
-                "incapable of solution ",
-                "simply incapable of lying "
+                "he looks sad "
             ]
         ]
     ],
@@ -115,100 +17,55 @@
         [
             "hot",
             [
-                "hot stove ",
-                "hot water ",
-                "a hot august day ",
-                "a hot stuffy room ",
-                "she s hot and tired ",
-                "a hot forehead ",
-                "the fighting became hot and heavy ",
-                "a hot engagement ",
-                "a hot temper ",
-                "a hot topic ",
-                "a hot new book ",
-                "a hot love affair ",
-                "a hot argument ",
-                "hot pink ",
-                "was hot for her ",
-                "hot pants ",
-                "hot merchandise ",
-                "a hot car ",
-                "a hot sports car ",
-                "got off to a hot start ",
-                "in hot pursuit ",
-                "a red hot line drive ",
-                "a hot suspect ",
-                "hot salsa ",
-                "jalapeno peppers are very hot ",
-                "a hot drummer ",
-                "he s hot tonight ",
-                "one of the hot young talents ",
-                "cabbage patch dolls were hot last season ",
-                "make it hot for him ",
-                "in the hot seat ",
-                "in hot water ",
-                "news hot off the press ",
-                "red hot information ",
-                "hot at craps ",
-                "the dice are hot tonight ",
-                "he s hot at math but not so hot at history ",
-                "a hot scent ",
-                "hot for travel ",
-                "you are hot ",
-                "hot fuel rods ",
-                "a hot laboratory ",
-                "a hot wire ",
-                "a hot week on the stock market "
+                "it s hot outside "
             ]
         ],
         [
             "cold",
             [
-                "will they never find a cure for the common cold  ",
-                "come in out of the cold ",
-                "cold is a vasoconstrictor ",
-                "he shivered from the cold ",
-                "the cold helped clear his head ",
-                "a cold climate ",
-                "a cold room ",
-                "dinner has gotten cold ",
-                "cold fingers ",
-                "if you are cold  turn up the heat ",
-                "a cold beer ",
-                "a cold unfriendly nod ",
-                "a cold and unaffectionate person ",
-                "a cold impersonal manner ",
-                "cold logic ",
-                "the concert left me cold ",
-                "a cold trail ",
-                "dogs attempting to catch a cold scent ",
-                "a cold bluish grey ",
-                "had her lines cold before rehearsals started ",
-                "cold fury gripped him ",
-                "was cold to his advances ",
-                "in cold blood ",
-                "cold blooded killing ",
-                "a cold audience ",
-                "a cold response to the new play ",
-                "the boxer was out cold ",
-                "pass out cold ",
-                "cold in his grave "
+                "the ice is cold to touch "
             ]
         ]
     ],
     [
         [
-            "intelligent",
+            "big",
             [
-                "is there intelligent life in the universe  ",
-                "an intelligent question ",
-                "an intelligent solution "
+                "the elephant is big "
             ]
         ],
         [
-            "unintelligent",
+            "small",
             [
-                "a dull job with lazy and unintelligent co workers "
+                "the ant is small "
+            ]
+        ]
+    ],
+    [
+        [
+            "fast",
+            [
+                "the cheetah runs fast "
+            ]
+        ],
+        [
+            "slow",
+            [
+                "the snail moves slow "
+            ]
+        ]
+    ],
+    [
+        [
+            "good",
+            [
+                "eating healthy food is good for you "
+            ]
+        ],
+        [
+            "bad",
+            [
+                "smoking is bad for your health "
             ]
         ]
     ]
