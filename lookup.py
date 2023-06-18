@@ -20,7 +20,7 @@ class LookupCreator:
         The directory path to store the lookup files.
     """
 
-    def __init__(self, dictionary, out_path="./antonyms/", antonym_pairs=None, antonyms_file_path=None):
+    def __init__(self, dictionary=None, out_path="./antonyms/", antonym_pairs=None, antonyms_file_path=None):
         """
         Initialize the LookupCreator.
 
@@ -75,7 +75,7 @@ class LookupCreator:
         # add a space after each sentence
         return ['{} '.format(sent) for sent in examples]
 
-    def retrieve_from_file(self, file_path):
+    def retrieve_from_file(self, data): #,file_path
         """
         Retrieve antonym pairs from a file.
 
@@ -89,7 +89,6 @@ class LookupCreator:
         list
             A list of antonym pairs.
         """
-        data = pd.read_excel(file_path, header=0)
         antonyms = []
         definitions = defaultdict()
         examples = defaultdict()

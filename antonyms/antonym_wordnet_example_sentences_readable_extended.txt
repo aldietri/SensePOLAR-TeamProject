@@ -38,5 +38,13 @@
         "bad": [
             "smoking is bad for your health "
         ]
+    },
+    "['round', 'square']": {
+        "round": [
+            "the ball is round "
+        ],
+        "square": [
+            "a square chess board "
+        ]
     }
 }

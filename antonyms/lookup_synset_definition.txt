@@ -18,5 +18,9 @@
     [
         "positive",
         "negative"
+    ],
+    [
+        "round",
+        "squared"
     ]
 ]

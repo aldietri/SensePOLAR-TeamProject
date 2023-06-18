@@ -126,7 +126,8 @@ class PolarityPlotter:
             xaxis_autorange=True,
             yaxis_autorange=True
         )
-        fig.show()
+        # fig.show()
+        return fig
 
 
 

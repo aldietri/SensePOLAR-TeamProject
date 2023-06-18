@@ -198,7 +198,7 @@ def plot_polar(word, polar_dimension):
 
 
 if len(antonym_collection) >= 4:
-    out_path = "./antonyms/"
+    out_path = "../antonyms/"
     antonym_path = out_path + "polar_dimensions.pkl"
 
     lookupSpace = LookupCreator(antonym_pairs=antonym_collection, out_path=out_path)

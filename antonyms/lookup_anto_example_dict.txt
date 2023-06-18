@@ -68,5 +68,19 @@
                 "smoking is bad for your health "
             ]
         ]
+    ],
+    [
+        [
+            "round",
+            [
+                "the ball is round "
+            ]
+        ],
+        [
+            "square",
+            [
+                "a square chess board "
+            ]
+        ]
     ]
 ]
