@@ -3,7 +3,7 @@ import torch
 import numpy as np
 import json
 import pickle
-from sensepolar.bertEmbed import BERTWordEmbeddings
+from sensepolar.embed.bertEmbed import BERTWordEmbeddings
 
 
 class PolarDimensions:
@@ -129,7 +129,6 @@ class PolarDimensions:
         """
         antonym_dict = self.load_antonyms_from_json(self.antonym_path)
         direction_vectors = []
-        print(antonym_dict)
         for antonym_wn, sentences in antonym_dict.items():
             if not self.check_sentences(sentences):
                 print("Unable to create POLAR dimensions.")
