@@ -6,6 +6,8 @@ from lookup import LookupCreator
 from sensepolar.polarity import WordPolarity
 from sensepolar.bertEmbed import BERTWordEmbeddings
 from sensepolar.polarDim import PolarDimensions
+from sensepolar.dictionaryapi import Dictionary
+from sensepolar.plotter import PolarityPlotter
 
 import plotly.graph_objects as go
 import plotly.express as px
@@ -13,8 +15,7 @@ import random
 import numpy as np
 from collections import defaultdict
 
-
-st.set_page_config(layout="wide", page_title="SensePOLAR", page_icon="🌊")
+st.set_page_config(layout="centered", page_title="SensePOLAR", page_icon="🌊")
 
 # Removes menu and footer
 # hide_streamlit_style = """
@@ -25,14 +26,17 @@ st.set_page_config(layout="wide", page_title="SensePOLAR", page_icon="🌊")
 # """
 # st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
 
-st.write("# Welcome to SensePOLAR! 🌊")
+# Headline
+st.write("# Welcome to Beginner Page")
 
+#Subheadline with short explaination
 st.markdown(
     """
-    SensePOLAR is the first (semi-) supervised framework for augmenting interpretability into contextual word embeddings (BERT).
-    Interpretability is added by rating words on scales that encode user-selected senses, like correctness or left-right-direction.
+    WIP: This page allows you to use the SensePOLAR Framework in a very simple and straight forward manner.
     """
 )
+
+# ROW LOGIC
 
 # Creates entry in session state for rows
 if "rows" not in st.session_state:
@@ -101,133 +105,120 @@ for idx, row in enumerate(st.session_state["rows"], start=1):
 # Create button to add row to session state with unqiue ID
 st.button("Add Item", on_click=add_row)
 
+# EXAMPLE LOGIC
+
+# TODO
+# Creates entry in session state for example input
+if "examples" not in st.session_state:
+    st.session_state["examples"] = []
+
+# TODO:
+example_collection = []
+
+# TODO
+def add_example():
+    element_id = uuid.uuid4()
+    st.session_state["examples"].append(str(element_id))
+
+# TODO
+def remove_example(example_id):
+    st.session_state["examples"].remove(f"{example_id}")
+
+# TODO
+def generate_example(example_id):
+
+    st.button("Delete item", key=f"del_{example_id}", on_click=remove_example, args=[example_id])
+
+    example_container = st.empty()
+    example_columns = example_container.columns(2)
+
+    example = example_columns[0].text_input("Word", key=f"word_{example_id}").strip()
+    word_example = example_columns[1].text_input("Example", key=f"example_{example_id}").strip()
+
+    if example and word_example:
+        return [example, word_example]
+    return []
+
+# TODO
+for idx, example in enumerate(st.session_state["examples"], start=1):
+    st.subheader(f"Word {idx}")
+    example_data = generate_example(example)
+    if len(example_data) == 2:
+        example_collection.append(example_data)
+
+# TODO
+# Create button to add row to session state with unqiue ID
+st.button("Add Example", on_click=add_example)
+
 # Debugging/Visualization
-# st.write(st.session_state)
-st.write(antonym_collection)
+st.write(st.session_state)
+# st.write(antonym_collection)
+# st.write(example_collection)
+
+# SensePOLAR Logic
 
 @st.cache_resource
 def load_bert_model():
     return BERTWordEmbeddings()
 
-
-def plot_word_polarity(words, polar_dimension):
-    # create dictionary with antonyms as key and (word,polar) as value
-    antonym_dict = defaultdict(list)
-    for w_i in range(len(words)):
-        for antonym1, antonym2, value in polar_dimension[w_i]:
-            antonym_dict[(antonym1, antonym2)].append((words[w_i], value))
-    fig = go.Figure()
-
-    # Add axes
-    fig.add_shape(type="line", x0=-1, y0=0, x1=1, y1=0, line=dict(color='black', width=1))
-    fig.add_shape(type="line", x0=-1, y0=0, x1=-1, y1=len(antonym_dict)/10, line=dict(color='black', width=1))
-    fig.add_shape(type="line", x0=1, y0=0, x1=1, y1=len(antonym_dict)/10, line=dict(color='black', width=1))
-    fig.add_shape(type="line", x0=0, y0=0, x1=0, y1=len(antonym_dict)/10, line=dict(color='black', width=1, dash='dash'))
-
-    # Define color scale for the words
-    colors = np.linspace(0, 1, len(words))
-
-    # Add lines and markers for each word's polarity score
-    counter = 0.01
-    offset = 0.005
-    for i, (antonyms, polars) in enumerate(antonym_dict.items()):
-        show_legend = True if i == 0 else False
-        for polar in polars:
-            # Define color of the line and marker based on word's position in the list
-            color = f'rgb({int(colors[words.index(polar[0])] * 255)}, {int((1-colors[words.index(polar[0])]) * 255)}, 0)'
-            fig.add_shape(type="line", x0=polar[1], y0=counter, x1=0, y1=counter, 
-                          line=dict(color=color, width=1))
-            fig.add_trace(go.Scatter(x=[polar[1]], y=[counter], mode='markers', 
-                                     marker=dict(color=color, symbol='square', size=10),
-                          name=polar[0], showlegend=show_legend))
-            # fig.add_annotation(x=polar[1], y=counter, text=polar[0], font=dict(size=20), showarrow=True, xanchor='auto')
-        fig.add_annotation(x=-1.1, y=counter, text=antonyms[0], font=dict(size=18), showarrow=False, xanchor='right')
-        fig.add_annotation(x=1.1, y=counter, text=antonyms[1], font=dict(size=18), showarrow=False, xanchor='left')
-        counter += offset + 0.1
-    # Set x and y axis titles
-    fig.update_layout(
-        xaxis_title=f"Polarity",
-        yaxis_title="Words",
-        xaxis_range=[-1, 1],
-        xaxis_autorange=True, yaxis_autorange=True
-    )
-
-    return fig
-
-def plot_polar(word, polar_dimension):
-    antonyms = []
-    values = []
-    for antonym1, antonym2, value in polar_dimension:
-        values.append(abs(value))
-        if value > 0:
-            antonyms.append(antonym1)
-        else:
-            antonyms.append(antonym2)
-    
-    antonyms.append(antonyms[0])
-    values.append(values[0])
-
-    color = random.choice(px.colors.qualitative.Pastel)
-    while color in st.session_state["colors"]:
-        color = random.choice(px.colors.qualitative.Pastel)
-    
-    st.session_state["colors"].append(color)
-
-    fig = go.Figure(
-        go.Scatterpolar(
-        name = word,
-        r=values,
-        theta=antonyms,
-        fill="toself",
-        line_color=color
-        )   
-    )
-
-    fig.update_layout(
-        height = 1000,
-        polar=dict(
-        radialaxis_angle = 45,
-        angularaxis = dict(
-            direction ="clockwise",
-            period= len(antonyms)-1
-            )
-        )
-    )
-
-    return fig
-
-
-if len(antonym_collection) >= 4:
-    out_path = "../antonyms/"
+@st.cache_data
+def create_sense_polar(antonyms, examples, dict_name, api_key):
+    out_path = "./antonyms/"
     antonym_path = out_path + "polar_dimensions.pkl"
 
-    lookupSpace = LookupCreator(antonym_pairs=antonym_collection, out_path=out_path)
+    # TODO in Dictionairy API
+    antonyms = [[a.split(".")[0], b.split(".")[0]] for a,b in antonyms]
+
+    dictionary = Dictionary(dict_name, api_key) 
+    # dictionary = Dictionary('dictionaryapi', api_key='b4b51989-1b9d-4690-8975-4a83df13efc4 ')
+    lookupSpace = LookupCreator(dictionary, out_path, antonym_pairs=antonyms)
     lookupSpace.create_lookup_files()
 
     model = load_bert_model()
 
     pdc = PolarDimensions(model, antonym_path=out_path + "antonym_wordnet_example_sentences_readable_extended.txt")
     pdc.create_polar_dimensions(out_path)
-
-    wp = WordPolarity(model, antonym_path, method="base-change", number_polar=len(antonym_collection))
-
-    word = "sun"
-    context = "The sun is shining today."
-    polarity_base_change = wp.analyze_word(word, context)
     
-    word1 = "fire"
-    context1 = "the fire is burning"
-    polarity_base_change1 = wp.analyze_word(word1, context1)
+    wp = WordPolarity(model, antonym_path=antonym_path, lookup_path=out_path, method='projection', number_polar=len(antonyms))
+    
+    #TODO
+    words = []
+    polar_dimensions = []
+    for word, context in examples:
+        words.append(word)
+        polar_dimensions.append(wp.analyze_word(word, context))
 
-    st.plotly_chart(plot_word_polarity([word, word1],[polarity_base_change, polarity_base_change1]), use_container_width=True)
+    return words,  polar_dimensions
 
-    if "colors" not in st.session_state:
-        st.session_state["colors"] = []
+def create_visualisations(options, words, polar_dimensions):
+    plotter = PolarityPlotter()
 
-    col1, col2 = st.columns(2)
-    col1.markdown(f"<h1 style='text-align: center;'>{word}</h1>", unsafe_allow_html=True)
-    col1.plotly_chart(plot_polar(word, polarity_base_change), use_container_width=True)
+    if "Standard" in options:
+        fig = plotter.plot_word_polarity(words, polar_dimensions)
+        st.plotly_chart(fig, use_container_width=True)
 
-    col2.markdown(f"<h1 style='text-align: center;'>{word1}</h1>", unsafe_allow_html=True)
-    col2.plotly_chart(plot_polar(word1, polarity_base_change1), use_container_width=True)
+    if "2d" in options:
+        fig = plotter.plot_word_polarity_2d(words, polar_dimensions)
+        st.plotly_chart(fig, use_container_width=True)
 
+    if "Polar" in options:
+        fig = plotter.plot_word_polarity_polar_fig(words, polar_dimensions)
+        st.plotly_chart(fig, use_container_width=True)
+
+    if "Most descriptive" in options:
+        fig = plotter.plot_descriptive_antonym_pairs(words, polar_dimensions, words, 3)
+        st.plotly_chart(fig, use_container_width=True)
+
+dict_name = st.selectbox("Please select your preferred dictionary",
+                        ["wordnet", "dictionaryapi", "oxford", "wordnik"])
+
+api_key = ""
+if dict_name != "wordnet":
+    api_key = st.text_input("Please insert your API KEY")
+
+options = st.multiselect("Please select some of the given visualization options",                      
+                         ["Standard", "2d", "Polar", "Most descriptive"])
+
+if st.button("Execute"):
+    words, polar_dimensions = create_sense_polar(antonym_collection, example_collection, dict_name, api_key)
+    create_visualisations(options, words, polar_dimensions)

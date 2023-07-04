@@ -36,7 +36,7 @@ class PolarityPlotter:
         Returns:
             list: List of colors.
         """
-        color_palette = colors.sample_colorscale("Viridis", n)
+        color_palette = colors.sample_colorscale("Viridis", n+1)
         return color_palette
 
     def create_antonym_dict(self, words, polar_dimension):
@@ -126,7 +126,7 @@ class PolarityPlotter:
             xaxis_autorange=True,
             yaxis_autorange=True
         )
-        # fig.show()
+
         return fig
 
 
@@ -172,7 +172,7 @@ class PolarityPlotter:
 
         fig.update_traces(fill="toself")
 
-        fig.show()
+        return fig
 
     def plot_word_polarity_2d(self, words, polar_dimension):
         """
@@ -221,8 +221,7 @@ class PolarityPlotter:
         fig.add_annotation(x=0, y=-max_value, text=antonyms[1][0], showarrow=False, yshift=-15, font=dict(size=18),)
         fig.add_annotation(x=0, y=max_value, text=antonyms[1][1], showarrow=False, yshift=15, font=dict(size=18),)
 
-        fig.show()
-
+        return fig
 
     def get_most_descriptive_antonym_pairs(self, words, polar_dimensions, inspect_words, n):
         """
@@ -323,4 +322,4 @@ class PolarityPlotter:
 
         fig.update_yaxes(showticklabels=False)
 
-        fig.show()
+        return fig

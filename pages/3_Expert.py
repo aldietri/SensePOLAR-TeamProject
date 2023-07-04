@@ -25,7 +25,7 @@ from pyxlsb import open_workbook as open_xlsb
 
 
 #Page Configuration
-st.set_page_config(layout="wide", page_title="Expert", page_icon="🏆")
+st.set_page_config(layout="centered", page_title="Expert", page_icon="🏆")
 #Headline
 st.write("# Welcome to the Expert Page")
 
