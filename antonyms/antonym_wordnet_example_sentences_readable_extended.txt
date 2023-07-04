@@ -1,50 +1,84 @@
 {
-    "['happy', 'sad']": {
-        "happy": [
-            "i feel happy today "
-        ],
-        "sad": [
-            "he looks sad "
-        ]
-    },
-    "['hot', 'cold']": {
-        "hot": [
-            "it s hot outside "
-        ],
-        "cold": [
-            "the ice is cold to touch "
-        ]
-    },
-    "['big', 'small']": {
-        "big": [
-            "the elephant is big "
-        ],
-        "small": [
-            "the ant is small "
-        ]
-    },
-    "['fast', 'slow']": {
-        "fast": [
-            "the cheetah runs fast "
-        ],
-        "slow": [
-            "the snail moves slow "
-        ]
-    },
     "['good', 'bad']": {
         "good": [
-            "eating healthy food is good for you "
+            "for your own good ",
+            "what s the good of worrying  ",
+            "there is much good to be found in people ",
+            "weigh the good against the bad ",
+            "good news from the hospital ",
+            "a good report card ",
+            "when she was good she was very very good ",
+            "a good knife is one good for cutting ",
+            "this stump will make a good picnic table ",
+            "a good check ",
+            "a good joke ",
+            "a good exterior paint ",
+            "a good secretary ",
+            "a good dress for the office ",
+            "gives good measure ",
+            "a good mile from here ",
+            "ruined the family s good name ",
+            "the experience was good for her ",
+            "we all had a good time ",
+            "good manners ",
+            "a genuinely good person ",
+            "a good mechanic ",
+            "had a good workout ",
+            "gave the house a good cleaning ",
+            "a good friend ",
+            "a good investment ",
+            "a good time to plant tomatoes ",
+            "it s a good thing that i wasn t there ",
+            "it is good that you stayed ",
+            "a warranty good for two years ",
+            "good looks ",
+            "good music ",
+            "good teeth ",
+            "i still have one good leg ",
+            "a good night s sleep ",
+            "a good dollar bill ",
+            "the meat is still good ",
+            "good taste ",
+            "the baby can walk pretty good ",
+            "we beat him good "
         ],
         "bad": [
-            "smoking is bad for your health "
-        ]
-    },
-    "['round', 'square']": {
-        "round": [
-            "the ball is round "
-        ],
-        "square": [
-            "a square chess board "
+            "take the bad with the good ",
+            "a bad report card ",
+            "his sloppy appearance made a bad impression ",
+            "a bad little boy ",
+            "clothes in bad shape ",
+            "a bad cut ",
+            "bad luck ",
+            "the news was very bad ",
+            "the reviews were bad ",
+            "the pay is bad ",
+            "it was a bad light for reading ",
+            "the movie was a bad choice ",
+            "a bad headache ",
+            "had a big  or bad  shock ",
+            "a bad earthquake ",
+            "a bad storm ",
+            "my throat feels bad ",
+            "she felt bad all over ",
+            "bad meat ",
+            "he felt bad about breaking the vase ",
+            "a bad  or uncollectible  debt ",
+            "a bad chess player ",
+            "a bad recital ",
+            "so called bad grammar ",
+            "a bad investment ",
+            "has a bad back ",
+            "a bad heart ",
+            "bad teeth ",
+            "bad air ",
+            "smoking is bad for you ",
+            "led a very bad life ",
+            "like a bad penny    ",
+            "a bad telephone connection ",
+            "it hurts bad ",
+            "we need water bad ",
+            "he wants a bicycle so bad he can taste it "
         ]
     }
 }
