@@ -8,7 +8,7 @@ from sensepolar.bertEmbed import BERTWordEmbeddings
 from sensepolar.polarDim import PolarDimensions
 from sensepolar.dictionaryapi import Dictionary
 from sensepolar.plotter import PolarityPlotter
-# import streamlit.components.v1 as components
+import streamlit.components.v1 as components
 
 import pandas as pd
 from io import BytesIO
@@ -39,17 +39,42 @@ st.elements.utils._shown_default_value_warning=True
 # """
 # st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
 
+# TODO: When creating running file force theme?
+# https://discuss.huggingface.co/t/can-i-set-the-dark-theme-in-streamlit/17843/3
+# Another option would be to pass --theme.base dark in the command line when you run your app.
+
 # Changes block color and other attributes
 block_color = """
 <style>
 [data-testid="stHorizontalBlock"]:nth-of-type(1){
-    background-color: #daf5ff;
+    background-color: #7895CB;
     padding: 4px;
     border-radius: 10px;
+    color: #FFFFFF
 }
 </style>
 """
 st.markdown(block_color, unsafe_allow_html=True) 
+
+# TODO: May need to be changed or removed, dependent on future adjustments of the site
+# Changes color of text input labels
+label_color = """
+<style>
+.stTextInput > label{
+    color: #FFFFFF
+}
+</style>
+"""
+st.markdown(label_color, unsafe_allow_html=True) 
+
+# sidebar_color = """
+# <style>
+# [data-testid=stSidebar]{
+#     background-color: #7895CB;
+# }
+# </style>
+# """
+# st.markdown(sidebar_color, unsafe_allow_html=True) 
 
 # Changes button allignment to righ (min and del button)
 btn_alignment = """
@@ -69,7 +94,6 @@ text_alignment = """
 }
 </style>
 """
-
 st.markdown(text_alignment, unsafe_allow_html=True) 
 
 # def ChangeWidgetFontSize(wgt_txt, wch_font_size = '12px'):
@@ -80,15 +104,29 @@ st.markdown(text_alignment, unsafe_allow_html=True)
 #     htmlstr = htmlstr.replace('|wgt_txt|', "'" + wgt_txt + "'")
 #     components.html(f"{htmlstr}", height=0, width=0)
 
+# Changes color of widget text with certain text
+def ColourWidgetText(wgt_txt, wch_colour = '#000000'):
+    htmlstr = """<script>var elements = window.parent.document.querySelectorAll('*'), i;
+                    for (i = 0; i < elements.length; ++i) { if (elements[i].innerText == |wgt_txt|) 
+                        elements[i].style.color = ' """ + wch_colour + """ '; } </script>  """
+
+    htmlstr = htmlstr.replace('|wgt_txt|', "'" + wgt_txt + "'")
+    components.html(f"{htmlstr}", height=0, width=0)
+
 # Headline
-st.write("# Welcome to Beginner Page")
+
+st.title("🌊", anchor=False)
+st.title("Beginner Page", anchor=False)
 
 #Subheadline with short explaination
-st.markdown(
-    """
-    WIP: This page allows you to use the SensePOLAR Framework in a very simple and straight forward manner.
-    """
-)
+with st.expander("Intro", expanded=True):
+    st.write("""
+        Welcome to our beginner page! 👋 Here, we introduce you to the SensePOLAR Framework, 
+        a user-friendly and accessible tool for harnessing advanced technologies. 
+        Designed for beginners and those with limited technical knowledge, this page simplifies the use of the SensePOLAR Framework 
+        through an intuitive frontend and a clear step-by-step process. Embrace the SensePOLAR Framework to unlock new possibilities
+        in NLP ✨. 
+    """)
 
 # ROW LOGIC
 
@@ -103,6 +141,10 @@ if "antonyms" not in st.session_state:
 # Creates entry in session state for antonym pairs
 if "definitions" not in st.session_state:
     st.session_state["definitions"] = {}
+
+# entry in session state to check whether this is the first load up of the page
+if "initial_page_load" not in st.session_state:
+    st.session_state["initial_page_load"] = True
 
 def add_row():
     """
@@ -224,9 +266,10 @@ def generate_row(row_id):
     textColumn, buttonColumns = headerContainer.columns([4.7, 1])
 
     # Preserve antonym values when minimzing entry
+    # if else initializiation is to preserve value and prevent error when switching between multipages
     if st.session_state[f"min_{row_id}"]:
-        ant1 = st.session_state[f"ant1_{row_id}"]
-        ant2 = st.session_state[f"ant2_{row_id}"]
+        ant1 = st.session_state[f"ant1_{row_id}"] if f"ant1_{row_id}" in st.session_state else st.session_state[f"mem_ant1_{row_id}"]
+        ant2 = st.session_state[f"ant2_{row_id}"] if f"ant2_{row_id}" in st.session_state else st.session_state[f"mem_ant2_{row_id}"]
         textColumn.text(f"Pair: {ant1} - {ant2}")
     else:
         ant1 = st.session_state[f"mem_ant1_{row_id}"]
@@ -291,13 +334,19 @@ def generate_row(row_id):
     # Safe antonym pair and definition data to session state
     st.session_state["antonyms"][row_id] = antonym_pair
     st.session_state["definitions"][row_id] = definition_pair
-        
+
+# Adds one row at the first page load
+if st.session_state["initial_page_load"]:
+    add_row()
 
 # Necessary to add and delete rows
 # Recreates rows for every row contained in the session state
 for idx, row in enumerate(st.session_state["rows_antonyms"], start=1):  
     # Generate elements for antonym pairs
     generate_row(row)
+
+# Changes Color of select box widget in row that can't be changed by streamlit itself
+ColourWidgetText("Definition", "#FFFFFF")
 
 # Create button to add row to session state with unqiue ID
 st.button("Add Item", on_click=add_row)
@@ -397,9 +446,10 @@ def generate_example(example_id):
     textColumn, buttonColumns = headerContainer.columns([4.7, 1])
 
     # Preserve word and context values when minimzing entry
+    # if else initializiation is to preserve value and prevent error when switching between multipages
     if st.session_state[f"min_{example_id}"]:
-        word = st.session_state[f"word_{example_id}"]
-        context = st.session_state[f"context_{example_id}"]
+        word = st.session_state[f"word_{example_id}"] if f"word_{example_id}" in st.session_state else st.session_state[f"mem_word_{example_id}"]
+        context = st.session_state[f"context_{example_id}"] if f"context_{example_id}" in st.session_state else st.session_state[f"mem_context_{example_id}"]
         textColumn.text(f"Example: {word} - {context}")
     else:
         word = st.session_state[f"mem_word_{example_id}"]
@@ -423,6 +473,10 @@ def generate_example(example_id):
 
     # Load word and context into session state
     st.session_state["examples"][example_id] = [word, context]
+
+# Adds one example at the first page load
+if st.session_state["initial_page_load"]:
+    add_example()
 
 # Necessary to add and delete example
 # Recreates example for every example contained in the session state
@@ -717,7 +771,7 @@ def check_inputs(antonyms, definitions, examples):
     # Again loop through examples
     for pair in examples:
         # Check whether context contains example word and display warning if not as well as return false
-        if not pair[0] in pair[1]:
+        if not f" {pair[0].lower()} " in f" {pair[1].lower()} ":
             st.warning("The context must contain your example word", icon="⚠️")
             return False
     
@@ -734,3 +788,8 @@ if executeCol.button("Execute"):
         else:
             words, polar_dimensions = create_sense_polar(st.session_state["antonyms"], st.session_state["examples"], method)
             create_visualisations(selected_options, words, polar_dimensions, k, selected_axes)
+
+
+# Signifies that first page load is over
+if st.session_state["initial_page_load"]:
+    st.session_state["initial_page_load"] = False
