@@ -24,10 +24,22 @@ from io import BytesIO
 from pyxlsb import open_workbook as open_xlsb
 
 
+import plotly.graph_objects as go
+import numpy as np
+from collections import defaultdict
+
+
 #Page Configuration
 st.set_page_config(layout="centered", page_title="Expert", page_icon="🏆")
 #Headline
 st.write("# Welcome to the Expert Page")
+
+
+
+
+import plotly.graph_objects as go
+import numpy as np
+from collections import defaultdict
 
 #Subheadline with short explaination
 st.markdown(
@@ -36,6 +48,11 @@ st.markdown(
     Below you see the tables strucute you need to follow. You can also download an exmaple datafile.
     """
 )
+
+# Creates entry in session state for antonym pairs
+if "antonyms" not in st.session_state:
+    st.session_state["antonyms"] = {}
+
 # Display how the Dataframe has to look
 empty_df = pd.DataFrame(
     columns=('antonym_1','antonym_2','example_antonym_1','example_antonym_2','def1','def2'))
@@ -73,19 +90,34 @@ else:
     empty_df = pd.read_csv("excel_files_for_experts/Empty_Dataframe.csv")
     edited_df = st.experimental_data_editor(empty_df, num_rows="dynamic",use_container_width=True,)
 
+if "df_value" not in st.session_state:
+    st.session_state.df_value = empty_df
+
+if edited_df is not None and not edited_df.equals(st.session_state["df_value"]):
+    st.session_state["df_value"] = edited_df
+
+#sidebar slection 
+with st.sidebar:
+    # Select method (projection or base-change)
+    method = st.selectbox("Please select a transformation method for the antonym space", ["base-change", "projection"])
+    if len(st.session_state["df_value"]) < 2:
+        given_options = ["Standard", "Polar", "Most descriptive"]
+    else:
+        given_options = ["Standard", "2d", "Polar", "Most descriptive"]                 
+                           
+    # Multiselect to select plots that will be displayed
+    selected_options = st.multiselect("Please select some of the given visualization options", given_options)
+
 
 @st.cache_resource
 def load_bert_model():
     return BERTWordEmbeddings()
 
 
-import plotly.graph_objects as go
-import numpy as np
-from collections import defaultdict
 
 plotter = PolarityPlotter() 
 
-def create_sense_polar(data_frame, word_collections):
+def create_sense_polar(data_frame, word_collections, method):
     out_path = './antonyms/'
     antonym_path = out_path + "polar_dimensions.pkl"
     
@@ -98,9 +130,9 @@ def create_sense_polar(data_frame, word_collections):
 
     pdc = PolarDimensions(model, antonym_path=out_path + "antonym_wordnet_example_sentences_readable_extended.txt")
     pdc.create_polar_dimensions(out_path)
-    wp = WordPolarity(model, antonym_path=antonym_path, method='projection', number_polar=data_frame.shape[0]-1)
+    wp = WordPolarity(model, antonym_path=antonym_path, method=method, number_polar=len(data_frame))
 
-    words, contexts, polarity_base_change = [],[],[]
+    words, contexts, polar_dimensions = [],[],[]
     for i in range(len(word_collections)):
         word = word_collections[i][0] # first item = word
         context = word_collections[i][1] #second item = context
@@ -108,13 +140,35 @@ def create_sense_polar(data_frame, word_collections):
         words.append(word) 
         contexts.append(context) 
 
-        polarity_base_change.append(wp.analyze_word(word, context))
+        polar_dimensions.append(wp.analyze_word(word, context))
+    return words, polar_dimensions
 
+
+@st.cache_data
+def create_visualisations(options, words, polar_dimensions):
+    plotter = PolarityPlotter()
+
+    if "Standard" in options:
+        fig = plotter.plot_word_polarity(words, polar_dimensions)
+        st.plotly_chart(fig, use_container_width=True)
+
+    if "2d" in options:
+        fig = plotter.plot_word_polarity_2d(words, polar_dimensions)
+        st.plotly_chart(fig, use_container_width=True)
+
+    if "Polar" in options:
+        fig = plotter.plot_word_polarity_polar_fig(words, polar_dimensions)
+        st.plotly_chart(fig, use_container_width=True)
+
+    if "Most descriptive" in options:
+        fig = plotter.plot_descriptive_antonym_pairs(words, polar_dimensions, words, 3)
+        st.plotly_chart(fig, use_container_width=True)
     
-    st.plotly_chart(plotter.plot_word_polarity(words, polarity_base_change), use_container_width=True)
+    
+    #st.plotly_chart(plotter.plot_word_polarity(words, polar_dimensions), use_container_width=True)
     #st.write("Word polarity using base change method: ", polarity_base_change)
 
-
+#download Button for edited Dataframe - is is safed as a Excel file
 df_edited_xls = to_excel(edited_df)
 st.download_button(label='Download Sheet',
                                 data=df_edited_xls ,
@@ -174,10 +228,10 @@ for idx, row in enumerate(st.session_state["rows"], start=1):
 # Create button to add row to session state with unqiue ID
 st.button("Add Item", on_click=add_row)
 
-
+#execute Buttion
 if st.button("Execute"):
-    words = create_sense_polar(edited_df,word_collection)
-
+    words, polar_dimensions = create_sense_polar(st.session_state["df_value"], word_collection, method)
+    create_visualisations(selected_options, words, polar_dimensions)
 
 
 
