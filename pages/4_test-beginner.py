@@ -802,5 +802,10 @@ if executeCol.button("Execute"):
 if st.session_state["initial_page_load"]:
     st.session_state["initial_page_load"] = False
 
+# Signifies that first page load is over
+if st.session_state["initial_page_load_row"]:
+    st.session_state["initial_page_load_row"] = False
+
+
 # Changes Color of select box widget in row that can't be changed by streamlit itself
 ColourWidgetText("Definition", "#FFFFFF")
