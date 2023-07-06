@@ -16,33 +16,6 @@ from io import BytesIO
 st.set_page_config(layout="centered", page_title="SensePOLAR", page_icon="🌊")
 st.elements.utils._shown_default_value_warning=True
 
-# Removes menu and footer
-# hide_streamlit_style = """
-# <style>
-# #MainMenu {visibility: hidden;}
-# footer {visibility: hidden;}
-
-# [data-testid="stVerticalBlock"] .e1tzin5v0 {
-#     background-color: #daf5ff;
-#     padding: 4px;
-#     border-radius: 16px;
-# }
-
-# .stTextLabelWrapper.css-y4bq5x.e1j25pv61 {
-#     padding: 13px;
-# }
-
-# .css-ocqkz7.e1tzin5v3 {
-#     padding: 21px;
-# }
-# </style>
-# """
-# st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
-
-# TODO: When creating running file force theme?
-# https://discuss.huggingface.co/t/can-i-set-the-dark-theme-in-streamlit/17843/3
-# Another option would be to pass --theme.base dark in the command line when you run your app.
-
 # Changes block color and other attributes
 block_color = """
 <style>
@@ -65,7 +38,7 @@ label_color = """
 }
 </style>
 """
-st.markdown(label_color, unsafe_allow_html=True) 
+st.markdown(label_color, unsafe_allow_html=True)
 
 # Changes sidebar color
 sidebar_color = """
@@ -77,16 +50,30 @@ sidebar_color = """
 """
 st.markdown(sidebar_color, unsafe_allow_html=True) 
 
-# TODO: Can possibly be removed
-# Changes button allignment to righ (min and del button)
-# btn_alignment = """
-# <style>
-# [data-testid="stHorizontalBlock"]:nth-of-type(1){
-#     text-align: right;
-# }
-# </style>
-# """
-# st.markdown(btn_alignment, unsafe_allow_html=True) 
+# Changes block color and other attributes
+upload_color = """
+<style>
+[data-testid="stFileUploader"]{
+    background-color: #7895CB;
+    padding: 4px;
+    border-radius: 10px;
+    color: #FFFFFF
+}
+</style>
+"""
+st.markdown(upload_color, unsafe_allow_html=True) 
+
+# TODO: May need to be changed or removed, dependent on future adjustments of the site
+# Changes color of text input labels
+upload_label_color = """
+<style>
+[data-testid="stFileUploader"] > label{
+    color: #FFFFFF
+}
+</style>
+"""
+st.markdown(upload_label_color, unsafe_allow_html=True) 
+
 
 # Changes alignment of text - centers headerContainer text to buttons
 text_alignment = """
@@ -98,14 +85,6 @@ text_alignment = """
 """
 st.markdown(text_alignment, unsafe_allow_html=True) 
 
-# def ChangeWidgetFontSize(wgt_txt, wch_font_size = '12px'):
-#     htmlstr = """<script>var elements = window.parent.document.querySelectorAll('*'), i;
-#                     for (i = 0; i < elements.length; ++i) { if (elements[i].innerText == |wgt_txt|) 
-#                         { elements[i].style.fontSize='""" + wch_font_size + """';} } </script>  """
-
-#     htmlstr = htmlstr.replace('|wgt_txt|', "'" + wgt_txt + "'")
-#     components.html(f"{htmlstr}", height=0, width=0)
-
 # Changes color of widget text with certain text
 def ColourWidgetText(wgt_txt, wch_colour = '#000000'):
     htmlstr = """<script>var elements = window.parent.document.querySelectorAll('*'), i;
@@ -116,237 +95,45 @@ def ColourWidgetText(wgt_txt, wch_colour = '#000000'):
     components.html(f"{htmlstr}", height=0, width=0)
 
 # Headline
-st.title("🐣 Beginner Page", anchor=False)
+st.title("🦅 Expert Page", anchor=False)
 
-#Subheadline with short explaination
+# Subheadline with short explaination
 with st.expander("Intro", expanded=True):
     st.write("""
-        Welcome to our beginner page! 👋 Here, we introduce you to the SensePOLAR Framework, 
-        a user-friendly and accessible tool for harnessing advanced technologies. 
-        Designed for beginners and those with limited technical knowledge, this page simplifies the use of the SensePOLAR Framework 
-        through an intuitive frontend and a clear step-by-step process. Embrace the SensePOLAR Framework to unlock new possibilities
-        in NLP ✨. 
+        Welcome to our expert page! 🚀 Here, we delve deeper into the powerful SensePOLAR Framework, 
+        a versatile page that empowers users with extensive customization options and advanced capabilities. 
+        Switch dictionaries, use in-field customization, and effortlessly manage files for optimal NLP performance. 
+        Unleash the full potential of the SensePOLAR Framework and shape the future of NLP. Let your expertise soar! 🏆
     """)
 
-# ROW LOGIC
-
-# Creates entry in session state for rows
-if "rows_antonyms" not in st.session_state:
-    st.session_state["rows_antonyms"] = []
-
-# Creates entry in session state for antonym pairs
-if "antonyms" not in st.session_state:
-    st.session_state["antonyms"] = {}
-
-# Creates entry in session state for antonym pairs
-if "definitions" not in st.session_state:
-    st.session_state["definitions"] = {}
-
-# entry in session state to check whether this is the first load up of the page
-if "initial_page_load_row" not in st.session_state:
-    st.session_state["initial_page_load_row"] = True
-
-def add_row():
-    """
-    Adds a row containing antonym pairs, their definitions and other related entities to the streamlit session state.
-    """
-
-    # Construct unique row ID
-    row_id = str(uuid.uuid4())
-
-    # Row
-    st.session_state["rows_antonyms"].append(row_id)
-
-    # Antonyms
-    st.session_state[f"ant1_{row_id}"] = ""
-    st.session_state[f"ant2_{row_id}"] = ""
-    st.session_state[f"mem_ant1_{row_id}"] = ""
-    st.session_state[f"mem_ant2_{row_id}"] = ""
-
-    # Minimize/Maximize Button
-    st.session_state[f"min_{row_id}"] = True
-
-    # Antonym Definitions and their Index
-    st.session_state[f"def1_{row_id}"] = ""
-    st.session_state[f"def2_{row_id}"] = ""
-    st.session_state[f"def1_index_{row_id}"] = 0
-    st.session_state[f"def2_index_{row_id}"] = 0
-
-def remove_row(row_id):
-    """
-    Removes a row containing antonym pairs, their definitions and other related entities from the streamlit session state.
-
-    Parameters:
-    -----------
-    row_id : string
-        A string containing the unique row ID.
-    """
-    
-    # Row
-    st.session_state["rows_antonyms"].remove(row_id)
-
-    # Antonyms
-    del st.session_state["antonyms"][row_id]
-
-    # Definitions
-    del st.session_state["definitions"][row_id]
-
-    # Everything else related to the given row ID
-    for entry in st.session_state:
-        if row_id in entry:
-            del st.session_state[entry]
-
-def toggle_row_min_button(row_id):
-    """
-    Minimizes/Maximizes the row and saves/restores relevant information contained in the minimized container.
-
-    Parameters:
-    -----------
-    row_id : string
-        A string containing the unique row ID.
-    """
-
-    # Update state of minimize/maximize button in session state
-    st.session_state[f"min_{row_id}"] = not st.session_state[f"min_{row_id}"]
-
-    # When row is minimized save antonyms into memory else load from memory into relevant session state
-    # This is a workaround that needed to be implemented since minimizing the text input fields caused them to be loaded out of the session state in certain scenarios
-    if not st.session_state[f"min_{row_id}"]:
-        st.session_state[f"mem_ant1_{row_id}"] = st.session_state[f"ant1_{row_id}"]
-        st.session_state[f"mem_ant2_{row_id}"] = st.session_state[f"ant2_{row_id}"]
+# File upload
+uploaded_file = st.file_uploader("Already prepared a file?")
+# Check if file was uplaoded
+if uploaded_file:
+    # Excel
+    if ".xlsx" in uploaded_file.name:
+        dataframe = pd.read_excel(uploaded_file,header=0)
+    # CSV
     else:
-        st.session_state[f"ant1_{row_id}"] = st.session_state[f"mem_ant1_{row_id}"]
-        st.session_state[f"ant2_{row_id}"] = st.session_state[f"mem_ant2_{row_id}"]
-
-def get_wordnet_definition(word):
-    """
-    Return top 5 most common word net definitions for a given word.
-
-    Parameters:
-    -----------
-    word : string
-        A string containing a word.
-
-    Returns:
-    --------
-    definitions : list
-        The top 5 most common word net definitions for the given word.
-    """
-        
-    # Fetch Synsets of the given word
-    word_synsets = wn.synsets(word)
-    # Sets the amount of defintions that will be displayed - 5 or less 
-    i_range = 5 if len(word_synsets) > 5 else len(word_synsets)
-    # Fetch definitions
-    definitions = [word_synsets[i].definition() for i in range(i_range)]
-    # Return definitions
-    return definitions
-
-def generate_row(row_id):
-    """
-    # Generates streamlit elements for a given row ID and saves antonym pairs and their definitions into the session state.
-
-    Parameters:
-    -----------
-    row_id : string
-        A string containing the unique row ID.
-    """
-
-    # List containing antonym data
-    antonym_pair = []
-
-    # List containing antonym data
-    definition_pair = []
-
-    # Main Container
-    mainContainer = st.container()
-
-    # Header
-    headerContainer = mainContainer.container()
-    textColumn, buttonColumns = headerContainer.columns([4.7, 1])
-
-    # Preserve antonym values when minimzing entry
-    # if else initializiation is to preserve value and prevent error when switching between multipages
-    if st.session_state[f"min_{row_id}"]:
-        ant1 = st.session_state[f"ant1_{row_id}"] if f"ant1_{row_id}" in st.session_state else st.session_state[f"mem_ant1_{row_id}"]
-        ant2 = st.session_state[f"ant2_{row_id}"] if f"ant2_{row_id}" in st.session_state else st.session_state[f"mem_ant2_{row_id}"]
-        textColumn.text(f"Pair: {ant1} - {ant2}")
-    else:
-        ant1 = st.session_state[f"mem_ant1_{row_id}"]
-        ant2 = st.session_state[f"mem_ant2_{row_id}"]
-        textColumn.text(f"Pair: {ant1} - {ant2}")
-
-    # TODO: Icon of minimize button dependent on state
-    minIcon = ":heavy_minus_sign:" #"🗕" if st.session_state[f"min_{row_id}"] else "🗖"
-    delIcon = ":x:" #✖
-
-    # Minimze and Delete buttons
-    minCol, delCol = buttonColumns.columns(2)
-    minCol.button(minIcon, key=f"minbtn_{row_id}", on_click=toggle_row_min_button, args=[row_id])
-    delCol.button(delIcon, key=f"del_{row_id}", on_click=remove_row, args=[row_id])
-    
-    # Load defintions to populate selectboxes (mainly to reload input after minimizing/maximizing formContainer)
-    def1, def2 = st.session_state[f"def1_{row_id}"], st.session_state[f"def2_{row_id}"]
-
-    # Form
-    if st.session_state[f"min_{row_id}"]:
-        # Container
-        formContainer = mainContainer.container()
-
-        # Antonym and Definition Columns
-        antCol, defCol = formContainer.columns(2)
-
-        # Antonym text inputs
-        ant1 = antCol.text_input("Antonym", key=f"ant1_{row_id}", value=st.session_state[f"mem_ant1_{row_id}"]).strip()
-        ant2 = antCol.text_input("Antonym", key=f"ant2_{row_id}", value=st.session_state[f"mem_ant2_{row_id}"], label_visibility="hidden").strip()
-
-        # Fetch wordnet definitions
-        definitions1, definitions2 = [], []
-        if ant1:
-            definitions1 = get_wordnet_definition(ant1)
-        if ant2:
-            definitions2 = get_wordnet_definition(ant2)
-        
-        # Definition Selectboxes
-        def1 = defCol.selectbox("Definition", definitions1, index=st.session_state[f"def1_index_{row_id}"], key=f"select1_{row_id}")
-        def2 = defCol.selectbox("Definition", definitions2, index=st.session_state[f"def2_index_{row_id}"], key=f"select2_{row_id}", label_visibility="hidden")
-
-        # Preserve selected defintion values when minimizing entry
-        if st.session_state[f"min_{row_id}"] and def1:
-            st.session_state[f"def1_{row_id}"] = def1
-            def1_index = definitions1.index(def1)
-            st.session_state[f"def1_index_{row_id}"] = def1_index
-            
-        if st.session_state[f"min_{row_id}"] and def2:
-            st.session_state[f"def2_{row_id}"] = def2
-            def2_index = definitions2.index(def2)
-            st.session_state[f"def2_index_{row_id}"] = def2_index
-
-    # Add antonym pair to designated list
-    if ant1 or ant2:
-        antonym_pair = [ant1, ant2]
-
-    # Add definitions of the antonym pair to designated list
-    if def1 or def2:
-        definition_pair = [def1, def2]
+        dataframe = pd.read_csv(uploaded_file)
+# If no file uploaded read template
+else:
+    # dataframe = pd.DataFrame(
+    #         data = {
+    #             "antonym_1": [""],
+    #             "antonym_2": [""],
+    #             "definition_antonym_1": [""],
+    #             "definition_antonym_2": [""],
+    #             "def1": [""],
+    #             "def2": [""]
+    #             }   
+    #         )
+    dataframe = pd.read_csv("excel_files_for_experts/Empty_Dataframe.csv")
 
 
-    # Safe antonym pair and definition data to session state
-    st.session_state["antonyms"][row_id] = antonym_pair
-    st.session_state["definitions"][row_id] = definition_pair
+edited_df = st.data_editor(dataframe, num_rows="dynamic", use_container_width=True)
 
-# Adds one row at the first page load
-if st.session_state["initial_page_load_row"]:
-    add_row()
-
-# Necessary to add and delete rows
-# Recreates rows for every row contained in the session state
-for idx, row in enumerate(st.session_state["rows_antonyms"], start=1):  
-    # Generate elements for antonym pairs
-    generate_row(row)
-
-# Create button to add row to session state with unqiue ID
-st.button("Add Item", on_click=add_row)
+st.session_state["df_value"] = edited_df
 
 
 # EXAMPLE LOGIC
@@ -358,6 +145,10 @@ if "rows_examples" not in st.session_state:
 # Creates entry in session state for word and context examples
 if "examples" not in st.session_state:
     st.session_state["examples"] = {}
+
+# entry in session state to check whether this is the first load up of the page
+if "initial_page_load" not in st.session_state:
+    st.session_state["initial_page_load"] = True
 
 def add_example():
     """
@@ -465,8 +256,8 @@ def generate_example(example_id):
         wordCol, contextCol = formContainer.columns(2)
 
         # Antonym text inputs
-        word = wordCol.text_input("Word", key=f"word_{example_id}", value=word).strip()
-        context = contextCol.text_input("Context", key=f"context_{example_id}", value=context).strip()
+        word = wordCol.text_input("Word", key=f"word_{example_id}", value=st.session_state[f"mem_word_{example_id}"]).strip()
+        context = contextCol.text_input("Context", key=f"context_{example_id}", value=st.session_state[f"mem_context_{example_id}"]).strip()
 
     # Load word and context into session state
     st.session_state["examples"][example_id] = [word, context]
@@ -484,9 +275,6 @@ for idx, example in enumerate(st.session_state["rows_examples"], start=1):
 # Create button to add example to session state with unqiue ID
 st.button("Add Example", on_click=add_example)
 
-# Debugging/Visualization
-# st.write(st.session_state)
-
 
 # SensePOLAR Logic
 
@@ -498,7 +286,7 @@ def load_bert_model():
     return BERTWordEmbeddings()
 
 @st.cache_data
-def create_sense_polar(_model_, antonyms, examples, method):
+def create_sense_polar(_model_, df, examples, method, selected_dict, api_key):
     """
     # Generate word embeddings based on the SensePOLAR Framework implementation.
 
@@ -506,12 +294,16 @@ def create_sense_polar(_model_, antonyms, examples, method):
     -----------
     model: BertWordEmbeddings
         A bert model
-    antonyms : dict
-        A dict containing antonym pairs.
+    df : pandas.DataFrame
+        A pandas dataframe containing the input antonym and definition data.
     examples : dict
         A dict containing word and context pairs.
     method : string
         A string containg the transformation method for the antonym space.
+    selected_dict: string
+        A string containing the selected dictionary
+    api_key: string
+        A string containing the selected API key.
 
     Returns:
     -----------
@@ -522,7 +314,6 @@ def create_sense_polar(_model_, antonyms, examples, method):
     """
 
     # Convert to list 
-    antonyms = list(antonyms.values())
     examples = list(examples.values())
 
     # Define paths
@@ -530,8 +321,8 @@ def create_sense_polar(_model_, antonyms, examples, method):
     antonym_path = out_path + "polar_dimensions.pkl"
 
     # Initiliaze wordnet dictionary and create lookup files
-    dictionary = Dictionary("wordnet") 
-    lookupSpace = LookupCreator(dictionary, out_path, antonym_pairs=antonyms)
+    dictionary = Dictionary(selected_dict, api_key) 
+    lookupSpace = LookupCreator(dictionary, out_path, antonyms_file_path=df)
     lookupSpace.create_lookup_files()
 
     # Create polar Dimensions
@@ -539,7 +330,7 @@ def create_sense_polar(_model_, antonyms, examples, method):
     pdc.create_polar_dimensions(out_path)
 
     # Calculate word polarity
-    wp = WordPolarity(model, antonym_path=antonym_path, lookup_path=out_path, method=method, number_polar=len(antonyms))
+    wp = WordPolarity(model, antonym_path=antonym_path, lookup_path=out_path, method=method, number_polar=len(df))
 
     words = []
     polar_dimensions = []
@@ -621,57 +412,12 @@ def to_excel(df):
     processed_data = output.getvalue()
     return processed_data
 
-@st.cache_data
-def convert_df(antonyms, definitions):
-    """
-    # Converts a the relevant session state data to a downloadable excel file.
-
-    Parameters:
-    -----------
-    antonyms : dict
-        A dict containing antonym pairs.
-    definitions: dict
-        A dict containg the antonym definitions.
-
-    Returns:
-    -----------
-    preprocessed_data : bytes
-        A bytes object (excel file) generated from a pandas dataframe.
-    """
-
-    # Convert to list 
-    antonyms = list(antonyms.values())
-    definitions = list(definitions.values())
-
-    # Standard layout
-    data = {
-        "antonym_1": [""],
-        "antonym_2": [""],
-        "definition_antonym_1": [""],
-        "definition_antonym_2": [""],
-    }   
-
-    # Update data dict dependent on the state of the filed text inputs
-    if antonyms:
-            data["antonym1"] = [antonym_pair[0] if len(antonym_pair) > 0 else "" for antonym_pair in antonyms]
-            data["antonym2"] = [antonym_pair[1] if len(antonym_pair) > 0 else "" for antonym_pair in antonyms]
-
-    if definitions:
-            data["definition_antonym1"] = [definition_pair[0] if len(definition_pair) > 0 else "" for definition_pair in definitions]
-            data["definition_antonym2"] = [definition_pair[1] if len(definition_pair) > 0 else "" for definition_pair in definitions]
-
-    # Transform data dict to pandas dataframe to excel file
-    # Orient index and transpose are necessary to fix some bugs that were caused by misalligned array sizes
-    df = to_excel(pd.DataFrame.from_dict(data, orient="index").transpose())
-
-    return df
-
 # Sidebar
 
 with st.sidebar:
     # Select method (projection or base-change)
     method = st.selectbox("Please select a transformation method for the antonym space", ["base-change", "projection"])
-    if len(st.session_state["antonyms"]) < 2:
+    if len(st.session_state["df_value"]) < 2:
         given_options = ["Standard", "Polar", "Most descriptive"]
     else:
         given_options = ["Standard", "2d", "Polar", "Most descriptive"]                 
@@ -682,21 +428,31 @@ with st.sidebar:
     # Axes choice for 2d plot
     selected_axes = []
     if "2d" in selected_options:
-        selected_axes = st.multiselect("Please select two dimensions you want to display", st.session_state["antonyms"].values(), max_selections=2)
+        antonym_dims = st.session_state["df_value"]["antonym_1"] + "-" + st.session_state["df_value"]["antonym_2"]
+        selected_axes = st.multiselect("Please select two dimensions you want to display", antonym_dims, max_selections=2)
 
     # Number Input for most descriptive plot
     k = 3
     if "Most descriptive" in selected_options:
-        k = st.number_input("Please select the amount of most descriptive antonym pairs to consider ", min_value=1, max_value=len(st.session_state["antonyms"]))
+        k = st.number_input("Please select the amount of most descriptive antonym pairs to consider ", min_value=1, max_value=len(st.session_state["df_value"]))
+
+    # Dictionary selection
+    selected_dict = st.selectbox("Please select a dictionary", ["wordnet", "wordnik", "oxford", "dictionaryapi"]) 
+    if selected_dict in ["wordnik", "dictionaryapi"]:
+        api_key = st.text_input("Please insert your API KEY").strip()
+        # Changes Color of select box widget in row that can't be changed by streamlit itself
+        ColourWidgetText("Please insert your API KEY", "#31333F")
+    else:
+        api_key = ""
 
 # Create two columns for download and execute button, array of floats declares size in relation to the other columns
 downloadCol, executeCol, _ = st.columns([0.2, 0.3, 0.8])
 
-# Get excel file from inputs
-df = convert_df(st.session_state["antonyms"], st.session_state["definitions"])
+# Safe edited dataframe to excel
+df_edited_xls = to_excel(st.session_state["df_value"])
 
 # Download button
-download_button = downloadCol.download_button(label="Download", data=df, file_name="SensePolar.xlsx")
+download_button = downloadCol.download_button(label="Download", data=df_edited_xls, file_name="SensePolar.xlsx")
 
 def check_input(input):
     """
@@ -731,16 +487,14 @@ def check_input(input):
     # If everything is okay return true
     return True
 
-def check_inputs(antonyms, definitions, examples):
+def check_inputs(ant_df, examples):
     """
     # Checks whether all relevant input fields are populated in a proper manner.
 
     Parameters:
     -----------
-    antonyms : dict
-        A dict containing antonym pairs.
-    definitions: dict
-        A dict containg the antonym definitions.
+    ant_df : pandas.DataFrame
+        A dataframe containing antonym pairs, definitions and more.
     examples : dict
         A dict containing word and context pairs.
 
@@ -750,17 +504,19 @@ def check_inputs(antonyms, definitions, examples):
         A boolean indicating whether all relevant input fields are populated in a proper manner.
     """
 
-    # Convert to list 
-    antonyms = list(antonyms.values())
-    definitions = list(definitions.values())
+    # Convert to list s())
     examples = list(examples.values())
 
-    # Loop through all inputs
-    for pair in [antonyms, definitions, examples]:
-        # Get evaluation
-        eval = check_input(pair)
-        # If a flaw has been found display warning and return false
-        if not eval:
+    # Check antonyms
+    # If dataframe contains any null values parse warning and return false
+    if ant_df.isnull().values.any():
+        st.warning("Please check whether all necessary input fields have been populated before executing", icon="⚠️")
+        return False
+
+    # Check examples
+    eval = check_input(examples)
+    # If examples contains any null values parse warning and return false
+    if not eval:
             st.warning("Please check whether all necessary input fields have been populated before executing", icon="⚠️")
             return False
     
@@ -780,13 +536,13 @@ model = load_bert_model()
 # Execute button - Execute SensePOLAR calculation and visualization
 if executeCol.button("Execute"):
     # Checks whether all relevant input fields are populated in a proper manner and then execute calculation and visualization
-    if check_inputs(st.session_state["antonyms"], st.session_state["definitions"], st.session_state["examples"]):
+    if check_inputs(st.session_state["df_value"], st.session_state["examples"]):
         # Check whether visualization options have been selected
         if not selected_options:
             st.warning("Please select some visualization options", icon="⚠️")
         else:
             try:
-                words, polar_dimensions = create_sense_polar(model, st.session_state["antonyms"], st.session_state["examples"], method)
+                words, polar_dimensions = create_sense_polar(model, st.session_state["df_value"], st.session_state["examples"], method, selected_dict, api_key)
                 create_visualisations(selected_options, words, polar_dimensions, k, selected_axes)
             except:
                 st.warning("An error has occured. Please check your selected antonyms", icon="⚠️")
@@ -797,5 +553,3 @@ if executeCol.button("Execute"):
 if st.session_state["initial_page_load"]:
     st.session_state["initial_page_load"] = False
 
-# Changes Color of select box widget in row that can't be changed by streamlit itself
-ColourWidgetText("Definition", "#FFFFFF")
