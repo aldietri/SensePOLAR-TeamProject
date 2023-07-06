@@ -503,7 +503,7 @@ def load_bert_model():
     return BERTWordEmbeddings()
 
 @st.cache_data
-def create_sense_polar(_model_, antonyms, examples, method):
+def create_sense_polar(_model_, antonyms, examples, method, selected_dict, api_key):
     """
     # Generate word embeddings based on the SensePOLAR Framework implementation.
 
@@ -517,6 +517,10 @@ def create_sense_polar(_model_, antonyms, examples, method):
         A dict containing word and context pairs.
     method : string
         A string containg the transformation method for the antonym space.
+    selected_dict: string
+        A string containing the selected dictionary
+    api_key: string
+        A string containing the selected API key.
 
     Returns:
     -----------
@@ -535,6 +539,8 @@ def create_sense_polar(_model_, antonyms, examples, method):
     antonym_path = out_path + "polar_dimensions.pkl"
 
     # Initiliaze wordnet dictionary and create lookup files
+    # TODO: Implement dict use
+    # dictionary = Dictionary(selected_dict, api_key) 
     dictionary = Dictionary("wordnet") 
     lookupSpace = LookupCreator(dictionary, out_path, antonym_pairs=antonyms)
     lookupSpace.create_lookup_files()
@@ -554,7 +560,7 @@ def create_sense_polar(_model_, antonyms, examples, method):
 
     return words, polar_dimensions
 
-# TODO: Implemt axes selection
+# TODO: Implement axes selection
 @st.cache_data
 def create_visualisations(options, words, polar_dimensions, k, axes):
     """
@@ -694,6 +700,15 @@ with st.sidebar:
     if "Most descriptive" in selected_options:
         k = st.number_input("Please select the amount of most descriptive antonym pairs to consider ", min_value=1, max_value=len(st.session_state["antonyms"]))
 
+    # Dictionary selection
+    selected_dict = st.selectbox("Please select a dictionary", ["wordnet", "wordnik", "oxford", "dictionaryapi"]) 
+    if selected_dict in ["wordnik", "dictionaryapi"]:
+        api_key = st.text_input("Please insert your API KEY").strip()
+        # Changes Color of select box widget in row that can't be changed by streamlit itself
+        ColourWidgetText("Please insert your API KEY", "#31333F")
+    else:
+        api_key = ""
+        
 # Create two columns for download and execute button, array of floats declares size in relation to the other columns
 downloadCol, executeCol, _ = st.columns([0.2, 0.3, 0.8])
 
@@ -791,7 +806,7 @@ if executeCol.button("Execute"):
             st.warning("Please select some visualization options", icon="⚠️")
         else:
             try:
-                words, polar_dimensions = create_sense_polar(model, st.session_state["antonyms"], st.session_state["examples"], method)
+                words, polar_dimensions = create_sense_polar(model, st.session_state["antonyms"], st.session_state["examples"], method, selected_dict, api_key)
                 create_visualisations(selected_options, words, polar_dimensions, k, selected_axes)
             except:
                 st.warning("An error has occured. Please check your selected antonyms", icon="⚠️")

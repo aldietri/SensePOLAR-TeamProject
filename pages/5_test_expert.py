@@ -118,16 +118,6 @@ if uploaded_file:
         dataframe = pd.read_csv(uploaded_file)
 # If no file uploaded read template
 else:
-    # dataframe = pd.DataFrame(
-    #         data = {
-    #             "antonym_1": [""],
-    #             "antonym_2": [""],
-    #             "definition_antonym_1": [""],
-    #             "definition_antonym_2": [""],
-    #             "def1": [""],
-    #             "def2": [""]
-    #             }   
-    #         )
     dataframe = pd.read_csv("excel_files_for_experts/Empty_Dataframe.csv")
 
 
@@ -286,7 +276,7 @@ def load_bert_model():
     return BERTWordEmbeddings()
 
 @st.cache_data
-def create_sense_polar(_model_, df, examples, method, selected_dict, api_key):
+def create_sense_polar(_model_, df, examples, method):
     """
     # Generate word embeddings based on the SensePOLAR Framework implementation.
 
@@ -300,10 +290,7 @@ def create_sense_polar(_model_, df, examples, method, selected_dict, api_key):
         A dict containing word and context pairs.
     method : string
         A string containg the transformation method for the antonym space.
-    selected_dict: string
-        A string containing the selected dictionary
-    api_key: string
-        A string containing the selected API key.
+
 
     Returns:
     -----------
@@ -320,9 +307,8 @@ def create_sense_polar(_model_, df, examples, method, selected_dict, api_key):
     out_path = "./antonyms/"
     antonym_path = out_path + "polar_dimensions.pkl"
 
-    # Initiliaze wordnet dictionary and create lookup files
-    dictionary = Dictionary(selected_dict, api_key) 
-    lookupSpace = LookupCreator(dictionary, out_path, antonyms_file_path=df)
+    # create lookup files
+    lookupSpace = LookupCreator(out_path=out_path, antonyms_file_path=df)
     lookupSpace.create_lookup_files()
 
     # Create polar Dimensions
@@ -436,15 +422,6 @@ with st.sidebar:
     if "Most descriptive" in selected_options:
         k = st.number_input("Please select the amount of most descriptive antonym pairs to consider ", min_value=1, max_value=len(st.session_state["df_value"]))
 
-    # Dictionary selection
-    selected_dict = st.selectbox("Please select a dictionary", ["wordnet", "wordnik", "oxford", "dictionaryapi"]) 
-    if selected_dict in ["wordnik", "dictionaryapi"]:
-        api_key = st.text_input("Please insert your API KEY").strip()
-        # Changes Color of select box widget in row that can't be changed by streamlit itself
-        ColourWidgetText("Please insert your API KEY", "#31333F")
-    else:
-        api_key = ""
-
 # Create two columns for download and execute button, array of floats declares size in relation to the other columns
 downloadCol, executeCol, _ = st.columns([0.2, 0.3, 0.8])
 
@@ -542,11 +519,11 @@ if executeCol.button("Execute"):
             st.warning("Please select some visualization options", icon="⚠️")
         else:
             try:
-                words, polar_dimensions = create_sense_polar(model, st.session_state["df_value"], st.session_state["examples"], method, selected_dict, api_key)
+                words, polar_dimensions = create_sense_polar(model, st.session_state["df_value"], st.session_state["examples"], method)
                 create_visualisations(selected_options, words, polar_dimensions, k, selected_axes)
             except:
                 st.warning("An error has occured. Please check your selected antonyms", icon="⚠️")
-
+    
 
 
 # Signifies that first page load is over
