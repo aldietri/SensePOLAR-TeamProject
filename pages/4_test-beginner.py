@@ -143,6 +143,11 @@ if "definitions" not in st.session_state:
     st.session_state["definitions"] = {}
 
 # entry in session state to check whether this is the first load up of the page
+if "initial_page_load" not in st.session_state:
+    st.session_state["initial_page_load"] = True
+
+# entry in session state to check whether this is the first load up of the page
+# This needs to be in here to fix some issues between multipages and the loadup
 if "initial_page_load_row" not in st.session_state:
     st.session_state["initial_page_load_row"] = True
 
