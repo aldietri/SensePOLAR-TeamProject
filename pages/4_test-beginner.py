@@ -654,6 +654,7 @@ def convert_df(antonyms, definitions):
     antonyms = list(antonyms.values())
     definitions = list(definitions.values())
 
+    # TODO: Adjust layout to expert?
     # Standard layout
     data = {
         "antonym_1": [""],
@@ -664,12 +665,12 @@ def convert_df(antonyms, definitions):
 
     # Update data dict dependent on the state of the filed text inputs
     if antonyms:
-            data["antonym1"] = [antonym_pair[0] if len(antonym_pair) > 0 else "" for antonym_pair in antonyms]
-            data["antonym2"] = [antonym_pair[1] if len(antonym_pair) > 0 else "" for antonym_pair in antonyms]
+            data["antonym_1"] = [antonym_pair[0] if len(antonym_pair) > 0 else "" for antonym_pair in antonyms]
+            data["antonym_2"] = [antonym_pair[1] if len(antonym_pair) > 0 else "" for antonym_pair in antonyms]
 
     if definitions:
-            data["definition_antonym1"] = [definition_pair[0] if len(definition_pair) > 0 else "" for definition_pair in definitions]
-            data["definition_antonym2"] = [definition_pair[1] if len(definition_pair) > 0 else "" for definition_pair in definitions]
+            data["definition_antonym_1"] = [definition_pair[0] if len(definition_pair) > 0 else "" for definition_pair in definitions]
+            data["definition_antonym_2"] = [definition_pair[1] if len(definition_pair) > 0 else "" for definition_pair in definitions]
 
     # Transform data dict to pandas dataframe to excel file
     # Orient index and transpose are necessary to fix some bugs that were caused by misalligned array sizes
