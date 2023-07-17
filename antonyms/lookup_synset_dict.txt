@@ -1,22 +1,18 @@
 [
     [
-        "happy",
-        "sad"
+        "right",
+        "left"
     ],
     [
-        "hot",
-        "cold"
+        "correct",
+        "wrong"
     ],
     [
-        "big",
-        "small"
+        "allow",
+        "permit"
     ],
     [
-        "fast",
-        "slow"
-    ],
-    [
-        "good",
-        "bad"
+        "direction",
+        "reverse"
     ]
 ]

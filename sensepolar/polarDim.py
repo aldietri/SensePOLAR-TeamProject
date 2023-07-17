@@ -128,6 +128,7 @@ class PolarDimensions:
             None.
         """
         antonym_dict = self.load_antonyms_from_json(self.antonym_path)
+        print(antonym_dict)
         direction_vectors = []
         for antonym_wn, sentences in antonym_dict.items():
             if not self.check_sentences(sentences):

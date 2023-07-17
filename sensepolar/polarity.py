@@ -2,10 +2,11 @@ import pickle
 import torch
 from sensepolar.antonyms import AntonymSpace
 from collections import defaultdict
-
+import nltk
+from nltk.stem import PorterStemmer
 class WordPolarity:
     "WordPolarity class is used for analyzing the polarity of a word in a given context."
-    def __init__(self, model, antonym_path="", lookup_path="./antonyms/", normalize_term_path="wordnet_normalize.pkl", number_polar=5, method="base-change"):
+    def __init__(self, model, antonym_path="", lookup_path="./antonyms/", normalize_term_path="wordnet_normalize.pkl", number_polar=-1, method="base-change"):
         """
         Initialize a WordPolarity object.
 
@@ -81,7 +82,13 @@ class WordPolarity:
         Returns:
             axis_list (list): The top dimensions for the given word with the polar_value.
         """
+        stemmer = PorterStemmer()
+        words = context.split()
+        word = word.split('_')[0] if '_' in list(word) else word
+        replaced_words = [word if stemmer.stem(w) == stemmer.stem(word) else w for w in words]
+        context = ' '.join(replaced_words)
         if word not in context.split():
+            print(word, context)
             print("Warning: The context must contain the *exact* word you want to analyze!")
             return None
 
@@ -89,7 +96,6 @@ class WordPolarity:
 
         if self.normalize_term is not None:
             cur_word_emb -= self.normalize_term
-
         polar_emb = torch.matmul(self.W_torch, cur_word_emb)
         polar_emb_np = polar_emb.numpy()
 
@@ -111,11 +117,11 @@ class WordPolarity:
         sorted_dic = sorted(thisdict.items(), key=lambda item: abs(item[1]), reverse=True)
 
         axis_list = []
+        if self.number_polar == -1:
+            self.number_polar = len(sorted_dic)
         for i in range(self.number_polar):
             cur_index = sorted_dic[i][0]
             cur_value = sorted_dic[i][1]
-            print("Index:", cur_index)
-            print(self.antonyms)
             left_polar = self.antonyms[cur_index][0][0]
             left_definition = self.definitions[cur_index][0]
             right_polar = self.antonyms[cur_index][1][0]
@@ -125,7 +131,8 @@ class WordPolarity:
             print("Top:", i + 1)
             print("Dimension:", left_polar, "<------>", right_polar)
             print(left_definition, right_definition)
-            # print("Definitions: ", left_definition+ "<------>" + right_definition)
+            print("Definitions: ", left_definition[0] + "<------>" + right_definition[0] if isinstance(left_definition, list) else left_definition+ "<------>" + right_definition)
             print("Value: " + str(cur_value) if cur_value < 0 else f"Value:{cur_value}")
             print("\n")
         return axis_list  # top dimensions for given word (string)
+    

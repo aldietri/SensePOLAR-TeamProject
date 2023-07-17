@@ -7,6 +7,9 @@ import pickle
 import pandas as pd
 from collections import defaultdict
 import re
+import itertools
+from sensepolar.oracle.examples import ExampleGenerator
+from nltk.stem import PorterStemmer
 
 class LookupCreator:
     """
@@ -20,7 +23,7 @@ class LookupCreator:
         The directory path to store the lookup files.
     """
 
-    def __init__(self, dictionary, out_path="./antonyms/", antonym_pairs=None, antonyms_file_path=None):
+    def __init__(self, dictionary, out_path="./antonyms/", antonym_pairs=None, antonyms_file_path=None, generate_examples=False, num_examples=5):
         """
         Initialize the LookupCreator.
 
@@ -38,6 +41,13 @@ class LookupCreator:
             self.antonym_pairs, self.definitions, self.examples = self.retrieve_from_file(antonyms_file_path)
         self.out_path = out_path
         self.dictionary = dictionary
+        self.generate_examples = generate_examples
+        self.num_examples = num_examples
+        self.stemmer = PorterStemmer()
+        self.example_generator = ExampleGenerator()
+        self.example_cache = {} 
+
+        
 
     def get_name(self, antonym):
         """
@@ -55,7 +65,7 @@ class LookupCreator:
         """
         return wn.synset(antonym).lemma_names()[0]
 
-    def get_examples(self, antonym):
+    def get_examples(self, antonym, index=0):
         """
         Return example sentences for a synset.
 
@@ -65,15 +75,31 @@ class LookupCreator:
         Returns:
             list: a list of example sentences
         """
-        examples = self.dictionary.get_examples(antonym)
+        if antonym in self.example_cache:
+            return self.example_cache[antonym]
+        examples = self.dictionary.get_examples(antonym)[index]
+        if type(examples) != list:
+            examples = [examples]
+        definition = self.dictionary.get_definitions(antonym)[index]
+        if self.generate_examples:
+                examples.extend(list(self.example_generator.generate_examples(antonym, definition, self.num_examples)))
+        examples = [sent.translate(str.maketrans({k: " " for k in string.punctuation})) for sent in examples]
+        examples = [' '.join(re.sub(r"<[^>]+>", "", example).split()) for example in examples]
+        stemmer = PorterStemmer()
+        replaced_examples = []
+        for example in examples:
+            words = example.split()
+            replaced_words = [antonym if stemmer.stem(w) == stemmer.stem(antonym) else w for w in words]
+            replaced_example = ' '.join(replaced_words)
+            replaced_examples.append(replaced_example)
+        examples = replaced_examples
         correct_examples=[]
+        print('Examples', examples)
         for example in examples:
             if re.search(r'\b'+ str(antonym).lower()+'\\b', example.lower(), re.I) is not None:
                 correct_examples.append(" ".join(example.split()).lower())
-        # replace punctuation symbols with spaces
-        examples = [sent.translate(str.maketrans({k: " " for k in string.punctuation})) for sent in correct_examples]
-        # add a space after each sentence
-        return ['{} '.format(sent) for sent in examples]
+        self.example_cache[antonym] = ['{} '.format(sent) for sent in correct_examples]
+        return self.example_cache[antonym]
 
     def retrieve_from_file(self, file_path):
         """
@@ -122,32 +148,38 @@ class LookupCreator:
                 correct_examples.append(" ".join(example.split()).lower())
         # replace punctuation symbols with spaces
         examples = [sent.translate(str.maketrans({k: " " for k in string.punctuation})) for sent in correct_examples]
+        examples = [' '.join(re.sub(r"<.*?>", "", example).split()) for example in examples]
         # add a space after each sentence
         return ['{} '.format(sent) for sent in examples]
 
-    def create_lookup_files(self):
+    def create_lookup_files(self, indices=None):
         """Create and store the lookup files."""
+        if indices is None:
+            indices = [[0,0] for i in range(len(self.antonym_pairs))]
         if self.examples is None:
+            antonyms = self.antonym_pairs
             antonyms = [pair for pair in self.antonym_pairs if min(len(self.get_examples(pair[0])),
-                                                       len(self.get_examples(pair[1]))) != 0]
+                                                    len(self.get_examples(pair[1]))) != 0]
         else:
             antonyms = [pair for pair in self.antonym_pairs if min(len(self.get_examples_files(pair[0], self.examples)),
-                                                       len(self.get_examples_files(pair[1], self.examples))) != 0]
-        # antonyms = np.unique(self.antonym_pairs, axis=0)
-
-        # if len(antonyms) != len(self.antonym_pairs):
-        #     print("Your antonym list contains duplicates. Please try again!")
-        #     return
+                                                    len(self.get_examples_files(pair[1], self.examples))) != 0]
         if self.definitions is None:
-            synset_defs = [[self.dictionary.get_definitions(anto) for anto in pair] for pair in antonyms]
+            synset_defs = [[self.dictionary.get_definitions(anto)[indices[i][j]] for j, anto in enumerate(pair)] for i, pair in enumerate(antonyms)]
+            self.definitions = synset_defs
         else:
             synset_defs = [[self.definitions[anto] for anto in pair] for pair in antonyms]
         if self.examples is None:
-            examples_readable = {str(pair):{anto: self.get_examples(anto) for anto in pair} for pair in antonyms}
-            examples_lookup = [[[anto, self.get_examples(anto)] for anto in pair] for pair in antonyms]
+            self.examples = []
+            for i, pair in enumerate(antonyms):
+                pair_examples = []
+                for j, anto in enumerate(pair):
+                    pair_examples.append(self.get_examples(anto, index=indices[i][j]))
+                self.examples.append(pair_examples)
+            examples_readable = {str(pair):{anto: self.examples[i][j] for j, anto in enumerate(pair)} for i, pair in enumerate(antonyms)}
+            examples_lookup = [[[anto, self.examples[i][j]] for j, anto in enumerate(pair)] for i, pair in enumerate(antonyms)]
         else:
-            examples_readable = {str(pair):{str(anto): self.get_examples_files(anto, self.examples) for anto in pair} for pair in antonyms}
-            examples_lookup = [[[str(anto), self.get_examples_files(anto, self.examples)] for anto in pair] for pair in antonyms]
+            examples_readable = {str(pair):{anto: self.get_examples_files(anto, self.examples) for anto in pair} for pair in antonyms}
+            examples_lookup = [[[anto, self.get_examples_files(anto, self.examples)] for anto in pair] for pair in antonyms]
         # save 
         with open(self.out_path + 'lookup_synset_dict.txt', 'w') as t:
             t.write(json.dumps(antonyms, indent=4))

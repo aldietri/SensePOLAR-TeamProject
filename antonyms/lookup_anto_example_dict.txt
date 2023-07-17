@@ -1,71 +1,123 @@
 [
     [
         [
-            "happy",
+            "right",
             [
-                "i feel happy today "
+                "a right line ",
+                "the right way to approach the situation is to be straight with it ",
+                "the right way to handle the situation is to be straight with it ",
+                "the right answer is the one that is not bent ",
+                "the right way to solve the problem is to straighten it out ",
+                "the right path is the one that is not crooked ",
+                "the right way to do it is to straighten it out "
             ]
         ],
         [
-            "sad",
+            "left",
             [
-                "he looks sad "
+                "the left door was open ",
+                "the left window was broken ",
+                "the left side of the road was blocked "
             ]
         ]
     ],
     [
         [
-            "hot",
+            "correct",
             [
-                "it s hot outside "
+                "the punctuation was correct ",
+                "the information was correct ",
+                "the calculation was correct ",
+                "the instructions were correct ",
+                "the directions were correct ",
+                "the choices were correct ",
+                "the answer was correct ",
+                "the grammar was correct ",
+                "the spelling was correct ",
+                "the measurements were correct "
             ]
         ],
         [
-            "cold",
+            "wrong",
             [
-                "the ice is cold to touch "
+                "injustice is a heinous wrong ",
+                "we were wrong to take advantage of the poor ",
+                "the company was wrong to fire the employee without cause ",
+                "the teacher was wrong to give the student an unfair grade ",
+                "the judge was wrong to sentence the wrong person ",
+                "the police were wrong to arrest the wrong person ",
+                "she was wrong to lie to her parents ",
+                "the student was wrong to plagiarize the assignment ",
+                "he was wrong to cheat on his wife ",
+                "the doctor was wrong to prescribe the wrong medication "
             ]
         ]
     ],
     [
         [
-            "big",
+            "allow",
             [
-                "the elephant is big "
+                "to allow a servant his liberty to allow a free passage to allow one day for rest ",
+                "allow me to take a loan ",
+                "allow me to take a risk ",
+                "allow me to take a vacation ",
+                "allow me to go out for dinner ",
+                "allow me to take a sick day ",
+                "allow me to take a leave of absence ",
+                "allow me to take a cut in pay ",
+                "allow me to take a break ",
+                "allow me to stay up late ",
+                "allow me to take a day off "
             ]
         ],
         [
-            "small",
+            "permit",
             [
-                "the ant is small "
+                "a construction permit can be obtained from the town offices ",
+                "the permit was issued for the construction of the new building ",
+                "the permit was issued for the sale of the car ",
+                "the permit was issued for the importation of the goods ",
+                "the permit was issued for the exportation of the goods ",
+                "the permit was issued for the exportation of the animals ",
+                "the permit was issued for the operation of the business ",
+                "the permit was issued for the sale of the land ",
+                "the permit was issued for the importation of the animals ",
+                "the permit was issued for the construction of the road ",
+                "the permit was issued for the operation of the boat "
             ]
         ]
     ],
     [
         [
-            "fast",
+            "direction",
             [
-                "the cheetah runs fast "
+                "keep going in the same direction ",
+                "the direction of the arrow was south ",
+                "the direction of the sun was east ",
+                "the direction of the river was south ",
+                "the direction of the sun was west ",
+                "the direction of the road was north ",
+                "the direction of the wind was from the west ",
+                "the direction of the wind was from the south ",
+                "the direction of the compass was east ",
+                "the direction of the river was north ",
+                "the direction of the road was east "
             ]
         ],
         [
-            "slow",
+            "reverse",
             [
-                "the snail moves slow "
-            ]
-        ]
-    ],
-    [
-        [
-            "good",
-            [
-                "eating healthy food is good for you "
-            ]
-        ],
-        [
-            "bad",
-            [
-                "smoking is bad for your health "
+                "we believed the chinese weren t ready for us in fact the reverse was true ",
+                "the rain reverse its course ",
+                "the calendar reverse the month ",
+                "the teacher reverse the lesson ",
+                "she reverse the direction of the car ",
+                "he reverse the order of the cards ",
+                "the wind reverse direction ",
+                "the thermometer reverse its readings ",
+                "the calendar reverse the year ",
+                "the clock reverse its hands ",
+                "the students reverse the test "
             ]
         ]
     ]
