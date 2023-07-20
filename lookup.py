@@ -101,7 +101,7 @@ class LookupCreator:
         self.example_cache[antonym] = ['{} '.format(sent) for sent in correct_examples]
         return self.example_cache[antonym]
 
-    def retrieve_from_file(self, file_path):
+    def retrieve_from_file(self, data): #,file_path
         """
         Retrieve antonym pairs from a file.
 
@@ -115,7 +115,6 @@ class LookupCreator:
         list
             A list of antonym pairs.
         """
-        data = pd.read_excel(file_path, header=0)
         antonyms = []
         definitions = defaultdict()
         examples = defaultdict()

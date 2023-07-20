@@ -51,7 +51,7 @@ class PolarityPlotter:
         Returns:
             list: List of colors.
         """
-        color_palette = colors.sample_colorscale("Viridis", n)
+        color_palette = colors.sample_colorscale("Viridis", n+1)
         return color_palette
 
     def create_antonym_dict(self, words, polar_dimension):
@@ -230,7 +230,7 @@ class PolarityPlotter:
 
         fig.update_traces(fill="toself")
 
-        fig.show()
+        return fig
 
     def plot_word_polarity_2d(self, words, polar_dimension, x_axis=None, y_axis=None):
         """
