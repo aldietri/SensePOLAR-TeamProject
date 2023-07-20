@@ -151,7 +151,8 @@ class PolarityPlotter:
             xaxis_autorange=True,
             yaxis_autorange=True
         )
-        fig.show()
+
+        return fig
 
     def plot_word_polarity_polar(self, words, polar_dimension):
         """
@@ -188,7 +189,7 @@ class PolarityPlotter:
             showlegend=True
         )
 
-        fig.show()
+        return fig
 
     def plot_word_polarity_polar_fig(self, words, polar_dimension):
         """
@@ -283,7 +284,7 @@ class PolarityPlotter:
         fig.add_annotation(x=0, y=-max_value, text=antonyms[1][0], showarrow=False, yshift=-15, font=dict(size=18),)
         fig.add_annotation(x=0, y=max_value, text=antonyms[1][1], showarrow=False, yshift=15, font=dict(size=18),)
 
-        fig.show()
+        return fig
 
     def get_most_descriptive_antonym_pairs(self, words, polar_dimensions, inspect_words, n=-1):
         """
@@ -422,7 +423,7 @@ class PolarityPlotter:
 
         fig.update_yaxes(showticklabels=False)
 
-        fig.show()
+        return fig
 
 
 
@@ -504,4 +505,4 @@ class PolarityPlotter:
 
         fig.add_traces(scatter_traces)
 
-        fig.show()
+        return fig

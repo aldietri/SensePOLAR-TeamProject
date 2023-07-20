@@ -4,9 +4,9 @@ import uuid
 
 from lookup import LookupCreator
 from sensepolar.polarity import WordPolarity
-from sensepolar.bertEmbed import BERTWordEmbeddings
+from sensepolar.embed.bertEmbed import BERTWordEmbeddings
 from sensepolar.polarDim import PolarDimensions
-from sensepolar.dictionaryapi import Dictionary
+from sensepolar.oracle.dictionaryapi import Dictionary
 from sensepolar.plotter import PolarityPlotter
 import streamlit.components.v1 as components
 
@@ -308,7 +308,7 @@ def create_sense_polar(_model_, df, examples, method):
     antonym_path = out_path + "polar_dimensions.pkl"
 
     # create lookup files
-    lookupSpace = LookupCreator(out_path=out_path, antonyms_file_path=df)
+    lookupSpace = LookupCreator(dictionary=None, out_path=out_path, antonyms_file_path=df)
     lookupSpace.create_lookup_files()
 
     # Create polar Dimensions
