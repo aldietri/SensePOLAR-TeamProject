@@ -1,3 +1,8 @@
+sensepolar/embed/__pycache__/
+sensepolar/oracle/__pycache__/
+
+.DS_Store
+
 external/
 .idea/
 no_git/
@@ -138,3 +143,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+.DS_Store
+__pycache__
