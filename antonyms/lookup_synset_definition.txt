@@ -1,34 +1,22 @@
 [
     [
-        [
-            "Straight, not bent."
-        ],
-        [
-            "The left side or direction."
-        ]
+        "feeling of joy",
+        "feeling of sorrow"
     ],
     [
-        [
-            "Free from error; true; accurate."
-        ],
-        [
-            "Something that is immoral or not good."
-        ]
+        "high temperature ",
+        "low temperature"
     ],
     [
-        [
-            "To grant, give, admit, accord, afford, or yield; to let one have."
-        ],
-        [
-            "An artifact or document rendering something allowed or legal."
-        ]
+        "large size",
+        "tiny size"
     ],
     [
-        [
-            "A theoretical line (physically or mentally) followed from a point of origin or towards a destination. May be relative (e.g. up, left, outbound, dorsal), geographical (e.g. north), rotational (e.g. clockwise), or with respect to an object or location (e.g. toward Boston)."
-        ],
-        [
-            "The opposite of something."
-        ]
+        "high speed ",
+        "low speed"
+    ],
+    [
+        "positive",
+        "negative"
     ]
 ]
