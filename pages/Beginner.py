@@ -128,6 +128,8 @@ with st.expander("Intro", expanded=True):
         in NLP ✨. 
     """)
 
+st.header("Antonyms")
+
 # ROW LOGIC
 
 # Creates entry in session state for rows
@@ -275,11 +277,11 @@ def generate_row(row_id):
     if st.session_state[f"min_{row_id}"]:
         ant1 = st.session_state[f"ant1_{row_id}"] if f"ant1_{row_id}" in st.session_state else st.session_state[f"mem_ant1_{row_id}"]
         ant2 = st.session_state[f"ant2_{row_id}"] if f"ant2_{row_id}" in st.session_state else st.session_state[f"mem_ant2_{row_id}"]
-        textColumn.text(f"Pair: {ant1} - {ant2}")
+        textColumn.text(f"Polar: {ant1} - {ant2}")
     else:
         ant1 = st.session_state[f"mem_ant1_{row_id}"]
         ant2 = st.session_state[f"mem_ant2_{row_id}"]
-        textColumn.text(f"Pair: {ant1} - {ant2}")
+        textColumn.text(f"Polar: {ant1} - {ant2}")
 
     # TODO: Icon of minimize button dependent on state
     minIcon = ":heavy_minus_sign:" #"🗕" if st.session_state[f"min_{row_id}"] else "🗖"
@@ -351,10 +353,12 @@ for idx, row in enumerate(st.session_state["rows_antonyms"], start=1):
     generate_row(row)
 
 # Create button to add row to session state with unqiue ID
-st.button("Add Item", on_click=add_row)
+st.button("Add Polar", on_click=add_row)
 
 
-# EXAMPLE LOGIC
+st.header("Subjects")
+
+# SUBJECT LOGIC
 
 # Creates entry in session state for example input
 if "rows_examples" not in st.session_state:
@@ -452,11 +456,11 @@ def generate_example(example_id):
     if st.session_state[f"min_{example_id}"]:
         word = st.session_state[f"word_{example_id}"] if f"word_{example_id}" in st.session_state else st.session_state[f"mem_word_{example_id}"]
         context = st.session_state[f"context_{example_id}"] if f"context_{example_id}" in st.session_state else st.session_state[f"mem_context_{example_id}"]
-        textColumn.text(f"Example: {word} - {context}")
+        textColumn.text(f"Subject: {word} - {context}")
     else:
         word = st.session_state[f"mem_word_{example_id}"]
         context = st.session_state[f"mem_context_{example_id}"]
-        textColumn.text(f"Example: {word} - {context}")
+        textColumn.text(f"Subject: {word} - {context}")
 
     # Minimze and Delete buttons
     minCol, delCol = buttonColumns.columns(2)
@@ -487,7 +491,7 @@ for idx, example in enumerate(st.session_state["rows_examples"], start=1):
     generate_example(example)
 
 # Create button to add example to session state with unqiue ID
-st.button("Add Example", on_click=add_example)
+st.button("Add Subject", on_click=add_example)
 
 # Debugging/Visualization
 # st.write(st.session_state)
@@ -560,9 +564,8 @@ def create_sense_polar(_model_, antonyms, examples, method, selected_dict, api_k
 
     return words, polar_dimensions
 
-# TODO: Implement axes selection
 @st.cache_data
-def create_visualisations(options, words, polar_dimensions, k, axes):
+def create_visualisations(options, words, polar_dimensions, k, x_axis, y_axis):
     """
     # Creates visualizations for the word embeddings based on the SensePOLAR Framework implementation.
 
@@ -575,35 +578,32 @@ def create_visualisations(options, words, polar_dimensions, k, axes):
     polar_dimensions: list
         A list containing the polar dimensions of the analyzed words.
     k: int
-        An integer to indicate how many antonym pairs to consider when selecting the most descriptive antonym pairs
-    axes: list
-        A nested list containing the axes that are to be displayed for a 2d plot
+        An integer to indicate how many antonym pairs to consider when selecting the most discriminative antonym pairs
+    x_axis: list
+        A list containing the x_axis values that are to be displayed for a 2d plot
+    y_axis: list
+        A list containing the y_axis values that are to be displayed for a 2d plot
     """
 
     plotter = PolarityPlotter()
 
     tabs = st.tabs(options)
-    count = 0
 
     if "Standard" in options:
         fig = plotter.plot_word_polarity(words, polar_dimensions)
-        tabs[count].plotly_chart(fig, use_container_width=True)
-        count += 1
+        tabs[options.index("Standard")].plotly_chart(fig, use_container_width=True)
 
     if "2d" in options:
-        fig = plotter.plot_word_polarity_2d(words, polar_dimensions)
-        tabs[count].plotly_chart(fig, use_container_width=True)
-        count += 1
+        fig = plotter.plot_word_polarity_2d_interactive(words, polar_dimensions, x_antonym_pair=tuple(x_axis), y_antonym_pair=tuple(y_axis))
+        tabs[options.index("2d")].plotly_chart(fig, use_container_width=True)
 
     if "Polar" in options:
         fig = plotter.plot_word_polarity_polar_fig(words, polar_dimensions)
-        tabs[count].plotly_chart(fig, use_container_width=True)
-        count += 1
+        tabs[options.index("Polar")].plotly_chart(fig, use_container_width=True)
 
-    if "Most descriptive" in options:
+    if "Most discriminative" in options:
         fig = plotter.plot_descriptive_antonym_pairs(words, polar_dimensions, words, k)
-        tabs[count].plotly_chart(fig, use_container_width=True)
-        count += 1
+        tabs[options.index("Most discriminative")].plotly_chart(fig, use_container_width=True)
 
 @st.cache_data
 def to_excel(df):
@@ -684,22 +684,26 @@ with st.sidebar:
     # Select method (projection or base-change)
     method = st.selectbox("Please select a transformation method for the antonym space", ["base-change", "projection"])
     if len(st.session_state["antonyms"]) < 2:
-        given_options = ["Standard", "Polar", "Most descriptive"]
+        given_options = ["Standard", "Polar", "Most discriminative"]
     else:
-        given_options = ["Standard", "2d", "Polar", "Most descriptive"]                 
+        given_options = ["Standard", "2d", "Polar", "Most discriminative"]                 
                            
     # Multiselect to select plots that will be displayed
     selected_options = st.multiselect("Please select some of the given visualization options", given_options)
 
     # Axes choice for 2d plot
-    selected_axes = []
+    x_axis = []
+    y_axis = []
     if "2d" in selected_options:
-        selected_axes = st.multiselect("Please select two dimensions you want to display", st.session_state["antonyms"].values(), max_selections=2)
+        # selected_axes = st.multiselect("Please select two dimensions you want to display", st.session_state["antonyms"].values(), max_selections=2)
+        axes_column = st.columns(2)
+        x_axis = axes_column[0].selectbox("x-axis", st.session_state["antonyms"].values())
+        y_axis = axes_column[1].selectbox("y-axis", st.session_state["antonyms"].values())
 
-    # Number Input for most descriptive plot
+    # Number Input for Most discriminative plot
     k = 3
-    if "Most descriptive" in selected_options:
-        k = st.number_input("Please select the amount of most descriptive antonym pairs to consider ", min_value=1, max_value=len(st.session_state["antonyms"]))
+    if "Most discriminative" in selected_options:
+        k = st.number_input("Please select the amount of Most discriminative antonym pairs to consider ", min_value=1, max_value=len(st.session_state["antonyms"]))
 
     # Dictionary selection
     selected_dict = st.selectbox("Please select a dictionary", ["wordnet", "wordnik", "oxford", "dictionaryapi"]) 
@@ -808,7 +812,7 @@ if executeCol.button("Execute"):
         else:
             try:
                 words, polar_dimensions = create_sense_polar(model, st.session_state["antonyms"], st.session_state["examples"], method, selected_dict, api_key)
-                create_visualisations(selected_options, words, polar_dimensions, k, selected_axes)
+                create_visualisations(selected_options, words, polar_dimensions, k, x_axis, y_axis)
             except:
                 st.warning("An error has occured. Please check your selected antonyms", icon="⚠️")
 
@@ -821,7 +825,6 @@ if st.session_state["initial_page_load"]:
 # Signifies that first page load is over
 if st.session_state["initial_page_load_row"]:
     st.session_state["initial_page_load_row"] = False
-
 
 # Changes Color of select box widget in row that can't be changed by streamlit itself
 ColourWidgetText("Definition", "#FFFFFF")

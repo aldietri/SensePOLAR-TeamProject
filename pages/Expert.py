@@ -106,27 +106,111 @@ with st.expander("Intro", expanded=True):
         Unleash the full potential of the SensePOLAR Framework and shape the future of NLP. Let your expertise soar! 🏆
     """)
 
-# File upload
-uploaded_file = st.file_uploader("Already prepared a file?")
-# Check if file was uplaoded
-if uploaded_file:
-    # Excel
-    if ".xlsx" in uploaded_file.name:
-        dataframe = pd.read_excel(uploaded_file,header=0)
-    # CSV
-    else:
-        dataframe = pd.read_csv(uploaded_file)
-# If no file uploaded read template
-else:
-    dataframe = pd.read_csv("excel_files_for_experts/Empty_Dataframe.csv")
+st.header("Antonyms")
+
+@st.cache_data
+def to_excel(df):
+    """
+    # Converts a pandas dataframe to an excel file.
+
+    Parameters:
+    -----------
+    df : pandas.DataFrame
+        A pandas dataframe.
+
+    Returns:
+    -----------
+    preprocessed_data : bytes
+        A bytes object (excel file) generated from a pandas dataframe.
+    """
+
+    output = BytesIO()
+    writer = pd.ExcelWriter(output, engine='xlsxwriter')
+    df.to_excel(writer, index=False, sheet_name='Sheet1')
+    workbook = writer.book
+    worksheet = writer.sheets['Sheet1']
+    format1 = workbook.add_format({'num_format': '0.00'}) 
+    worksheet.set_column('A:A', None, format1)  
+    writer.close()
+    processed_data = output.getvalue()
+    return processed_data
+
+@st.cache_data
+def load_dataframe(uploaded_file, template_path):
+    """
+    # Load pandas dataframe from specified path.
+
+    Parameters:
+    -----------
+    uploaded_file : UploadedFile class of streamlit
+        An uploaded file.
+    template_path: String
+        A string of the template path.
+
+    Returns:
+    -----------
+    dataframe/template : pandas.DataFrame
+       A pandas dataframe.
+    """
+
+    # Load template
+    template = pd.read_csv(template_path)
+    
+    # Check if file was uploaded
+    if uploaded_file:
+        # Excel
+        if ".xlsx" in uploaded_file.name:
+            dataframe = pd.read_excel(uploaded_file, header=0)
+        # CSV
+        else:
+            dataframe = pd.read_csv(uploaded_file)
+
+        # Check if uploaded file equals the template layout
+        if set(template.columns) == set(dataframe.columns):
+            return dataframe
+
+        # Print warning if uplaoded file does not equal the template layout
+        st.warning("Please check whether the uploaded file is formatted in the required way.", icon="⚠️")
+    return template
+
+@st.cache_data
+def convert_df_to_csv(df):
+    """
+    # Convert pandas Dataframe to csv file.
+
+    Parameters:
+    -----------
+    df : pandas.Dataframe
+        A pandas dataframe.
+
+    Returns:
+    -----------
+    A csv file.
+    """
+
+    return df.to_csv(index=False).encode('utf-8')
 
 
-edited_df = st.data_editor(dataframe, num_rows="dynamic", use_container_width=True)
+# File upload for polar antoym pairs
+uploaded_file_polar = st.file_uploader("Already prepared a file?", key="Polar_Upload")
 
-st.session_state["df_value"] = edited_df
+# Load dataframe
+dataframe_polar = load_dataframe(uploaded_file_polar, "excel_files_for_experts/Empty_Dataframe_Polar.csv")
+
+# Create data editor
+edited_df_polar = st.data_editor(dataframe_polar, num_rows="dynamic", use_container_width=True, key="Polar_data_editor")
+
+# Save data to session state
+st.session_state["df_value_polar"] = edited_df_polar
+
+# Safe edited dataframe to csv
+df_edited_polar = convert_df_to_csv(st.session_state["df_value_polar"])
+
+# Download button
+download_button = st.download_button(label="Download", data=df_edited_polar, file_name="SensePolar_Antonyms.csv", key="Polar_Download")
 
 
-# EXAMPLE LOGIC
+# SUBJECT LOGIC
 
 # Creates entry in session state for example input
 if "rows_examples" not in st.session_state:
@@ -228,11 +312,11 @@ def generate_example(example_id):
     if st.session_state[f"min_{example_id}"]:
         word = st.session_state[f"word_{example_id}"] if f"word_{example_id}" in st.session_state else st.session_state[f"mem_word_{example_id}"]
         context = st.session_state[f"context_{example_id}"] if f"context_{example_id}" in st.session_state else st.session_state[f"mem_context_{example_id}"]
-        textColumn.text(f"Example: {word} - {context}")
+        textColumn.text(f"Subject: {word} - {context}")
     else:
         word = st.session_state[f"mem_word_{example_id}"]
         context = st.session_state[f"mem_context_{example_id}"]
-        textColumn.text(f"Example: {word} - {context}")
+        textColumn.text(f"Subject: {word} - {context}")
 
     # Minimze and Delete buttons
     minCol, delCol = buttonColumns.columns(2)
@@ -252,18 +336,58 @@ def generate_example(example_id):
     # Load word and context into session state
     st.session_state["examples"][example_id] = [word, context]
 
-# Adds one example at the first page load
-if st.session_state["initial_page_load"]:
-    add_example()
 
-# Necessary to add and delete example
-# Recreates example for every example contained in the session state
-for idx, example in enumerate(st.session_state["rows_examples"], start=1):
-    # Generate elements word context pairs
-    generate_example(example)
+st.header("Subjects")
 
-# Create button to add example to session state with unqiue ID
-st.button("Add Example", on_click=add_example)
+# Selection of subject input
+example_logic = st.radio(
+    "What type of input are you looking for?",
+    ("Simple", "Advanced"),
+    horizontal=True
+)
+
+# Logic whether simple input or advanced input 
+
+# If simple do normal example input
+if example_logic == "Simple":
+
+    # Adds one example at the first page load
+    if st.session_state["initial_page_load"]:
+        add_example()
+
+    # Necessary to add and delete example
+    # Recreates example for every example contained in the session state
+    for idx, example in enumerate(st.session_state["rows_examples"], start=1):
+        # Generate elements word context pairs
+        generate_example(example)
+
+    # Create two (three) columns for add example and execute button, array of floats declares size in relation to the other columns
+    leftCol, rightCol, _ = st.columns([0.25, 0.25, 1])
+
+    # Add example button
+    add_example_button = leftCol.button("Add Subject", on_click=add_example, key="add_sub")
+# else allow for advanced example input through file upload and data editor
+else:
+    # File upload
+    uploaded_file_subject = st.file_uploader("Already prepared a file?", key="Subject_Upload")
+    
+    # Load dataframe
+    dataframe_subject = load_dataframe(uploaded_file_subject, "excel_files_for_experts/Empty_Dataframe_Subject.csv")
+
+    # Create data editor
+    edited_df_subject = st.data_editor(dataframe_subject, num_rows="dynamic", use_container_width=True, key="Subject_data_editor")
+
+    # Save data to session state
+    st.session_state["df_value_subject"] = edited_df_subject
+
+    # Create two (three) columns for download and execute button, array of floats declares size in relation to the other columns
+    leftCol, rightCol, _ = st.columns([0.25, 0.25, 1.1])
+
+    # Safe edited dataframe to csv
+    df_edited_subject = convert_df_to_csv(st.session_state["df_value_subject"])
+
+    # Download button
+    download_button = leftCol.download_button(label="Download", data=df_edited_subject, file_name="SensePolar_Subject.csv", key="Polar_Subjects")
 
 
 # SensePOLAR Logic
@@ -286,8 +410,8 @@ def create_sense_polar(_model_, df, examples, method):
         A bert model
     df : pandas.DataFrame
         A pandas dataframe containing the input antonym and definition data.
-    examples : dict
-        A dict containing word and context pairs.
+    examples : list
+        A list containing word and context pairs.
     method : string
         A string containg the transformation method for the antonym space.
 
@@ -299,9 +423,6 @@ def create_sense_polar(_model_, df, examples, method):
     polar_dimensions: list
         A list containing the polar dimensions of the analyzed words.
     """
-
-    # Convert to list 
-    examples = list(examples.values())
 
     # Define paths
     out_path = "./antonyms/"
@@ -326,9 +447,8 @@ def create_sense_polar(_model_, df, examples, method):
 
     return words, polar_dimensions
 
-# TODO: Implemt axes selection
 @st.cache_data
-def create_visualisations(options, words, polar_dimensions, k, axes):
+def create_visualisations(options, words, polar_dimensions, k, x_axis, y_axis):
     """
     # Creates visualizations for the word embeddings based on the SensePOLAR Framework implementation.
 
@@ -341,95 +461,60 @@ def create_visualisations(options, words, polar_dimensions, k, axes):
     polar_dimensions: list
         A list containing the polar dimensions of the analyzed words.
     k: int
-        An integer to indicate how many antonym pairs to consider when selecting the most descriptive antonym pairs
-    axes: list
-        A nested list containing the axes that are to be displayed for a 2d plot
+        An integer to indicate how many antonym pairs to consider when selecting the most discriminative antonym pairs
+    x_axis: list
+        A list containing the x_axis values that are to be displayed for a 2d plot
+    y_axis: list
+        A list containing the y_axis values that are to be displayed for a 2d plot
     """
 
     plotter = PolarityPlotter()
 
     tabs = st.tabs(options)
-    count = 0
 
     if "Standard" in options:
         fig = plotter.plot_word_polarity(words, polar_dimensions)
-        tabs[count].plotly_chart(fig, use_container_width=True)
-        count += 1
+        tabs[options.index("Standard")].plotly_chart(fig, use_container_width=True)
 
     if "2d" in options:
-        fig = plotter.plot_word_polarity_2d(words, polar_dimensions)
-        tabs[count].plotly_chart(fig, use_container_width=True)
-        count += 1
+        fig = plotter.plot_word_polarity_2d_interactive(words, polar_dimensions, x_antonym_pair=tuple(x_axis), y_antonym_pair=tuple(y_axis))
+        tabs[options.index("2d")].plotly_chart(fig, use_container_width=True)
 
     if "Polar" in options:
         fig = plotter.plot_word_polarity_polar_fig(words, polar_dimensions)
-        tabs[count].plotly_chart(fig, use_container_width=True)
-        count += 1
+        tabs[options.index("Polar")].plotly_chart(fig, use_container_width=True)
 
-    if "Most descriptive" in options:
+    if "Most discriminative" in options:
         fig = plotter.plot_descriptive_antonym_pairs(words, polar_dimensions, words, k)
-        tabs[count].plotly_chart(fig, use_container_width=True)
-        count += 1
-
-@st.cache_data
-def to_excel(df):
-    """
-    # Converts a pandas dataframe to an excel file.
-
-    Parameters:
-    -----------
-    df : pandas.DataFrame
-        A pandas dataframe containing the input antonym and definition data.
-
-    Returns:
-    -----------
-    preprocessed_data : bytes
-        A bytes object (excel file) generated from a pandas dataframe.
-    """
-
-    output = BytesIO()
-    writer = pd.ExcelWriter(output, engine='xlsxwriter')
-    df.to_excel(writer, index=False, sheet_name='Sheet1')
-    workbook = writer.book
-    worksheet = writer.sheets['Sheet1']
-    format1 = workbook.add_format({'num_format': '0.00'}) 
-    worksheet.set_column('A:A', None, format1)  
-    writer.close()
-    processed_data = output.getvalue()
-    return processed_data
+        tabs[options.index("Most discriminative")].plotly_chart(fig, use_container_width=True)
 
 # Sidebar
 
 with st.sidebar:
     # Select method (projection or base-change)
     method = st.selectbox("Please select a transformation method for the antonym space", ["base-change", "projection"])
-    if len(st.session_state["df_value"]) < 2:
-        given_options = ["Standard", "Polar", "Most descriptive"]
+    if len(st.session_state["df_value_polar"]) < 2:
+        given_options = ["Standard", "Polar", "Most discriminative"]
     else:
-        given_options = ["Standard", "2d", "Polar", "Most descriptive"]                 
+        given_options = ["Standard", "2d", "Polar", "Most discriminative"]                 
                            
     # Multiselect to select plots that will be displayed
     selected_options = st.multiselect("Please select some of the given visualization options", given_options)
 
     # Axes choice for 2d plot
-    selected_axes = []
+    x_axis = []
+    y_axis = []
     if "2d" in selected_options:
-        antonym_dims = st.session_state["df_value"]["antonym_1"] + "-" + st.session_state["df_value"]["antonym_2"]
-        selected_axes = st.multiselect("Please select two dimensions you want to display", antonym_dims, max_selections=2)
+        # selected_axes = st.multiselect("Please select two dimensions you want to display", st.session_state["antonyms"].values(), max_selections=2)
+        axes_column = st.columns(2)
+        axis_values = list(zip(st.session_state["df_value_polar"]["antonym_1"], st.session_state["df_value_polar"]["antonym_2"]))
+        x_axis = axes_column[0].selectbox("x-axis", axis_values)
+        y_axis = axes_column[1].selectbox("y-axis", axis_values)
 
-    # Number Input for most descriptive plot
+    # Number Input for Most discriminative plot
     k = 3
-    if "Most descriptive" in selected_options:
-        k = st.number_input("Please select the amount of most descriptive antonym pairs to consider ", min_value=1, max_value=len(st.session_state["df_value"]))
-
-# Create two columns for download and execute button, array of floats declares size in relation to the other columns
-downloadCol, executeCol, _ = st.columns([0.2, 0.3, 0.8])
-
-# Safe edited dataframe to excel
-df_edited_xls = to_excel(st.session_state["df_value"])
-
-# Download button
-download_button = downloadCol.download_button(label="Download", data=df_edited_xls, file_name="SensePolar.xlsx")
+    if "Most discriminative" in selected_options:
+        k = st.number_input("Please select the amount of Most discriminative antonym pairs to consider ", min_value=1, max_value=len(st.session_state["df_value_polar"]))
 
 def check_input(input):
     """
@@ -464,7 +549,7 @@ def check_input(input):
     # If everything is okay return true
     return True
 
-def check_inputs(ant_df, examples):
+def check_inputs(antonyms, examples):
     """
     # Checks whether all relevant input fields are populated in a proper manner.
 
@@ -472,8 +557,8 @@ def check_inputs(ant_df, examples):
     -----------
     ant_df : pandas.DataFrame
         A dataframe containing antonym pairs, definitions and more.
-    examples : dict
-        A dict containing word and context pairs.
+    examples : list
+        A list containing word and context pairs.
 
     Returns:
     -----------
@@ -481,27 +566,17 @@ def check_inputs(ant_df, examples):
         A boolean indicating whether all relevant input fields are populated in a proper manner.
     """
 
-    # Convert to list s())
-    examples = list(examples.values())
-
     # Check antonyms
-    # If dataframe contains any null values parse warning and return false
-    if ant_df.isnull().values.any():
-        st.warning("Please check whether all necessary input fields have been populated before executing", icon="⚠️")
+    # If dataframe contains any null or empty string values parse warning and return false
+    if antonyms.isnull().values.any() or antonyms.eq("").values.any():
+        st.warning("Please check whether all necessary antonym fields have been populated before executing", icon="⚠️")
         return False
 
     # Check examples
     eval = check_input(examples)
     # If examples contains any null values parse warning and return false
     if not eval:
-            st.warning("Please check whether all necessary input fields have been populated before executing", icon="⚠️")
-            return False
-    
-    # Again loop through examples
-    for pair in examples:
-        # Check whether context contains example word and display warning if not as well as return false
-        if not f" {pair[0].lower()} " in f" {pair[1].lower()} ":
-            st.warning("The context must contain your example word", icon="⚠️")
+            st.warning("Please check whether all necessary subject fields have been populated before executing", icon="⚠️")
             return False
     
     # If everything is okay return true
@@ -511,19 +586,27 @@ def check_inputs(ant_df, examples):
 model = load_bert_model()
 
 # Execute button - Execute SensePOLAR calculation and visualization
-if executeCol.button("Execute"):
+if rightCol.button(label="Execute", key="execute"):
+    if example_logic == "Simple":
+        sub = list(st.session_state["examples"].values())
+    else:
+        sub = list(zip(st.session_state["df_value_subject"]["word"], st.session_state["df_value_subject"]["context"]))
+
     # Checks whether all relevant input fields are populated in a proper manner and then execute calculation and visualization
-    if check_inputs(st.session_state["df_value"], st.session_state["examples"]):
+    if check_inputs(st.session_state["df_value_polar"], sub):
         # Check whether visualization options have been selected
         if not selected_options:
             st.warning("Please select some visualization options", icon="⚠️")
         else:
             try:
-                words, polar_dimensions = create_sense_polar(model, st.session_state["df_value"], st.session_state["examples"], method)
-                create_visualisations(selected_options, words, polar_dimensions, k, selected_axes)
+                words, polar_dimensions = create_sense_polar(model, st.session_state["df_value_polar"], sub, method)
+                # Check if polar dimensions calculation was possible for all words otherwise the context didn't contain the subject word
+                if None in polar_dimensions:
+                    st.warning("The context must contain your example word", icon="⚠️")
+                else:
+                    create_visualisations(selected_options, words, polar_dimensions, k, x_axis, y_axis)
             except:
-                st.warning("An error has occured. Please check your selected antonyms", icon="⚠️")
-    
+                st.warning("An error has occured. Please check your selected Inputs", icon="⚠️")
 
 
 # Signifies that first page load is over

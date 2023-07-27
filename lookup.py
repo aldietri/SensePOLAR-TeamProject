@@ -115,7 +115,9 @@ class LookupCreator:
         list
             A list of antonym pairs.
         """
-        data = pd.read_excel(file_path, header=0)
+        # TODO: May or may not need to be changed back
+        # data = pd.read_excel(file_path, header=0)
+        data = file_path
         antonyms = []
         definitions = defaultdict()
         examples = defaultdict()
