@@ -1,42 +1,68 @@
 {
-    "['hell', 'dunkel']": {
-        "hell": [
-            "die sonne scheint hell "
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+    "['happy', 'sad']": {
+        "happy": [
+            "i feel happy today "
         ],
-        "dunkel": [
-            "es ist dunkel drau\u00dfen "
+        "sad": [
+            "he looks sad "
         ]
     },
-    "['schnell', 'langsam']": {
-        "schnell": [
-            "der l\u00e4ufer rennt schnell "
+    "['hot', 'cold']": {
+        "hot": [
+            "it s hot outside "
         ],
-        "langsam": [
-            "die schildkr\u00f6te bewegt sich langsam "
+        "cold": [
+            "the ice is cold to touch "
         ]
     },
-    "['gro\u00df', 'klein']": {
-        "gro\u00df": [
-            "das geb\u00e4ude ist gro\u00df "
+    "['big', 'small']": {
+        "big": [
+            "the elephant is big "
         ],
-        "klein": [
-            "die maus ist klein "
+        "small": [
+            "the ant is small "
         ]
     },
-    "['stark', 'schwach']": {
-        "stark": [
-            "er ist stark "
+    "['fast', 'slow']": {
+        "fast": [
+            "the cheetah runs fast "
         ],
-        "schwach": [
-            "sie ist schwach "
+        "slow": [
+            "the snail moves slow "
         ]
     },
-    "['klug', 'dumm']": {
-        "klug": [
-            "sie ist klug "
+    "['good', 'bad']": {
+        "good": [
+            "eating healthy food is good for you "
         ],
-        "dumm": [
-            "er ist dumm "
+        "bad": [
+            "smoking is bad for your health "
+<<<<<<< Updated upstream
+=======
+    "['right', 'wrong']": {
+        "right": [
+            "they are endowed by their creator with certain unalienable right ",
+            "certain right can never be granted to the government but must be kept in the hands of the people ",
+            "a right is not something that somebody gives you it is something that nobody can take away "
+        ],
+        "wrong": [
+            "he feels that you are in the wrong "
+        ]
+    },
+    "['good', 'bad']": {
+        "good": [
+            "for your own good ",
+            "what s the good of worrying "
+        ],
+        "bad": [
+            "take the bad with the good "
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
         ]
     }
 }

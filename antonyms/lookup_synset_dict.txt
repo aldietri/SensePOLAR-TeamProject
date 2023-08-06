@@ -1,22 +1,35 @@
 [
     [
-        "hell",
-        "dunkel"
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+        "happy",
+        "sad"
     ],
     [
-        "schnell",
-        "langsam"
+        "hot",
+        "cold"
     ],
     [
-        "gro\u00df",
-        "klein"
+        "big",
+        "small"
     ],
     [
-        "stark",
-        "schwach"
+        "fast",
+        "slow"
     ],
     [
-        "klug",
-        "dumm"
+<<<<<<< Updated upstream
+=======
+        "right",
+        "wrong"
+    ],
+    [
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+        "good",
+        "bad"
     ]
 ]
