@@ -78,6 +78,8 @@ def createPolarDimension(model, tokenizer, out_path, antonym_path=""):
         
   # safe direction vectors
   out_dir_path = out_path+"polar_dimensions.pkl"
+
+  print(direction_vectors)
   with open(out_dir_path, 'wb') as handle:
     pickle.dump(direction_vectors, handle, protocol=pickle.HIGHEST_PROTOCOL)
   return

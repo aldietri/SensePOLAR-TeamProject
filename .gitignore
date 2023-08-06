@@ -1,3 +1,8 @@
+sensepolar/embed/__pycache__/
+sensepolar/oracle/__pycache__/
+antonyms/
+.DS_Store
+
 external/
 .idea/
 no_git/
@@ -138,3 +143,14 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+.DS_Store
+__pycache__
+antonyms/antonym_wordnet_example_sentences_readable_extended.txt
+antonyms/antonym_wordnet_example_sentences_readable_extended.txt
+antonyms/antonym_wordnet_example_sentences_readable_extended.txt
+antonyms/lookup_anto_example_dict.pkl
+antonyms/lookup_synset_definition.pkl
+antonyms/lookup_synset_dict.pkl
+antonyms/polar_dimensions.pkl
