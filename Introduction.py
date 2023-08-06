@@ -1,9 +1,21 @@
 import streamlit as st
+from sensepolar.embed.bertEmbed import BERTWordEmbeddings
+from sensepolar.oracle.dictionaryapi import Dictionary
 
 st.set_page_config(
     page_title="Welcome Page",
     page_icon="👋",
 )
+
+# Changes sidebar color
+sidebar_color = """
+<style>
+[data-testid=stSidebar]{
+    background-color: #7895CB;
+}
+</style>
+"""
+st.markdown(sidebar_color, unsafe_allow_html=True) 
 
 st.write("# Welcome to SensePOLAR! 🌊")
 
@@ -44,3 +56,68 @@ st.markdown(
     Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
     """
 )
+
+@st.cache_resource
+def load_bert_model():
+    """
+    # Load Bert model.
+    """
+    return BERTWordEmbeddings()
+
+@st.cache_data
+def create_dictionary(selected_dict, api_key):
+    """
+    Returns a dictionary object for the given selected dictionary and api_key.
+    
+    Parameters:
+    -----------
+    selected_dict: string
+        A string containing the selected dictionary
+    api_key: string
+        A string containing the selected API key.
+
+    Returns:
+    --------
+    Dictionary
+        Dictionary object fot he selected dictionary and api_key.
+    """
+    return Dictionary(selected_dict, api_key)
+
+@st.cache_data
+def get_dict_definitions(word, selected_dict, api_key):
+    """
+    Return top 5 most common definitions from the selected dictionary for a given word.
+
+    Parameters:
+    -----------
+    word : string
+        A string containing a word.
+    selected_dict: string
+        A string containing the selected dictionary
+    api_key: string
+        A string containing the selected API key.
+
+    Returns:
+    --------
+    definitions : list
+        The top 5 most common word net definitions for the given word.
+    """
+
+    # Create dicitonary
+    oracle = create_dictionary(selected_dict, api_key)
+    
+    # Fetch definitions
+    definitions = oracle.get_definitions(word)
+
+    # Create subsample (top 5 definitions)
+    sample_definitions = [','.join(row) for row in definitions[:5]]
+
+    # Return sample 
+    return sample_definitions
+
+# Load bert model into cache so beginner and expert page are more performant
+load_bert_model()
+
+# Load dictionary into cache so beinner page is more performant
+get_dict_definitions("test", "wordnet", "")
+

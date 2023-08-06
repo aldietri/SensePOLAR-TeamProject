@@ -1,5 +1,4 @@
 import streamlit as st
-from nltk.corpus import wordnet as wn
 import uuid
 
 from lookup import LookupCreator
@@ -11,7 +10,7 @@ from sensepolar.plotter import PolarityPlotter
 import streamlit.components.v1 as components
 
 import pandas as pd
-from io import BytesIO
+import numpy as np
 
 st.set_page_config(layout="centered", page_title="SensePOLAR", page_icon="🌊")
 st.elements.utils._shown_default_value_warning=True
@@ -22,21 +21,6 @@ st.elements.utils._shown_default_value_warning=True
 # #MainMenu {visibility: hidden;}
 # footer {visibility: hidden;}
 
-# [data-testid="stVerticalBlock"] .e1tzin5v0 {
-#     background-color: #daf5ff;
-#     padding: 4px;
-#     border-radius: 16px;
-# }
-
-# .stTextLabelWrapper.css-y4bq5x.e1j25pv61 {
-#     padding: 13px;
-# }
-
-# .css-ocqkz7.e1tzin5v3 {
-#     padding: 21px;
-# }
-# </style>
-# """
 # st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
 
 # TODO: When creating running file force theme?
@@ -116,7 +100,7 @@ def ColourWidgetText(wgt_txt, wch_colour = '#000000'):
     components.html(f"{htmlstr}", height=0, width=0)
 
 # Headline
-st.title("🐣 Beginner Page", anchor=False)
+st.title("🐣 Beginner", anchor=False)
 
 #Subheadline with short explaination
 with st.expander("Intro", expanded=True):
@@ -129,8 +113,6 @@ with st.expander("Intro", expanded=True):
     """)
 
 st.header("Antonyms")
-
-# ROW LOGIC
 
 # Creates entry in session state for rows
 if "rows_antonyms" not in st.session_state:
@@ -145,13 +127,62 @@ if "definitions" not in st.session_state:
     st.session_state["definitions"] = {}
 
 # entry in session state to check whether this is the first load up of the page
-if "initial_page_load" not in st.session_state:
-    st.session_state["initial_page_load"] = True
+if "initial_page_load_example" not in st.session_state:
+    st.session_state["initial_page_load_example"] = True
 
 # entry in session state to check whether this is the first load up of the page
 # This needs to be in here to fix some issues between multipages and the loadup
 if "initial_page_load_row" not in st.session_state:
     st.session_state["initial_page_load_row"] = True
+
+# Memory to repopulate api_key text field in case the selected dictionary is switched 
+if "mem_api_key" not in st.session_state:
+    st.session_state["mem_api_key"] =""
+
+# Sidebar
+
+with st.sidebar:
+    # Dictionary selection
+    st.markdown("# Dictionary")
+    selected_dict = st.selectbox("Please select a dictionary", ["wordnet", "wordnik", "dictionaryapi"]) 
+    api_key = ""
+    if selected_dict == "wordnik":
+        api_key = st.text_input("Please insert your API KEY", key="api_key", value=st.session_state["mem_api_key"]).strip()
+        # Save api key to memory
+        st.session_state["mem_api_key"] = api_key
+        # Changes Color of select box widget in row that can't be changed by streamlit itself
+        ColourWidgetText("Please insert your API KEY", "#31333F")
+
+    # Select method (projection or base-change)
+    st.markdown("# Visualization")
+    method = st.selectbox("Please select a transformation method for the antonym space", ["base-change", "projection"])
+    if len(st.session_state["antonyms"]) < 2:
+        given_options = ["Standard", "Polar", "Most discriminative"]
+    else:
+        given_options = ["Standard", "2D", "Polar", "Most discriminative"]                 
+                           
+    # Multiselect to select plots that will be displayed
+    selected_options = st.multiselect("Please select some of the given visualization options", given_options, key="visualization_options")
+
+    # Axes choice for 2D plot
+    x_axis = []
+    y_axis = []
+    if "2D" in selected_options:
+        st.markdown("## 2D")
+        axes_column = st.columns(2)
+        x_axis = axes_column[0].selectbox("x-axis", st.session_state["antonyms"].values(), format_func=lambda x: ", ".join(x))
+        y_axis = axes_column[1].selectbox("y-axis", st.session_state["antonyms"].values(), format_func=lambda x: ", ".join(x))
+
+    # Number Input for Most discriminative plot
+    k = 3
+    if "Most discriminative" in selected_options:
+        st.write("## Most Discriminative")
+        k = st.number_input("Please select the amount of most discriminative antonym pairs to consider ", min_value=1, max_value=len(st.session_state["antonyms"]))
+    
+        # Ascending or Descending ordering of Most descriminative antonym pairs
+        selected_ordering = st.selectbox("Please select the ordering of the most descriminative antonym pairs", options=["Ascending", "Descending"])
+
+# ROW LOGIC
 
 def add_row():
     """
@@ -225,31 +256,58 @@ def toggle_row_min_button(row_id):
         st.session_state[f"ant1_{row_id}"] = st.session_state[f"mem_ant1_{row_id}"]
         st.session_state[f"ant2_{row_id}"] = st.session_state[f"mem_ant2_{row_id}"]
 
-def get_wordnet_definition(word):
+@st.cache_data
+def create_dictionary(selected_dict, api_key):
     """
-    Return top 5 most common word net definitions for a given word.
+    Returns a dictionary object for the given selected dictionary and api_key.
+    
+    Parameters:
+    -----------
+    selected_dict: string
+        A string containing the selected dictionary
+    api_key: string
+        A string containing the selected API key.
+
+    Returns:
+    --------
+    Dictionary
+        Dictionary object fot he selected dictionary and api_key.
+    """
+    return Dictionary(selected_dict, api_key)
+
+@st.cache_data
+def get_dict_definitions(word, selected_dict, api_key):
+    """
+    Return top 5 most common definitions from the selected dictionary for a given word.
 
     Parameters:
     -----------
     word : string
         A string containing a word.
+    selected_dict: string
+        A string containing the selected dictionary
+    api_key: string
+        A string containing the selected API key.
 
     Returns:
     --------
     definitions : list
         The top 5 most common word net definitions for the given word.
     """
-        
-    # Fetch Synsets of the given word
-    word_synsets = wn.synsets(word)
-    # Sets the amount of defintions that will be displayed - 5 or less 
-    i_range = 5 if len(word_synsets) > 5 else len(word_synsets)
-    # Fetch definitions
-    definitions = [word_synsets[i].definition() for i in range(i_range)]
-    # Return definitions
-    return definitions
 
-def generate_row(row_id):
+    # Create dicitonary
+    oracle = create_dictionary(selected_dict, api_key)
+    
+    # Fetch definitions
+    definitions = oracle.get_definitions(word)
+
+    # Create subsample (top 5 definitions)
+    sample_definitions = [','.join(row) for row in definitions[:5]]
+
+    # Return sample 
+    return sample_definitions
+
+def generate_row(row_id, selected_dict, api_key):
     """
     # Generates streamlit elements for a given row ID and saves antonym pairs and their definitions into the session state.
 
@@ -257,6 +315,10 @@ def generate_row(row_id):
     -----------
     row_id : string
         A string containing the unique row ID.
+    selected_dict: string
+        A string containing the selected dictionary
+    api_key: string
+        A string containing the selected API key.
     """
 
     # List containing antonym data
@@ -309,10 +371,11 @@ def generate_row(row_id):
 
         # Fetch wordnet definitions
         definitions1, definitions2 = [], []
+        
         if ant1:
-            definitions1 = get_wordnet_definition(ant1)
+            definitions1 = get_dict_definitions(ant1, selected_dict, api_key)
         if ant2:
-            definitions2 = get_wordnet_definition(ant2)
+            definitions2 = get_dict_definitions(ant2, selected_dict, api_key)
         
         # Definition Selectboxes
         def1 = defCol.selectbox("Definition", definitions1, index=st.session_state[f"def1_index_{row_id}"], key=f"select1_{row_id}")
@@ -342,6 +405,7 @@ def generate_row(row_id):
     st.session_state["antonyms"][row_id] = antonym_pair
     st.session_state["definitions"][row_id] = definition_pair
 
+
 # Adds one row at the first page load
 if st.session_state["initial_page_load_row"]:
     add_row()
@@ -350,7 +414,7 @@ if st.session_state["initial_page_load_row"]:
 # Recreates rows for every row contained in the session state
 for idx, row in enumerate(st.session_state["rows_antonyms"], start=1):  
     # Generate elements for antonym pairs
-    generate_row(row)
+    generate_row(row, selected_dict, api_key)
 
 # Create button to add row to session state with unqiue ID
 st.button("Add Polar", on_click=add_row)
@@ -477,11 +541,18 @@ def generate_example(example_id):
         word = wordCol.text_input("Word", key=f"word_{example_id}", value=word).strip()
         context = contextCol.text_input("Context", key=f"context_{example_id}", value=context).strip()
 
+    # Get idx to have a boundary of which examples are to be checked, i.e., only previous subjects are to be checked and not all to achieve consistent numbering
+    idx = st.session_state["rows_examples"].index(example_id)
+    # Count number of occurences of same word in subjjects
+    no_occurences = sum([word in example[0] for example in st.session_state["examples"].values()][:idx])
+    # Append count as ID
+    word = word + f"_{no_occurences}"
+
     # Load word and context into session state
     st.session_state["examples"][example_id] = [word, context]
 
 # Adds one example at the first page load
-if st.session_state["initial_page_load"]:
+if st.session_state["initial_page_load_example"]:
     add_example()
 
 # Necessary to add and delete example
@@ -543,26 +614,43 @@ def create_sense_polar(_model_, antonyms, examples, method, selected_dict, api_k
     antonym_path = out_path + "polar_dimensions.pkl"
 
     # Initiliaze wordnet dictionary and create lookup files
-    # TODO: Implement dict use
-    # dictionary = Dictionary(selected_dict, api_key) 
-    dictionary = Dictionary("wordnet") 
-    lookupSpace = LookupCreator(dictionary, out_path, antonym_pairs=antonyms)
+    dictionary = create_dictionary(selected_dict, api_key)
+    lookupSpace = LookupCreator(dictionary=dictionary, out_path=out_path, antonym_pairs=antonyms)
     lookupSpace.create_lookup_files()
 
     # Create polar Dimensions
-    pdc = PolarDimensions(model, antonym_path=out_path + "antonym_wordnet_example_sentences_readable_extended.txt")
+    pdc = PolarDimensions(_model_, antonym_path=out_path + "antonym_wordnet_example_sentences_readable_extended.txt")
     pdc.create_polar_dimensions(out_path)
 
     # Calculate word polarity
-    wp = WordPolarity(model, antonym_path=antonym_path, lookup_path=out_path, method=method, number_polar=len(antonyms))
-
+    wp = WordPolarity(_model_, antonym_path=antonym_path, lookup_path=out_path, method=method, number_polar=len(antonyms))
+    
     words = []
     polar_dimensions = []
     for word, context in examples:
         words.append(word)
-        polar_dimensions.append(wp.analyze_word(word, context))
+        polar_dimensions.append(wp.analyze_word(word, context))  
 
-    return words, polar_dimensions
+    # Create result dataframe
+
+    # Value sorting of the respective columns
+    antonym_1 = [dim[0] for dim in polar_dimensions[0]] * len(words)
+    antonym_2 = [dim[1] for dim in polar_dimensions[0]] * len(words)
+    polar_values = [dim[2] for subdim in polar_dimensions for dim in subdim]
+
+    polar_words = np.repeat(words, len(antonym_1)/len(words))
+
+    # Create dataframe
+    polar_data = pd.DataFrame({"word": polar_words, 
+                               "antonym_1":antonym_1,
+                               "antonym_2": antonym_2, 
+                               "value": polar_values})
+
+    # Convert dataframe to csv
+    df = convert_df_to_csv(polar_data)
+
+    return df, words, polar_dimensions
+
 
 @st.cache_data
 def create_visualisations(options, words, polar_dimensions, k, x_axis, y_axis):
@@ -580,9 +668,9 @@ def create_visualisations(options, words, polar_dimensions, k, x_axis, y_axis):
     k: int
         An integer to indicate how many antonym pairs to consider when selecting the most discriminative antonym pairs
     x_axis: list
-        A list containing the x_axis values that are to be displayed for a 2d plot
+        A list containing the x_axis values that are to be displayed for a 2D plot
     y_axis: list
-        A list containing the y_axis values that are to be displayed for a 2d plot
+        A list containing the y_axis values that are to be displayed for a 2D plot
     """
 
     plotter = PolarityPlotter()
@@ -593,44 +681,36 @@ def create_visualisations(options, words, polar_dimensions, k, x_axis, y_axis):
         fig = plotter.plot_word_polarity(words, polar_dimensions)
         tabs[options.index("Standard")].plotly_chart(fig, use_container_width=True)
 
-    if "2d" in options:
+    if "2D" in options:
         fig = plotter.plot_word_polarity_2d_interactive(words, polar_dimensions, x_antonym_pair=tuple(x_axis), y_antonym_pair=tuple(y_axis))
-        tabs[options.index("2d")].plotly_chart(fig, use_container_width=True)
+        tabs[options.index("2D")].plotly_chart(fig, use_container_width=True)
 
     if "Polar" in options:
         fig = plotter.plot_word_polarity_polar_fig(words, polar_dimensions)
         tabs[options.index("Polar")].plotly_chart(fig, use_container_width=True)
 
     if "Most discriminative" in options:
+        # TODO: Use selected ordering
         fig = plotter.plot_descriptive_antonym_pairs(words, polar_dimensions, words, k)
         tabs[options.index("Most discriminative")].plotly_chart(fig, use_container_width=True)
 
 @st.cache_data
-def to_excel(df):
+def convert_df_to_csv(df):
     """
-    # Converts a pandas dataframe to an excel file.
+    # Convert pandas Dataframe to csv file.
 
     Parameters:
     -----------
-    df : pandas.DataFrame
-        A pandas dataframe containing the input antonym and definition data.
+    df : pandas.Dataframe
+        A pandas dataframe.
 
     Returns:
     -----------
-    preprocessed_data : bytes
-        A bytes object (excel file) generated from a pandas dataframe.
+    A csv file.
     """
 
-    output = BytesIO()
-    writer = pd.ExcelWriter(output, engine='xlsxwriter')
-    df.to_excel(writer, index=False, sheet_name='Sheet1')
-    workbook = writer.book
-    worksheet = writer.sheets['Sheet1']
-    format1 = workbook.add_format({'num_format': '0.00'}) 
-    worksheet.set_column('A:A', None, format1)  
-    writer.close()
-    processed_data = output.getvalue()
-    return processed_data
+    return df.to_csv(index=False).encode('utf-8')
+
 
 @st.cache_data
 def convert_df(antonyms, definitions):
@@ -654,66 +734,57 @@ def convert_df(antonyms, definitions):
     antonyms = list(antonyms.values())
     definitions = list(definitions.values())
 
-    # TODO: Adjust layout to expert?
     # Standard layout
     data = {
-        "antonym_1": [""],
-        "antonym_2": [""],
-        "definition_antonym_1": [""],
-        "definition_antonym_2": [""],
+        "antonym_1": [],
+        "antonym_2": [],
+        "example_antonym_1": [],
+        "example_antonym_2": [],
+        "def1": [],
+        "def2": [],
     }   
-
+    
     # Update data dict dependent on the state of the filed text inputs
     if antonyms:
-            data["antonym_1"] = [antonym_pair[0] if len(antonym_pair) > 0 else "" for antonym_pair in antonyms]
-            data["antonym_2"] = [antonym_pair[1] if len(antonym_pair) > 0 else "" for antonym_pair in antonyms]
+        # Create dict to fetch examples for given word
+        dictionary = create_dictionary("wordnet", "")
+        for idx, antonym_pair in enumerate(antonyms):
+            # If antonym pair is initialized update data else populate with empty strings
+            if len(antonym_pair) > 0:
+                data["antonym_1"].append(antonym_pair[0])
+                data["antonym_2"].append(antonym_pair[1])
 
+                # If antonym is populated fetch examples
+                try:
+                    if antonym_pair[0] != "" and definitions[idx][0]:
+                        example = dictionary.get_examples(antonym_pair[0])[0][0] if dictionary.get_examples(antonym_pair[0])[0] else antonym_pair[0]
+                        data["example_antonym_1"].append(example)
+                except:
+                     data["example_antonym_1"].append("")
+
+                try:
+                    if antonym_pair[1] != "" and definitions[idx][1]:
+                        example = dictionary.get_examples(antonym_pair[1])[0][0] if dictionary.get_examples(antonym_pair[1])[0] else antonym_pair[1]
+                        data["example_antonym_2"].append(example)
+                except:
+                    data["example_antonym_2"].append("")
+            else:
+                data["antonym_1"].append("")
+                data["antonym_2"].append("")
+                data["example_antonym_1"].append("")
+                data["example_antonym_2"].append("")
+
+    # Update definitions dependent on the state of the field
     if definitions:
-            data["definition_antonym_1"] = [definition_pair[0] if len(definition_pair) > 0 else "" for definition_pair in definitions]
-            data["definition_antonym_2"] = [definition_pair[1] if len(definition_pair) > 0 else "" for definition_pair in definitions]
+            data["def1"] = [definition_pair[0] if len(definition_pair) > 0 else "" for definition_pair in definitions]
+            data["def2"] = [definition_pair[1] if len(definition_pair) > 0 else "" for definition_pair in definitions]
 
     # Transform data dict to pandas dataframe to excel file
     # Orient index and transpose are necessary to fix some bugs that were caused by misalligned array sizes
-    df = to_excel(pd.DataFrame.from_dict(data, orient="index").transpose())
+    df = convert_df_to_csv(pd.DataFrame.from_dict(data, orient="index").transpose())
 
     return df
 
-# Sidebar
-
-with st.sidebar:
-    # Select method (projection or base-change)
-    method = st.selectbox("Please select a transformation method for the antonym space", ["base-change", "projection"])
-    if len(st.session_state["antonyms"]) < 2:
-        given_options = ["Standard", "Polar", "Most discriminative"]
-    else:
-        given_options = ["Standard", "2d", "Polar", "Most discriminative"]                 
-                           
-    # Multiselect to select plots that will be displayed
-    selected_options = st.multiselect("Please select some of the given visualization options", given_options)
-
-    # Axes choice for 2d plot
-    x_axis = []
-    y_axis = []
-    if "2d" in selected_options:
-        # selected_axes = st.multiselect("Please select two dimensions you want to display", st.session_state["antonyms"].values(), max_selections=2)
-        axes_column = st.columns(2)
-        x_axis = axes_column[0].selectbox("x-axis", st.session_state["antonyms"].values())
-        y_axis = axes_column[1].selectbox("y-axis", st.session_state["antonyms"].values())
-
-    # Number Input for Most discriminative plot
-    k = 3
-    if "Most discriminative" in selected_options:
-        k = st.number_input("Please select the amount of Most discriminative antonym pairs to consider ", min_value=1, max_value=len(st.session_state["antonyms"]))
-
-    # Dictionary selection
-    selected_dict = st.selectbox("Please select a dictionary", ["wordnet", "wordnik", "oxford", "dictionaryapi"]) 
-    if selected_dict in ["wordnik", "dictionaryapi"]:
-        api_key = st.text_input("Please insert your API KEY").strip()
-        # Changes Color of select box widget in row that can't be changed by streamlit itself
-        ColourWidgetText("Please insert your API KEY", "#31333F")
-    else:
-        api_key = ""
-        
 # Create two columns for download and execute button, array of floats declares size in relation to the other columns
 downloadCol, executeCol, _ = st.columns([0.2, 0.3, 0.8])
 
@@ -721,7 +792,7 @@ downloadCol, executeCol, _ = st.columns([0.2, 0.3, 0.8])
 df = convert_df(st.session_state["antonyms"], st.session_state["definitions"])
 
 # Download button
-download_button = downloadCol.download_button(label="Download", data=df, file_name="SensePolar.xlsx")
+download_button = downloadCol.download_button(label="Download", data=df, file_name="SensePolar.csv")
 
 def check_input(input):
     """
@@ -789,21 +860,22 @@ def check_inputs(antonyms, definitions, examples):
             st.warning("Please check whether all necessary input fields have been populated before executing", icon="⚠️")
             return False
     
-    # Again loop through examples
-    for pair in examples:
-        # Check whether context contains example word and display warning if not as well as return false
-        if not f" {pair[0].lower()} " in f" {pair[1].lower()} ":
-            st.warning("The context must contain your example word", icon="⚠️")
-            return False
-    
     # If everything is okay return true
     return True
 
 # Load Bert model
 model = load_bert_model()
 
+# Initialize
+polar_results = []
+
+# Session state to check whether the result download button has been clicked
+# This allows the visualization to automatically reload
+if "result_download" not in st.session_state:
+    st.session_state["result_download"] = False
+
 # Execute button - Execute SensePOLAR calculation and visualization
-if executeCol.button("Execute"):
+if executeCol.button("Execute") or st.session_state["result_download"]:
     # Checks whether all relevant input fields are populated in a proper manner and then execute calculation and visualization
     if check_inputs(st.session_state["antonyms"], st.session_state["definitions"], st.session_state["examples"]):
         # Check whether visualization options have been selected
@@ -811,16 +883,22 @@ if executeCol.button("Execute"):
             st.warning("Please select some visualization options", icon="⚠️")
         else:
             try:
-                words, polar_dimensions = create_sense_polar(model, st.session_state["antonyms"], st.session_state["examples"], method, selected_dict, api_key)
-                create_visualisations(selected_options, words, polar_dimensions, k, x_axis, y_axis)
+                polar_results, words, polar_dimensions = create_sense_polar(model, st.session_state["antonyms"], st.session_state["examples"], method, selected_dict, api_key)
+                # Check if polar dimensions calculation was possible for all words otherwise the context didn't contain the subject word
+                if None in polar_dimensions:
+                    st.warning("The context must contain your example word", icon="⚠️")
+                else:
+                    create_visualisations(selected_options, words, polar_dimensions, k, x_axis, y_axis)
             except:
-                st.warning("An error has occured. Please check your selected antonyms", icon="⚠️")
+                st.warning("An error has occured. Please check your selected antonyms or API KEY", icon="⚠️")
 
-
-
+# If results were calculated show download button for it
+if polar_results:
+        result_download = st.download_button(label="Download Results", data=polar_results, file_name="SensePolar_Results.csv", key="result_download")
+ 
 # Signifies that first page load is over
-if st.session_state["initial_page_load"]:
-    st.session_state["initial_page_load"] = False
+if st.session_state["initial_page_load_example"]:
+    st.session_state["initial_page_load_example"] = False
 
 # Signifies that first page load is over
 if st.session_state["initial_page_load_row"]:
