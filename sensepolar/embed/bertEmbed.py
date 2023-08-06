@@ -1,6 +1,7 @@
 import torch
 from transformers import BertTokenizerFast, BertModel
 import numpy as np
+from transformers import AutoModel, AutoTokenizer
 
 class BERTWordEmbeddings:
     """
@@ -21,7 +22,7 @@ class BERTWordEmbeddings:
         Takes a sentence and a word and returns the word embedding of that word in the sentence.
     """
 
-    def __init__(self, model_name='bert-base-uncased'):
+    def __init__(self, model_name="dbmdz/bert-base-german-cased"):
         """
         Initializes a BERT tokenizer and model object.
 
@@ -30,8 +31,8 @@ class BERTWordEmbeddings:
         model_name : str, optional
             The name of the BERT model to be used for generating embeddings, by default 'bert-base-uncased'
         """
-        self.tokenizer = BertTokenizerFast.from_pretrained(model_name)
-        self.model = BertModel.from_pretrained(model_name, output_hidden_states=True)
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+        self.model = AutoModel.from_pretrained(model_name,output_hidden_states=True)
         self.model.eval()
 
     def get_hidden_states(self, encoded):

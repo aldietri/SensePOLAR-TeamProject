@@ -1,60 +1,42 @@
 {
-    "['happy', 'sad']": {
-        "happy": [
-            "i feel happy today ",
-            "i was so happy to have completed the project ",
-            "she was so happy to have won the game "
+    "['hell', 'dunkel']": {
+        "hell": [
+            "die sonne scheint hell "
         ],
-        "sad": [
-            "he looks sad ",
-            "she was so sad when she heard the news ",
-            "i was so sad when i had to leave my home "
+        "dunkel": [
+            "es ist dunkel drau\u00dfen "
         ]
     },
-    "['hot', 'cold']": {
-        "hot": [
-            "it s hot outside ",
-            "the sun is hot ",
-            "the oven is hot "
+    "['schnell', 'langsam']": {
+        "schnell": [
+            "der l\u00e4ufer rennt schnell "
         ],
-        "cold": [
-            "the ice is cold to touch ",
-            "the wind was so cold it numbed my face "
+        "langsam": [
+            "die schildkr\u00f6te bewegt sich langsam "
         ]
     },
-    "['big', 'small']": {
-        "big": [
-            "the elephant is big ",
-            "the elephant is big ",
-            "the house is big "
+    "['gro\u00df', 'klein']": {
+        "gro\u00df": [
+            "das geb\u00e4ude ist gro\u00df "
         ],
-        "small": [
-            "the ant is small ",
-            "the small box was too heavy for her to carry ",
-            "the small bird perched on the branch "
+        "klein": [
+            "die maus ist klein "
         ]
     },
-    "['fast', 'slow']": {
-        "fast": [
-            "the cheetah runs fast ",
-            "the train raced through the countryside at a fast rate ",
-            "the car sped through the streets at a fast pace "
+    "['stark', 'schwach']": {
+        "stark": [
+            "er ist stark "
         ],
-        "slow": [
-            "the snail moves slow ",
-            "the train was moving at a slow pace "
+        "schwach": [
+            "sie ist schwach "
         ]
     },
-    "['good', 'bad']": {
-        "good": [
-            "eating healthy food is good for you ",
-            "the good thing about the new policy is that it will help the economy ",
-            "the good news is that i passed the exam "
+    "['klug', 'dumm']": {
+        "klug": [
+            "sie ist klug "
         ],
-        "bad": [
-            "smoking is bad for your health ",
-            "the weather was bad ",
-            "the food was bad "
+        "dumm": [
+            "er ist dumm "
         ]
     }
 }

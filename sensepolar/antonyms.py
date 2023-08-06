@@ -30,7 +30,7 @@ class AntonymSpace:
                 axisList.append(antony[2])
         else:
             # Case [direction1, direction2]
-            axisList=self.antonyms[0:768] # 1763 pairs
+            axisList=self.antonyms #[0:768] # 1763 pairs
         W = np.matrix(axisList)
         W_inverse = linalg.pinv(np.transpose(W))
         W_norm = W/np.linalg.norm(W, axis=1, keepdims=True)

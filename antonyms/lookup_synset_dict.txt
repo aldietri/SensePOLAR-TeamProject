@@ -1,22 +1,22 @@
 [
     [
-        "happy",
-        "sad"
+        "hell",
+        "dunkel"
     ],
     [
-        "hot",
-        "cold"
+        "schnell",
+        "langsam"
     ],
     [
-        "big",
-        "small"
+        "gro\u00df",
+        "klein"
     ],
     [
-        "fast",
-        "slow"
+        "stark",
+        "schwach"
     ],
     [
-        "good",
-        "bad"
+        "klug",
+        "dumm"
     ]
 ]

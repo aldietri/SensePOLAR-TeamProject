@@ -1,22 +1,22 @@
 [
     [
-        "feeling of joy",
-        "feeling of sorrow"
+        "hohe Helligkeit",
+        "geringe Helligkeit"
     ],
     [
-        "high temperature ",
-        "low temperature"
+        "hohe Geschwindigkeit",
+        "niedrige Geschwindigkeit"
     ],
     [
-        "large size",
-        "tiny size"
+        "betr\u00e4chtliche Gr\u00f6\u00dfe",
+        "geringe Gr\u00f6\u00dfe"
     ],
     [
-        "high speed ",
-        "low speed"
+        "hohe St\u00e4rke",
+        "niedrige St\u00e4rke"
     ],
     [
-        "positive",
-        "negative"
+        "hohe Intelligenz",
+        "niedrige Intelligenz"
     ]
 ]

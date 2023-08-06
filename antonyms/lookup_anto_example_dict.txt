@@ -1,89 +1,71 @@
 [
     [
         [
-            "happy",
+            "hell",
             [
-                "i feel happy today ",
-                "i was so happy to have completed the project ",
-                "she was so happy to have won the game "
+                "die sonne scheint hell "
             ]
         ],
         [
-            "sad",
+            "dunkel",
             [
-                "he looks sad ",
-                "she was so sad when she heard the news ",
-                "i was so sad when i had to leave my home "
+                "es ist dunkel drau\u00dfen "
             ]
         ]
     ],
     [
         [
-            "hot",
+            "schnell",
             [
-                "it s hot outside ",
-                "the sun is hot ",
-                "the oven is hot "
+                "der l\u00e4ufer rennt schnell "
             ]
         ],
         [
-            "cold",
+            "langsam",
             [
-                "the ice is cold to touch ",
-                "the wind was so cold it numbed my face "
+                "die schildkr\u00f6te bewegt sich langsam "
             ]
         ]
     ],
     [
         [
-            "big",
+            "gro\u00df",
             [
-                "the elephant is big ",
-                "the elephant is big ",
-                "the house is big "
+                "das geb\u00e4ude ist gro\u00df "
             ]
         ],
         [
-            "small",
+            "klein",
             [
-                "the ant is small ",
-                "the small box was too heavy for her to carry ",
-                "the small bird perched on the branch "
+                "die maus ist klein "
             ]
         ]
     ],
     [
         [
-            "fast",
+            "stark",
             [
-                "the cheetah runs fast ",
-                "the train raced through the countryside at a fast rate ",
-                "the car sped through the streets at a fast pace "
+                "er ist stark "
             ]
         ],
         [
-            "slow",
+            "schwach",
             [
-                "the snail moves slow ",
-                "the train was moving at a slow pace "
+                "sie ist schwach "
             ]
         ]
     ],
     [
         [
-            "good",
+            "klug",
             [
-                "eating healthy food is good for you ",
-                "the good thing about the new policy is that it will help the economy ",
-                "the good news is that i passed the exam "
+                "sie ist klug "
             ]
         ],
         [
-            "bad",
+            "dumm",
             [
-                "smoking is bad for your health ",
-                "the weather was bad ",
-                "the food was bad "
+                "er ist dumm "
             ]
         ]
     ]

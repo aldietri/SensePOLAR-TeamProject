@@ -83,7 +83,7 @@ class LookupCreator:
         definition = self.dictionary.get_definitions(antonym)[index]
         if self.generate_examples:
                 examples.extend(list(self.example_generator.generate_examples(antonym, definition, self.num_examples)))
-        examples = [sent.translate(str.maketrans({k: " " for k in string.punctuation})) for sent in examples]
+        examples = [sent.translate(str.maketrans({k: " " for k in string.punctuation if k != '-'})) for sent in examples]
         examples = [' '.join(re.sub(r"<[^>]+>", "", example).split()) for example in examples]
         stemmer = PorterStemmer()
         replaced_examples = []
@@ -151,7 +151,7 @@ class LookupCreator:
             if re.search(r'\b'+ str(antonym).lower()+'\\b', example.lower(), re.I) is not None:
                 correct_examples.append(" ".join(example.split()).lower())
         # replace punctuation symbols with spaces
-        examples = [sent.translate(str.maketrans({k: " " for k in string.punctuation})) for sent in correct_examples]
+        examples = [sent.translate(str.maketrans({k: " " for k in string.punctuation if k != '-'})) for sent in correct_examples]
         examples = [' '.join(re.sub(r"<.*?>", "", example).split()) for example in examples]
         # add a space after each sentence
         return ['{} '.format(sent) for sent in examples]
