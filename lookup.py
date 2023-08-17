@@ -23,7 +23,7 @@ class LookupCreator:
         The directory path to store the lookup files.
     """
 
-    def __init__(self, dictionary, out_path="./antonyms/", antonym_pairs=None, antonyms_file_path=None, generate_examples=False, num_examples=5):
+    def __init__(self, dictionary, out_path="./antonyms/", antonym_pairs=None, antonyms_file_path=None, generate_examples=False, num_examples=2):
         """
         Initialize the LookupCreator.
 
@@ -82,7 +82,7 @@ class LookupCreator:
             examples = [examples]
         definition = self.dictionary.get_definitions(antonym)[index]
         if self.generate_examples:
-                examples.extend(list(self.example_generator.generate_examples(antonym, definition, self.num_examples)))
+            examples.extend(list(self.example_generator.generate_examples(antonym, definition, self.num_examples)))
         examples = [sent.translate(str.maketrans({k: " " for k in string.punctuation if k != '-'})) for sent in examples]
         examples = [' '.join(re.sub(r"<[^>]+>", "", example).split()) for example in examples]
         stemmer = PorterStemmer()
@@ -94,7 +94,7 @@ class LookupCreator:
             replaced_examples.append(replaced_example)
         examples = replaced_examples
         correct_examples=[]
-        print('Examples', examples)
+        # print('Examples', examples)
         for example in examples:
             if re.search(r'\b'+ str(antonym).lower()+'\\b', example.lower(), re.I) is not None:
                 correct_examples.append(" ".join(example.split()).lower())
@@ -116,8 +116,9 @@ class LookupCreator:
             A list of antonym pairs.
         """
         # TODO: May or may not need to be changed back
-        # data = pd.read_excel(file_path, header=0)
-        data = file_path
+        # Why do we need this? - Look for a workaround
+        data = pd.read_excel(file_path, header=0)
+        # data = file_path
         antonyms = []
         definitions = defaultdict()
         examples = defaultdict()
