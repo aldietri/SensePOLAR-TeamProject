@@ -15,54 +15,40 @@
         "hot": [
             "it s hot outside "
         ],
-        "cold": [
-            "the ice is cold to touch "
+        "dunkel": [
+            "es ist dunkel drau\u00dfen "
         ]
     },
-    "['big', 'small']": {
-        "big": [
-            "the elephant is big "
+    "['schnell', 'langsam']": {
+        "schnell": [
+            "der l\u00e4ufer rennt schnell "
         ],
-        "small": [
-            "the ant is small "
+        "langsam": [
+            "die schildkr\u00f6te bewegt sich langsam "
         ]
     },
-    "['fast', 'slow']": {
-        "fast": [
-            "the cheetah runs fast "
+    "['gro\u00df', 'klein']": {
+        "gro\u00df": [
+            "das geb\u00e4ude ist gro\u00df "
         ],
-        "slow": [
-            "the snail moves slow "
+        "klein": [
+            "die maus ist klein "
         ]
     },
-    "['good', 'bad']": {
-        "good": [
-            "eating healthy food is good for you "
+    "['stark', 'schwach']": {
+        "stark": [
+            "er ist stark "
         ],
-        "bad": [
-            "smoking is bad for your health "
-<<<<<<< Updated upstream
-=======
-    "['right', 'wrong']": {
-        "right": [
-            "they are endowed by their creator with certain unalienable right ",
-            "certain right can never be granted to the government but must be kept in the hands of the people ",
-            "a right is not something that somebody gives you it is something that nobody can take away "
-        ],
-        "wrong": [
-            "he feels that you are in the wrong "
+        "schwach": [
+            "sie ist schwach "
         ]
     },
-    "['good', 'bad']": {
-        "good": [
-            "for your own good ",
-            "what s the good of worrying "
+    "['klug', 'dumm']": {
+        "klug": [
+            "sie ist klug "
         ],
-        "bad": [
-            "take the bad with the good "
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+        "dumm": [
+            "er ist dumm "
         ]
     }
 }

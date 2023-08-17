@@ -2,6 +2,9 @@
     [
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
         "feeling of joy",
@@ -23,6 +26,7 @@
         "positive",
         "negative"
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
         [
             "an abstract idea of that which is due to a person or governmental body by law or tradition or nature; ; - Eleanor Roosevelt"
@@ -38,6 +42,8 @@
         [
             "that which is below standard or expectations as of ethics or decency"
         ]
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes

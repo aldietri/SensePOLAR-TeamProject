@@ -42,11 +42,14 @@
             "hot",
             [
                 "it s hot outside "
+                "it s hot outside "
             ]
         ],
         [
             "cold",
+            "cold",
             [
+                "the ice is cold to touch "
                 "the ice is cold to touch "
             ]
         ]
@@ -54,13 +57,17 @@
     [
         [
             "big",
+            "big",
             [
+                "the elephant is big "
                 "the elephant is big "
             ]
         ],
         [
             "small",
+            "small",
             [
+                "the ant is small "
                 "the ant is small "
             ]
         ]
@@ -68,13 +75,17 @@
     [
         [
             "fast",
+            "fast",
             [
+                "the cheetah runs fast "
                 "the cheetah runs fast "
             ]
         ],
         [
             "slow",
+            "slow",
             [
+                "the snail moves slow "
                 "the snail moves slow "
             ]
         ]
@@ -103,6 +114,7 @@
             ]
         ],
         [
+            "bad",
             "bad",
             [
 <<<<<<< Updated upstream

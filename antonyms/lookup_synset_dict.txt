@@ -2,6 +2,9 @@
     [
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
         "happy",
@@ -21,11 +24,14 @@
     ],
     [
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
         "right",
         "wrong"
     ],
     [
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
