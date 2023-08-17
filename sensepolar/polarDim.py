@@ -114,12 +114,13 @@ class PolarDimensions:
             print(words)
         return av_embedding
 
-    def create_polar_dimensions(self, out_path: str):
+    def create_polar_dimensions(self, out_path: str, file_name="/polar_dimensions.pkl"):
         """
         Creates polar dimensions based on antonyms and saves them to a file.
 
         Args:
             out_path (str): The path to the output directory for saving the polar dimensions.
+            file_name (str): output file_name. default:"/polar_dimensions.pkl"
 
         Returns:
             None.
@@ -144,6 +145,6 @@ class PolarDimensions:
 
             direction_vectors.append(cur_direction_vector)
 
-        out_dir_path = out_path + "/polar_dimensions.pkl"
+        out_dir_path = out_path + file_name
         with open(out_dir_path, 'wb') as handle:
             pickle.dump(direction_vectors, handle, protocol=pickle.HIGHEST_PROTOCOL)

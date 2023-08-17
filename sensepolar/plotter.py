@@ -54,7 +54,7 @@ class PolarityPlotter:
         color_palette = colors.sample_colorscale("Viridis", n+1)
         return color_palette
 
-    def create_antonym_dict(self, words, polar_dimension):
+    def create_antonym_dict(self, words, contexts, polar_dimension):
         """
         Creates a dictionary of antonym polarities.
 
@@ -79,25 +79,26 @@ class PolarityPlotter:
         colors = self.generate_color_list(len(words))
         for w_i in range(len(words)):
             for antonym1, antonym2, value in polar_dimension[w_i]:
-                antonym_dict[(antonym1, antonym2)].append((words[w_i], value))
+                antonym_dict[(antonym1, antonym2)].append(((words[w_i], contexts[w_i]), value))
             self.word_colors[words[w_i]] = colors[w_i]
         self.antonym_dict = antonym_dict
 
-    def plot_word_polarity(self, words, polar_dimension):
+    def plot_word_polarity(self, words, contexts, polar_dimension):
         """
         Plots the word polarity for a given set of words and polar dimensions.
 
         Args:
             words (list): A list of words.
+            contexts (list): A list of contexts (definitions) for each word.
             polar_dimension (list): A list of polar dimensions.
 
         Returns:
             None
         """
-        self.create_antonym_dict(words, polar_dimension)
+        self.create_antonym_dict(words, contexts, polar_dimension)
         fig = make_subplots(rows=1, cols=1)
-        counter = 0.01
-        offset = 0.005
+        counter = 0.05
+        offset = 0.05
         min_polar = np.inf
         max_polar = -np.inf
         antonym_traces = []
@@ -112,13 +113,17 @@ class PolarityPlotter:
         x_range = [min_polar - 0.5, max_polar + 0.5]
         scale = max(abs(x_range[0]), abs(x_range[1]))
 
-        fig.add_shape(type="line", x0=-scale, y0=0, x1=scale, y1=0, line=dict(color='black', width=1))
+        fig.add_shape(type="line", x0=-scale, y0=0, x1=scale, y1=0, line=dict(color='gray', width=1))
         fig.add_shape(type="line", x0=-scale, y0=0, x1=-scale, y1=len(self.antonym_dict) / 10,
-                      line=dict(color='black', width=1))
+                      line=dict(color='gray', width=1))
         fig.add_shape(type="line", x0=scale, y0=0, x1=scale, y1=len(self.antonym_dict) / 10,
-                      line=dict(color='black', width=1))
+                      line=dict(color='gray', width=1))
         fig.add_shape(type="line", x0=0, y0=0, x1=0, y1=len(self.antonym_dict) / 10,
-                      line=dict(color='black', width=1, dash='dash'))
+                      line=dict(color='gray', width=1, dash='dash'))
+        
+        for y_ref in np.arange(0, (len(self.antonym_dict) / 10), 0.05):
+            fig.add_shape(type="line", x0=-scale, y0=y_ref, x1=scale, y1=y_ref,
+                          line=dict(color='gray', width=1, dash='dot'))
 
         for i, (antonyms, polars) in enumerate(self.antonym_dict.items()):
             show_legend = True if i == 0 else False
@@ -126,35 +131,44 @@ class PolarityPlotter:
             y_coords = []
             antonym_traces.append([])
             for polar in polars:
+                antonym_label = polar[0][0]
+                hover_text = f"Word: {polar[0][0]}<br>Definition: {contexts[words.index(polar[0][0])]}<br>Polarity: {polar[1]}"
                 x_coords.append(polar[1])
                 y_coords.append(counter)
                 trace = go.Scatter(x=[polar[1]], y=[counter], mode='markers',
-                                   marker=dict(symbol='square', size=20, color=self.word_colors[polar[0]]),
-                                   name=polar[0], showlegend=show_legend, legendgroup=polar[0])
+                                   marker=dict(symbol='square', size=20, color=self.word_colors[polar[0][0]]),
+                                   name=antonym_label, showlegend=show_legend, legendgroup=polar[0][0],
+                                   hoverinfo="text", text=hover_text)
                 antonym_traces[-1].append(trace)
                 word_trace = go.Line(x=[polar[1], 0], y=[counter, counter], mode='lines',
-                                line=dict(width=2, color=self.word_colors[polar[0]]), showlegend=False,
-                                legendgroup=polar[0])
+                                line=dict(width=2, color=self.word_colors[polar[0][0]]), showlegend=False,
+                                legendgroup=polar[0][0])
                 word_traces.append(trace)
                 fig.add_trace(trace)
                 fig.add_trace(word_trace)
-            fig.add_annotation(xref="x", yref="y", x=-scale-0.1, y=counter, text=antonyms[0],
-                               font=dict(size=18), showarrow=False, xanchor='right')
-            fig.add_annotation(xref="x", yref="y", x=scale+0.1, y=counter, text=antonyms[1],
-                               font=dict(size=18), showarrow=False, xanchor='left')
-            counter += offset + 0.1
+            fig.add_annotation(xref="x", yref="y", x=-scale-0.1, y=counter, text=antonyms[0][0],
+                               font=dict(size=18), showarrow=False, xanchor='right', hovertext=f"Definition: {antonyms[0][1]}")
+            fig.add_annotation(xref="x", yref="y", x=scale+0.1, y=counter, text=antonyms[1][0],
+                               font=dict(size=18), showarrow=False, xanchor='left', hovertext=f"Definition: {antonyms[1][1]}")
+        
+            counter += offset
 
         fig.update_layout(
             xaxis_title="Polarity",
             yaxis_title="Words",
             xaxis_range=x_range,
             xaxis_autorange=True,
-            yaxis_autorange=True
+            yaxis_autorange=True,
+            yaxis=dict(
+                showticklabels=False
+            )
         )
 
         return fig
 
-    def plot_word_polarity_polar(self, words, polar_dimension):
+
+
+    def plot_word_polarity_polar(self, words, contexts, polar_dimension):
         """
         Plots the word polarity using Scatterpolar plots.
 
@@ -167,15 +181,14 @@ class PolarityPlotter:
         """
         fig = go.Figure()
         colors = self.generate_color_list(len(words))
-        for word, polar_dim in zip(words, polar_dimension):
+        for word, context, polar_dim in zip(words, contexts, polar_dimension):
             r = [abs(value) for _, _, value in polar_dim]
-            theta = [antonym2 if value > 0 else antonym1 for antonym1, antonym2, value in polar_dim]
-
+            theta = [antonym2[0] if value > 0 else antonym1[0] for antonym1, antonym2, value in polar_dim]
             fig.add_trace(go.Scatterpolar(
                 r=r,
                 theta=theta,
                 fill='toself',
-                name=word,
+                name= f"Word: {word}<br>Definition:{context}",
                 marker=dict(color=self.word_colors[word])
             ))
 
@@ -191,47 +204,7 @@ class PolarityPlotter:
 
         return fig
 
-    def plot_word_polarity_polar_fig(self, words, polar_dimension):
-        """
-        Plots the word polarity using polar coordinates.
-
-        Args:
-            words (list): A list of words.
-            polar_dimension (list): A list of polar dimensions.
-
-        Returns:
-            None
-        """
-        self.create_antonym_dict(words, polar_dimension)
-        word_dict = {word: None for word in words}
-        for idx, item in enumerate(polar_dimension):
-            antonym_dict = {}
-            for antonym1, antonym2, value in item:
-                if value > 0:
-                    antonym_dict[antonym1] = value
-                else:
-                    antonym_dict[antonym2] = abs(value)
-            word_dict[words[idx]] = antonym_dict
-
-        num_cols = 2
-        num_rows = math.ceil(len(polar_dimension) / num_cols)
-        specs = [[{"type": "polar"} for _ in range(num_cols)] for _ in range(num_rows)]
-
-        fig = make_subplots(rows=num_rows, cols=num_cols, specs=specs)
-
-        for idx, word in enumerate(word_dict):
-            fig.add_trace(
-                go.Scatterpolar(
-                    r=list(word_dict[word].values()),
-                    theta=list(word_dict[word].keys()),
-                    name=word,
-                    line=dict(width=1, color=self.word_colors[word]),
-                ), int(idx / 2 + 1), (idx % 2 + 1)
-            )
-
-        fig.update_traces(fill="toself")
-
-        return fig
+   
 
     def plot_word_polarity_2d(self, words, polar_dimension, x_axis=None, y_axis=None):
         """
@@ -279,10 +252,10 @@ class PolarityPlotter:
             fig.add_trace(go.Scatter(x=[x], y=[y], mode='markers', marker=dict(color=self.word_colors[word], size=18),
                                     name=word))
 
-        fig.add_annotation(x=-max_value, y=0, text=antonyms[0][0], showarrow=False, xshift=-15, font=dict(size=18),)
-        fig.add_annotation(x=max_value, y=0, text=antonyms[0][1], showarrow=False, xshift=15, font=dict(size=18),)
-        fig.add_annotation(x=0, y=-max_value, text=antonyms[1][0], showarrow=False, yshift=-15, font=dict(size=18),)
-        fig.add_annotation(x=0, y=max_value, text=antonyms[1][1], showarrow=False, yshift=15, font=dict(size=18),)
+        fig.add_annotation(x=-max_value, y=0, text=antonyms[0][0][0], showarrow=False, xshift=-15, font=dict(size=18),)
+        fig.add_annotation(x=max_value, y=0, text=antonyms[0][1][0], showarrow=False, xshift=15, font=dict(size=18),)
+        fig.add_annotation(x=0, y=-max_value, text=antonyms[1][0][0], showarrow=False, yshift=-15, font=dict(size=18),)
+        fig.add_annotation(x=0, y=max_value, text=antonyms[1][1][0], showarrow=False, yshift=15, font=dict(size=18),)
 
         return fig
 
@@ -299,9 +272,6 @@ class PolarityPlotter:
         Returns:
             list: The common antonym pairs that best describe the inspected words,
                 along with the polarity values.
-
-        Note:
-            This implementation assumes that each word has only one antonym pair associated with it.
         """
         if n == -1:
             n = len(inspect_words)
@@ -324,8 +294,10 @@ class PolarityPlotter:
             descriptive_pairs.append(antonym)
             scores.append(score)
 
-        sorted_pairs = [pair for _, pair in sorted(zip(scores, descriptive_pairs), reverse=True)]
-
+        if self.order_by == 'asec':
+            sorted_pairs = [pair for _, pair in sorted(zip(scores, descriptive_pairs), reverse=False)]
+        else:
+            sorted_pairs = [pair for _, pair in sorted(zip(scores, descriptive_pairs), reverse=True)]
         if len(sorted_pairs) > n:
             sorted_pairs = sorted_pairs[:n]
 
@@ -349,6 +321,7 @@ class PolarityPlotter:
         Returns:
             None
         """
+        self.create_antonym_dict(words, polar_dimensions)
         descriptive_pairs = self.get_most_descriptive_antonym_pairs(words, polar_dimensions, inspect_words, n)
         fig = make_subplots(
             rows=len(descriptive_pairs),
@@ -357,7 +330,6 @@ class PolarityPlotter:
             subplot_titles=[f"{pair[0][0]}-{pair[0][1]}" for pair in descriptive_pairs]
         )
 
-        # Take max absolute value from all polarity values
         scale = max(max([abs(n) for n in polars]) for _, polars in descriptive_pairs) + 0.5
         min_polarity = -scale
         max_polarity = scale
@@ -397,28 +369,14 @@ class PolarityPlotter:
                             col=1
                         )
 
-            # # Add common word color legend
-            # for word in inspect_words:
-            #     fig.add_trace(
-            #         go.Scatter(
-            #             x=[None],
-            #             y=[None],
-            #             mode='markers',
-            #             marker=dict(color=self.word_colors[word]),
-            #             legendgroup=word,
-            #             showlegend=False,
-            #             hoverinfo='none'
-            #         ),
-            #         row=fig_idx,
-            #         col=1
-            #     )
 
         fig.update_layout(
             title="Word Polarity for Descriptive Antonym Pairs",
             barmode="group",
             legend_traceorder="reversed",
             xaxis=dict(range=[min_polarity, max_polarity]),
-            height=200 * len(descriptive_pairs)  # Adjust the height based on the number of pairs
+            height=200 * len(descriptive_pairs),
+            legend_itemclick=False 
         )
 
         fig.update_yaxes(showticklabels=False)
@@ -482,8 +440,26 @@ class PolarityPlotter:
             yaxis_range=(-max_value, max_value),
             height=800,
             width=800,
-            xaxis=dict(title=default_x),
-            yaxis=dict(title=default_y),
+            xaxis=dict(
+                title=f"{default_x}",
+                tickmode='array',
+                tickvals=[0, -max_value, max_value],
+                ticktext=["0", x_antonym_pair[0], x_antonym_pair[1]],
+                side='bottom',
+                showline=True,
+                showticklabels=True,
+                ticks='outside',
+            ),
+            yaxis=dict(
+                title=f"{default_y}",
+                tickmode='array',
+                tickvals=[0, -max_value, max_value],
+                ticktext=["0", y_antonym_pair[0], y_antonym_pair[1]],
+                side='left',
+                showline=True,
+                showticklabels=True,
+                ticks='outside',
+            ),
         )
 
         fig.add_shape(type="line", x0=-max_value, y0=0, x1=max_value, y1=0, line=dict(color='black', width=1))

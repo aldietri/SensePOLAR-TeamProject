@@ -89,7 +89,7 @@ class Dictionary:
                 # if len(synset.examples()) == 0:
                 #     continue
                 all_examples.append(synset.examples())
-            print(len(all_examples),'all_examples', all_examples)
+            # print(len(all_examples),'all_examples', all_examples)
             return all_examples
         url = self.urls['examples'].format(word=word, api_key=self.api_key, source_lang=self.source_lang)
         response = self._make_request(url)
@@ -146,7 +146,6 @@ class Dictionary:
                 if len(synset.examples()) == 0:
                     continue
                 all_definitions.append([synset.definition()])
-            print(len(all_definitions),"All definitions: ",list(all_definitions))
             return all_definitions
         url = self.urls['definitions'].format(word=word, api_key=self.api_key, source_lang=self.source_lang)
         response = self._make_request(url)
