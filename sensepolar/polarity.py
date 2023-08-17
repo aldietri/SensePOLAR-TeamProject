@@ -126,7 +126,10 @@ class WordPolarity:
             left_definition = self.definitions[cur_index][0]
             right_polar = self.antonyms[cur_index][1][0]
             right_definition = self.definitions[cur_index][1]
-            axis = ((left_polar,left_definition[0]), (right_polar,right_definition[0]), cur_value)
+            if isinstance(left_definition, list) :
+                axis = ((left_polar,left_definition[0]), (right_polar,right_definition[0]), cur_value)
+            else:
+                axis = ((left_polar,left_definition), (right_polar,right_definition), cur_value)
             axis_list.append(axis)
             print("Top:", i + 1)
             print("Dimension:", left_polar, "<------>", right_polar)
