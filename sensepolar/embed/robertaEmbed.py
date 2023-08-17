@@ -2,6 +2,7 @@ from transformers import RobertaTokenizerFast, RobertaModel
 import numpy as np
 import torch
 from torchinfo import summary
+
 class RoBERTaWordEmbeddings:
     """
     A class that provides RoBERTa word embeddings.
@@ -34,7 +35,6 @@ class RoBERTaWordEmbeddings:
         self.tokenizer = RobertaTokenizerFast.from_pretrained(model_name)
         self.model = RobertaModel.from_pretrained(model_name, output_hidden_states=True)
         self.model.eval()
-        # print(summary(self.model, input_size=(10,), depth=1, batch_dim=1, dtypes=['torch.IntTensor']))
 
     def get_hidden_states(self, encoded):
         """
@@ -77,6 +77,6 @@ class RoBERTaWordEmbeddings:
         encoded = self.tokenizer.encode_plus(sentence, return_tensors="pt")
         token_ids_word =np.where(np.array(encoded.word_ids()) == idx)
         states = self.get_hidden_states(encoded)
-        output = states[-5][0]
+        output = states[-2][0]
         word_tokens_output = output[token_ids_word]
         return word_tokens_output.mean(dim=0)
