@@ -623,7 +623,7 @@ def create_sense_polar(_model_, antonyms, examples, method, selected_dict, api_k
     pdc.create_polar_dimensions(out_path)
 
     # Calculate word polarity
-    wp = WordPolarity(_model_, antonym_path=antonym_path, lookup_path=out_path, method=method, number_polar=len(antonyms))
+    wp = WordPolarity(_model_, antonym_path=antonym_path, lookup_path=out_path, method=method)
     
     words = []
     polar_dimensions = []
@@ -882,15 +882,15 @@ if executeCol.button("Execute") or st.session_state["result_download"]:
         if not selected_options:
             st.warning("Please select some visualization options", icon="⚠️")
         else:
-            try:
+            # try:
                 polar_results, words, polar_dimensions = create_sense_polar(model, st.session_state["antonyms"], st.session_state["examples"], method, selected_dict, api_key)
                 # Check if polar dimensions calculation was possible for all words otherwise the context didn't contain the subject word
                 if None in polar_dimensions:
                     st.warning("The context must contain your example word", icon="⚠️")
                 else:
                     create_visualisations(selected_options, words, polar_dimensions, k, x_axis, y_axis)
-            except:
-                st.warning("An error has occured. Please check your selected antonyms or API KEY", icon="⚠️")
+            # except:
+                # st.warning("An error has occured. Please check your selected antonyms or API KEY", icon="⚠️")
 
 # If results were calculated show download button for it
 if polar_results:
