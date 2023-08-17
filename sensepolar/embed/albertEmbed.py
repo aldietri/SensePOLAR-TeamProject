@@ -75,6 +75,6 @@ class ALBERTWordEmbeddings:
         encoded = self.tokenizer(sentence, return_tensors="pt", return_token_type_ids=False)
         token_ids_word = np.where(encoded.word_ids()[0] == idx)
         states = self.get_hidden_states(encoded)
-        output = states[-4][0]
+        output = states[-2][0]
         word_tokens_output = output[token_ids_word]
         return word_tokens_output.mean(dim=0)

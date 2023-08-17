@@ -1,7 +1,19 @@
 {
-    "['hell', 'dunkel']": {
-        "hell": [
-            "die sonne scheint hell "
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+    "['happy', 'sad']": {
+        "happy": [
+            "i feel happy today "
+        ],
+        "sad": [
+            "he looks sad "
+        ]
+    },
+    "['hot', 'cold']": {
+        "hot": [
+            "it s hot outside "
         ],
         "dunkel": [
             "es ist dunkel drau\u00dfen "

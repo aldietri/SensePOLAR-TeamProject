@@ -1,71 +1,128 @@
 [
     [
         [
-            "hell",
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+            "happy",
             [
-                "die sonne scheint hell "
+                "i feel happy today "
             ]
         ],
         [
-            "dunkel",
+            "sad",
             [
-                "es ist dunkel drau\u00dfen "
+                "he looks sad "
+<<<<<<< Updated upstream
+=======
+            "right",
+            [
+                "they are endowed by their creator with certain unalienable right ",
+                "certain right can never be granted to the government but must be kept in the hands of the people ",
+                "a right is not something that somebody gives you it is something that nobody can take away "
+            ]
+        ],
+        [
+            "wrong",
+            [
+                "he feels that you are in the wrong "
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
             ]
         ]
     ],
     [
         [
-            "schnell",
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+            "hot",
             [
-                "der l\u00e4ufer rennt schnell "
+                "it s hot outside "
+                "it s hot outside "
             ]
         ],
         [
-            "langsam",
+            "cold",
+            "cold",
             [
-                "die schildkr\u00f6te bewegt sich langsam "
+                "the ice is cold to touch "
+                "the ice is cold to touch "
             ]
         ]
     ],
     [
         [
-            "gro\u00df",
+            "big",
+            "big",
             [
-                "das geb\u00e4ude ist gro\u00df "
+                "the elephant is big "
+                "the elephant is big "
             ]
         ],
         [
-            "klein",
+            "small",
+            "small",
             [
-                "die maus ist klein "
+                "the ant is small "
+                "the ant is small "
             ]
         ]
     ],
     [
         [
-            "stark",
+            "fast",
+            "fast",
             [
-                "er ist stark "
+                "the cheetah runs fast "
+                "the cheetah runs fast "
             ]
         ],
         [
-            "schwach",
+            "slow",
+            "slow",
             [
-                "sie ist schwach "
+                "the snail moves slow "
+                "the snail moves slow "
             ]
         ]
     ],
     [
         [
-            "klug",
+            "good",
+<<<<<<< Updated upstream
             [
-                "sie ist klug "
+                "eating healthy food is good for you "
             ]
         ],
         [
-            "dumm",
+            "bad",
             [
-                "er ist dumm "
+                "smoking is bad for your health "
+=======
+            "good",
+            [
+                "for your own good ",
+                "what s the good of worrying "
+=======
+            [
+                "eating healthy food is good for you "
+>>>>>>> Stashed changes
+            ]
+        ],
+        [
+            "bad",
+            "bad",
+            [
+<<<<<<< Updated upstream
+                "take the bad with the good "
+>>>>>>> Stashed changes
+=======
+                "smoking is bad for your health "
+>>>>>>> Stashed changes
             ]
         ]
     ]

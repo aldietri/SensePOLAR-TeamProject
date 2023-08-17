@@ -1,22 +1,51 @@
 [
     [
-        "hohe Helligkeit",
-        "geringe Helligkeit"
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+        "feeling of joy",
+        "feeling of sorrow"
     ],
     [
-        "hohe Geschwindigkeit",
-        "niedrige Geschwindigkeit"
+        "high temperature ",
+        "low temperature"
     ],
     [
-        "betr\u00e4chtliche Gr\u00f6\u00dfe",
-        "geringe Gr\u00f6\u00dfe"
+        "large size",
+        "tiny size"
     ],
     [
-        "hohe St\u00e4rke",
-        "niedrige St\u00e4rke"
+        "high speed ",
+        "low speed"
     ],
     [
-        "hohe Intelligenz",
-        "niedrige Intelligenz"
+        "positive",
+        "negative"
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+        [
+            "an abstract idea of that which is due to a person or governmental body by law or tradition or nature; ; - Eleanor Roosevelt"
+        ],
+        [
+            "that which is contrary to the principles of justice or law"
+        ]
+    ],
+    [
+        [
+            "benefit"
+        ],
+        [
+            "that which is below standard or expectations as of ethics or decency"
+        ]
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
     ]
 ]
