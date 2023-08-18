@@ -1,51 +1,10 @@
 [
     [
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
         "feeling of joy",
         "feeling of sorrow"
     ],
     [
         "high temperature ",
         "low temperature"
-    ],
-    [
-        "large size",
-        "tiny size"
-    ],
-    [
-        "high speed ",
-        "low speed"
-    ],
-    [
-        "positive",
-        "negative"
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-        [
-            "an abstract idea of that which is due to a person or governmental body by law or tradition or nature; ; - Eleanor Roosevelt"
-        ],
-        [
-            "that which is contrary to the principles of justice or law"
-        ]
-    ],
-    [
-        [
-            "benefit"
-        ],
-        [
-            "that which is below standard or expectations as of ethics or decency"
-        ]
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
     ]
 ]

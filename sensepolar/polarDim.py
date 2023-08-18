@@ -70,7 +70,7 @@ class PolarDimensions:
         Returns:
             True if each antonym has one corresponding list of example sentences, and False otherwise.
         """
-        antonym_names = list(sentences.keys())
+        antonym_names =[anto.split('_')[0] for anto in list(sentences.keys())]
         if len(antonym_names) != 2:
             print("Each words needs to be paired with exactly one antonym.")
             print(antonym_names)

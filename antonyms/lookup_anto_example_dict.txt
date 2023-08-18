@@ -1,10 +1,6 @@
 [
     [
         [
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
             "happy",
             [
                 "i feel happy today "
@@ -14,115 +10,20 @@
             "sad",
             [
                 "he looks sad "
-<<<<<<< Updated upstream
-=======
-            "right",
-            [
-                "they are endowed by their creator with certain unalienable right ",
-                "certain right can never be granted to the government but must be kept in the hands of the people ",
-                "a right is not something that somebody gives you it is something that nobody can take away "
-            ]
-        ],
-        [
-            "wrong",
-            [
-                "he feels that you are in the wrong "
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
             ]
         ]
     ],
     [
         [
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
             "hot",
             [
                 "it s hot outside "
-                "it s hot outside "
             ]
         ],
         [
             "cold",
-            "cold",
             [
                 "the ice is cold to touch "
-                "the ice is cold to touch "
-            ]
-        ]
-    ],
-    [
-        [
-            "big",
-            "big",
-            [
-                "the elephant is big "
-                "the elephant is big "
-            ]
-        ],
-        [
-            "small",
-            "small",
-            [
-                "the ant is small "
-                "the ant is small "
-            ]
-        ]
-    ],
-    [
-        [
-            "fast",
-            "fast",
-            [
-                "the cheetah runs fast "
-                "the cheetah runs fast "
-            ]
-        ],
-        [
-            "slow",
-            "slow",
-            [
-                "the snail moves slow "
-                "the snail moves slow "
-            ]
-        ]
-    ],
-    [
-        [
-            "good",
-<<<<<<< Updated upstream
-            [
-                "eating healthy food is good for you "
-            ]
-        ],
-        [
-            "bad",
-            [
-                "smoking is bad for your health "
-=======
-            "good",
-            [
-                "for your own good ",
-                "what s the good of worrying "
-=======
-            [
-                "eating healthy food is good for you "
->>>>>>> Stashed changes
-            ]
-        ],
-        [
-            "bad",
-            "bad",
-            [
-<<<<<<< Updated upstream
-                "take the bad with the good "
->>>>>>> Stashed changes
-=======
-                "smoking is bad for your health "
->>>>>>> Stashed changes
             ]
         ]
     ]

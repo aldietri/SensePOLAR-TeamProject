@@ -1,8 +1,4 @@
 {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
     "['happy', 'sad']": {
         "happy": [
             "i feel happy today "
@@ -15,40 +11,8 @@
         "hot": [
             "it s hot outside "
         ],
-        "dunkel": [
-            "es ist dunkel drau\u00dfen "
-        ]
-    },
-    "['schnell', 'langsam']": {
-        "schnell": [
-            "der l\u00e4ufer rennt schnell "
-        ],
-        "langsam": [
-            "die schildkr\u00f6te bewegt sich langsam "
-        ]
-    },
-    "['gro\u00df', 'klein']": {
-        "gro\u00df": [
-            "das geb\u00e4ude ist gro\u00df "
-        ],
-        "klein": [
-            "die maus ist klein "
-        ]
-    },
-    "['stark', 'schwach']": {
-        "stark": [
-            "er ist stark "
-        ],
-        "schwach": [
-            "sie ist schwach "
-        ]
-    },
-    "['klug', 'dumm']": {
-        "klug": [
-            "sie ist klug "
-        ],
-        "dumm": [
-            "er ist dumm "
+        "cold": [
+            "the ice is cold to touch "
         ]
     }
 }

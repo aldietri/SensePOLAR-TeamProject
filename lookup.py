@@ -75,8 +75,11 @@ class LookupCreator:
         Returns:
             list: a list of example sentences
         """
+        antonym = antonym.split('_')[0] if '_' in list(antonym) else antonym
+        # print(antonym)
         if antonym in self.example_cache:
             return self.example_cache[antonym]
+        # print(self.dictionary.get_examples(antonym))
         examples = self.dictionary.get_examples(antonym)[index]
         if type(examples) != list:
             examples = [examples]
@@ -142,6 +145,7 @@ class LookupCreator:
         Return example sentences for a synset from file.
 
         """
+        antonym = antonym.split('_')[0] if '_' in list(antonym) else antonym
         examples=dictionary[antonym].split(".")
         definition = self.definitions[antonym]
         if self.generate_examples:
@@ -160,15 +164,17 @@ class LookupCreator:
         """Create and store the lookup files."""
         if indices is None:
             indices = [[0,0] for i in range(len(self.antonym_pairs))]
+        # print(self.antonym_pairs)
         if self.examples is None:
             antonyms = self.antonym_pairs
-            antonyms = [pair for pair, index in zip(self.antonym_pairs,indices) if min(len(self.get_examples(pair[0], index[0])),
-                                                    len(self.get_examples(pair[1], index[1]))) != 0]
+            antonyms = [pair for pair in self.antonym_pairs if min(len(self.get_examples(pair[0], int(pair[0].split('_')[1]))),
+                                                    len(self.get_examples(pair[1], int(pair[1].split('_')[1])))) != 0]
+            # print(antonyms)
         else:
             antonyms = [pair for pair in self.antonym_pairs if min(len(self.get_examples_files(pair[0], self.examples)),
                                                     len(self.get_examples_files(pair[1], self.examples))) != 0]
         if self.definitions is None:
-            synset_defs = [[self.dictionary.get_definitions(anto)[indices[i][j]] for j, anto in enumerate(pair)] for i, pair in enumerate(antonyms)]
+            synset_defs = [[self.dictionary.get_definitions(anto.split('_')[0])[int(anto.split('_')[1])] for j, anto in enumerate(pair)] for i, pair in enumerate(antonyms)]
             self.definitions = synset_defs
         else:
             synset_defs = [[self.definitions[anto] for anto in pair] for pair in antonyms]
@@ -179,6 +185,7 @@ class LookupCreator:
                 for j, anto in enumerate(pair):
                     pair_examples.append(self.get_examples(anto, index=indices[i][j]))
                 self.examples.append(pair_examples)
+                # print("Examples", len(self.examples), len(antonyms))
             examples_readable = {str(pair):{anto: self.examples[i][j] for j, anto in enumerate(pair)} for i, pair in enumerate(antonyms)}
             examples_lookup = [[[anto, self.examples[i][j]] for j, anto in enumerate(pair)] for i, pair in enumerate(antonyms)]
         else:

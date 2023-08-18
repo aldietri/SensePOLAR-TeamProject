@@ -118,17 +118,17 @@ class Dictionary:
                     if definitions:
                         for definition in definitions:
                             example_uses = definition.get("example")
-                            if not example_uses:
-                                example_uses = []
-                            all_examples.append(example_uses)  
+                            if example_uses:
+                            #     example_uses = []
+                                all_examples.append(example_uses)  
         elif self.dictionary_id == 'wordnik':
             for entry in response:
                 if 'text' in entry.keys():
                     definition = entry['text']
                     examples = [example['text'] for example in entry['exampleUses'] if 'text' in example.keys()]
-                    if not examples:
-                        examples = []
-                    all_examples.append(examples)
+                    if examples:
+                    #     examples = []
+                        all_examples.append(examples)
         else:
             raise ValueError(f"Dictionary '{self.dictionary_id}' not supported")
         return all_examples
@@ -160,9 +160,9 @@ class Dictionary:
                     definitions = meaning.get("definitions", [])
                     if definitions:
                         for definition in definitions:
-                            # example_uses = definition.get("example")
-                            # if example_uses:
-                            all_definitions.append([definition.get("definition")])
+                            example_uses = definition.get("example")
+                            if example_uses:
+                                all_definitions.append([definition.get("definition")])
         elif self.dictionary_id == 'oxford':
             entries = response.get('results', [{}])[0].get('lexicalEntries', [])
             senses = []
@@ -175,9 +175,9 @@ class Dictionary:
             for entry in response:
                 if 'text' in entry.keys():
                     definition = entry['text']
-                    # examples = [example['text'] for example in entry.get('exampleUses', []) if example['text']]
-                    # if examples:
-                    all_definitions.append([definition])
+                    examples = [example['text'] for example in entry.get('exampleUses', []) if example['text']]
+                    if examples:
+                        all_definitions.append([definition])
         return list(all_definitions)
     
     def get_synonyms(self, word):
