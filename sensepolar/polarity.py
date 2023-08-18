@@ -88,7 +88,7 @@ class WordPolarity:
         replaced_words = [word if stemmer.stem(w) == stemmer.stem(word) else w for w in words]
         context = ' '.join(replaced_words)
         if word not in context.split():
-            print(word, context)
+            # print(word, context)
             print("Warning: The context must contain the *exact* word you want to analyze!")
             return None
 
@@ -115,7 +115,7 @@ class WordPolarity:
         """
         thisdict = {i: v for i, v in enumerate(word_embedding)}
         sorted_dic = sorted(thisdict.items(), key=lambda item: abs(item[1]), reverse=True)
-
+        print(sorted_dic)
         axis_list = []
         if self.number_polar == -1:
             self.number_polar = len(sorted_dic)
@@ -126,7 +126,10 @@ class WordPolarity:
             left_definition = self.definitions[cur_index][0]
             right_polar = self.antonyms[cur_index][1][0]
             right_definition = self.definitions[cur_index][1]
-            axis = ((left_polar,left_definition[0]), (right_polar,right_definition[0]), cur_value)
+            if isinstance(left_definition, list) :
+                axis = ((left_polar,left_definition[0]), (right_polar,right_definition[0]), cur_value)
+            else:
+                axis = ((left_polar,left_definition), (right_polar,right_definition), cur_value)
             axis_list.append(axis)
             print("Top:", i + 1)
             print("Dimension:", left_polar, "<------>", right_polar)

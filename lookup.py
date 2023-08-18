@@ -94,7 +94,6 @@ class LookupCreator:
             replaced_examples.append(replaced_example)
         examples = replaced_examples
         correct_examples=[]
-        # print('Examples', examples)
         for example in examples:
             if re.search(r'\b'+ str(antonym).lower()+'\\b', example.lower(), re.I) is not None:
                 correct_examples.append(" ".join(example.split()).lower())
@@ -163,8 +162,8 @@ class LookupCreator:
             indices = [[0,0] for i in range(len(self.antonym_pairs))]
         if self.examples is None:
             antonyms = self.antonym_pairs
-            antonyms = [pair for pair in self.antonym_pairs if min(len(self.get_examples(pair[0])),
-                                                    len(self.get_examples(pair[1]))) != 0]
+            antonyms = [pair for pair, index in zip(self.antonym_pairs,indices) if min(len(self.get_examples(pair[0], index[0])),
+                                                    len(self.get_examples(pair[1], index[1]))) != 0]
         else:
             antonyms = [pair for pair in self.antonym_pairs if min(len(self.get_examples_files(pair[0], self.examples)),
                                                     len(self.get_examples_files(pair[1], self.examples))) != 0]
