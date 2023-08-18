@@ -26,5 +26,47 @@
                 "the ice is cold to touch "
             ]
         ]
+    ],
+    [
+        [
+            "big",
+            [
+                "the elephant is big "
+            ]
+        ],
+        [
+            "small",
+            [
+                "the ant is small "
+            ]
+        ]
+    ],
+    [
+        [
+            "fast",
+            [
+                "the cheetah runs fast "
+            ]
+        ],
+        [
+            "slow",
+            [
+                "the snail moves slow "
+            ]
+        ]
+    ],
+    [
+        [
+            "good",
+            [
+                "eating healthy food is good for you "
+            ]
+        ],
+        [
+            "bad",
+            [
+                "smoking is bad for your health "
+            ]
+        ]
     ]
 ]

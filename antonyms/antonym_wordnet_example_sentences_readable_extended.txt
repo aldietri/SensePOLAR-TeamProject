@@ -14,5 +14,29 @@
         "cold": [
             "the ice is cold to touch "
         ]
+    },
+    "['big', 'small']": {
+        "big": [
+            "the elephant is big "
+        ],
+        "small": [
+            "the ant is small "
+        ]
+    },
+    "['fast', 'slow']": {
+        "fast": [
+            "the cheetah runs fast "
+        ],
+        "slow": [
+            "the snail moves slow "
+        ]
+    },
+    "['good', 'bad']": {
+        "good": [
+            "eating healthy food is good for you "
+        ],
+        "bad": [
+            "smoking is bad for your health "
+        ]
     }
 }
