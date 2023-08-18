@@ -169,8 +169,10 @@ def create_visualisations(options, dataframe, k, x_axis, y_axis, ordering):
     y_axis: list
         A list containing the y_axis values that are to be displayed for a 2d plot
     """
-    
+
     plotter = PolarityPlotter()
+    plotter.sort_by = "descriptive"
+    plotter.order_by = "desc" if ordering == "Descending" else "asec"
 
     # Get all unique words
     words = dataframe["word"].unique()
@@ -213,13 +215,19 @@ with st.sidebar:
     # Multiselect to select plots that will be displayed
     selected_options = st.multiselect("Please select some of the given visualization options", given_options)
 
+    if "Standard" in selected_options or "Most discriminative" in selected_options:
+        st.markdown("## General")
+        # Ascending or Descending ordering of Most descriminative antonym pairs
+        selected_ordering = st.selectbox("Please select the ordering of the antonym pairs", options=["Ascending", "Descending"])
+
+    antonym_count = int(st.session_state["df_results"].shape[0] / st.session_state["df_results"]["word"].nunique())
+
     # Axes choice for 2d plot
     x_axis = []
     y_axis = []
     if "2d" in selected_options:
         st.markdown("## 2D")
         axes_column = st.columns(2)
-        antonym_count = int(st.session_state["df_results"].shape[0] / st.session_state["df_results"]["word"].nunique())
         axis_values = list(zip(st.session_state["df_results"]["antonym_1"][:antonym_count], st.session_state["df_results"]["antonym_2"][:antonym_count]))
         x_axis = axes_column[0].selectbox("x-axis", axis_values, format_func=lambda x: ", ".join(x))
         y_axis = axes_column[1].selectbox("y-axis", axis_values, format_func=lambda x: ", ".join(x))

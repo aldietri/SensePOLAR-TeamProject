@@ -82,6 +82,16 @@ text_alignment = """
 """
 st.markdown(text_alignment, unsafe_allow_html=True) 
 
+# Changes the color of help tooltip to white
+tooltip_hover_target = """
+<style>
+.css-900wwq svg {
+    stroke: #FFFFFF
+}
+</style>
+"""
+st.markdown(tooltip_hover_target, unsafe_allow_html=True) 
+
 # def ChangeWidgetFontSize(wgt_txt, wch_font_size = '12px'):
 #     htmlstr = """<script>var elements = window.parent.document.querySelectorAll('*'), i;
 #                     for (i = 0; i < elements.length; ++i) { if (elements[i].innerText == |wgt_txt|) 
@@ -122,9 +132,13 @@ if "rows_antonyms" not in st.session_state:
 if "antonyms" not in st.session_state:
     st.session_state["antonyms"] = {}
 
-# Creates entry in session state for antonym pairs
+# Creates entry in session state for definitions for antonym pairs
 if "definitions" not in st.session_state:
     st.session_state["definitions"] = {}
+
+# Creates entry in session state to track indices of selected definitions for antonym pairs
+if "def_indices" not in st.session_state:
+    st.session_state["def_indices"] = {}
 
 # entry in session state to check whether this is the first load up of the page
 if "initial_page_load_example" not in st.session_state:
@@ -156,6 +170,7 @@ with st.sidebar:
     # Select method (projection or base-change)
     st.markdown("# Visualization")
     method = st.selectbox("Please select a transformation method for the antonym space", ["base-change", "projection"])
+    
     if len(st.session_state["antonyms"]) < 2:
         given_options = ["Standard", "Polar", "Most discriminative"]
     else:
@@ -164,6 +179,11 @@ with st.sidebar:
     # Multiselect to select plots that will be displayed
     selected_options = st.multiselect("Please select some of the given visualization options", given_options, key="visualization_options")
 
+    if "Standard" in selected_options or "Most discriminative" in selected_options:
+        st.markdown("## General")
+        # Ascending or Descending ordering of Most descriminative antonym pairs
+        selected_ordering = st.selectbox("Please select the ordering of the antonym pairs", options=["Ascending", "Descending"])
+        
     # Axes choice for 2D plot
     x_axis = []
     y_axis = []
@@ -177,7 +197,8 @@ with st.sidebar:
     k = 3
     if "Most discriminative" in selected_options:
         st.write("## Most Discriminative")
-        k = st.number_input("Please select the amount of most discriminative antonym pairs to consider ", min_value=1, max_value=len(st.session_state["antonyms"]))
+        max_k_value = max(1, len(st.session_state["antonyms"]))
+        k = st.number_input("Please select the amount of most discriminative antonym pairs to consider ", min_value=1, max_value=max_k_value)
     
         # Ascending or Descending ordering of Most descriminative antonym pairs
         selected_ordering = st.selectbox("Please select the ordering of the most descriminative antonym pairs", options=["Ascending", "Descending"])
@@ -205,10 +226,12 @@ def add_row():
     st.session_state[f"min_{row_id}"] = True
 
     # Antonym Definitions and their Index
-    st.session_state[f"def1_{row_id}"] = ""
-    st.session_state[f"def2_{row_id}"] = ""
-    st.session_state[f"def1_index_{row_id}"] = 0
-    st.session_state[f"def2_index_{row_id}"] = 0
+    st.session_state[f"select1_{row_id}"] = ""
+    st.session_state[f"select2_{row_id}"] = ""
+    st.session_state[f"mem_select1_{row_id}"] = ""
+    st.session_state[f"mem_select2_{row_id}"] = ""
+    st.session_state[f"definitions1_{row_id}"] = []
+    st.session_state[f"definitions2_{row_id}"] = []
 
 def remove_row(row_id):
     """
@@ -247,14 +270,18 @@ def toggle_row_min_button(row_id):
     # Update state of minimize/maximize button in session state
     st.session_state[f"min_{row_id}"] = not st.session_state[f"min_{row_id}"]
 
-    # When row is minimized save antonyms into memory else load from memory into relevant session state
+    # When row is minimized save antonyms and defintions into memory else load from memory into relevant session state
     # This is a workaround that needed to be implemented since minimizing the text input fields caused them to be loaded out of the session state in certain scenarios
     if not st.session_state[f"min_{row_id}"]:
         st.session_state[f"mem_ant1_{row_id}"] = st.session_state[f"ant1_{row_id}"]
         st.session_state[f"mem_ant2_{row_id}"] = st.session_state[f"ant2_{row_id}"]
+        st.session_state[f"mem_select1_{row_id}"] = st.session_state[f"select1_{row_id}"]
+        st.session_state[f"mem_select2_{row_id}"] = st.session_state[f"select2_{row_id}"]
     else:
         st.session_state[f"ant1_{row_id}"] = st.session_state[f"mem_ant1_{row_id}"]
         st.session_state[f"ant2_{row_id}"] = st.session_state[f"mem_ant2_{row_id}"]
+        st.session_state[f"select1_{row_id}"] = st.session_state[f"mem_select1_{row_id}"]
+        st.session_state[f"select2_{row_id}"] = st.session_state[f"mem_select2_{row_id}"]
 
 @st.cache_data
 def create_dictionary(selected_dict, api_key):
@@ -307,6 +334,16 @@ def get_dict_definitions(word, selected_dict, api_key):
     # Return sample 
     return sample_definitions
 
+def get_dict_example(word, selected_dict, api_key, index):
+    # Create dicitonary
+    oracle = create_dictionary(selected_dict, api_key)
+
+    examples = oracle.get_examples(word)
+
+    example = examples[index][0] if len(examples) > 0 else ""
+
+    return example
+
 def generate_row(row_id, selected_dict, api_key):
     """
     # Generates streamlit elements for a given row ID and saves antonym pairs and their definitions into the session state.
@@ -340,10 +377,16 @@ def generate_row(row_id, selected_dict, api_key):
         ant1 = st.session_state[f"ant1_{row_id}"] if f"ant1_{row_id}" in st.session_state else st.session_state[f"mem_ant1_{row_id}"]
         ant2 = st.session_state[f"ant2_{row_id}"] if f"ant2_{row_id}" in st.session_state else st.session_state[f"mem_ant2_{row_id}"]
         textColumn.text(f"Polar: {ant1} - {ant2}")
+
+        def1 = st.session_state[f"select1_{row_id}"] if f"select1_{row_id}" in st.session_state else st.session_state[f"mem_select1_{row_id}"]
+        def2 = st.session_state[f"select2_{row_id}"] if f"select2_{row_id}" in st.session_state else st.session_state[f"mem_select2_{row_id}"]
     else:
         ant1 = st.session_state[f"mem_ant1_{row_id}"]
         ant2 = st.session_state[f"mem_ant2_{row_id}"]
         textColumn.text(f"Polar: {ant1} - {ant2}")
+
+        def1 = st.session_state[f"mem_select1_{row_id}"]
+        def2 = st.session_state[f"mem_select2_{row_id}"]
 
     # TODO: Icon of minimize button dependent on state
     minIcon = ":heavy_minus_sign:" #"🗕" if st.session_state[f"min_{row_id}"] else "🗖"
@@ -354,8 +397,8 @@ def generate_row(row_id, selected_dict, api_key):
     minCol.button(minIcon, key=f"minbtn_{row_id}", on_click=toggle_row_min_button, args=[row_id])
     delCol.button(delIcon, key=f"del_{row_id}", on_click=remove_row, args=[row_id])
     
-    # Load defintions to populate selectboxes (mainly to reload input after minimizing/maximizing formContainer)
-    def1, def2 = st.session_state[f"def1_{row_id}"], st.session_state[f"def2_{row_id}"]
+    # Load defintions to populate selectboxes
+    definitions1, definitions2 = st.session_state[f"definitions1_{row_id}"], st.session_state[f"definitions2_{row_id}"]
 
     # Form
     if st.session_state[f"min_{row_id}"]:
@@ -365,32 +408,37 @@ def generate_row(row_id, selected_dict, api_key):
         # Antonym and Definition Columns
         antCol, defCol = formContainer.columns(2)
 
-        # Antonym text inputs
-        ant1 = antCol.text_input("Antonym", key=f"ant1_{row_id}", value=st.session_state[f"mem_ant1_{row_id}"]).strip()
-        ant2 = antCol.text_input("Antonym", key=f"ant2_{row_id}", value=st.session_state[f"mem_ant2_{row_id}"], label_visibility="hidden").strip()
+        # Get indices of definitions
+        def1_index = definitions1.index(def1) if definitions1 and def1 else 0
+        def2_index = definitions2.index(def2) if definitions2 and def2 else 0
 
-        # Fetch wordnet definitions
-        definitions1, definitions2 = [], []
-        
+        # Track index pair of selected definitions and save to session state
+        index_pair = [def1_index, def2_index]
+        st.session_state["def_indices"][row_id] = index_pair
+
+        # Fetch examples from defintion
+        example1 = get_dict_example(ant1, selected_dict, api_key, def1_index)
+        example2 = get_dict_example(ant2, selected_dict, api_key, def2_index)
+
+        # Antonym text inputs
+        ant1 = antCol.text_input("Antonym", help=example1, key=f"ant1_{row_id}", value=ant1).strip()
+        ant2 = antCol.text_input("Antonym", help=example2, key=f"ant2_{row_id}", value=ant2).strip()
+
+        # Fetch wordnet definitions and save to sessions state
         if ant1:
             definitions1 = get_dict_definitions(ant1, selected_dict, api_key)
+            st.session_state[f"definitions1_{row_id}"] = definitions1
+
         if ant2:
             definitions2 = get_dict_definitions(ant2, selected_dict, api_key)
-        
-        # Definition Selectboxes
-        def1 = defCol.selectbox("Definition", definitions1, index=st.session_state[f"def1_index_{row_id}"], key=f"select1_{row_id}")
-        def2 = defCol.selectbox("Definition", definitions2, index=st.session_state[f"def2_index_{row_id}"], key=f"select2_{row_id}", label_visibility="hidden")
+            st.session_state[f"definitions2_{row_id}"] = definitions2
 
-        # Preserve selected defintion values when minimizing entry
-        if st.session_state[f"min_{row_id}"] and def1:
-            st.session_state[f"def1_{row_id}"] = def1
-            def1_index = definitions1.index(def1)
-            st.session_state[f"def1_index_{row_id}"] = def1_index
-            
-        if st.session_state[f"min_{row_id}"] and def2:
-            st.session_state[f"def2_{row_id}"] = def2
-            def2_index = definitions2.index(def2)
-            st.session_state[f"def2_index_{row_id}"] = def2_index
+        # Definition Selectboxes
+        def1 = defCol.selectbox("Definition", definitions1, index=def1_index, key=f"select1_{row_id}")
+        def2 = defCol.selectbox("Definition", definitions2, index=def2_index, key=f"select2_{row_id}", label_visibility="hidden")
+
+        # Change color of defintion text
+        ColourWidgetText("Definition", "#FFFFFF")
 
     # Add antonym pair to designated list
     if ant1 or ant2:
@@ -543,10 +591,11 @@ def generate_example(example_id):
 
     # Get idx to have a boundary of which examples are to be checked, i.e., only previous subjects are to be checked and not all to achieve consistent numbering
     idx = st.session_state["rows_examples"].index(example_id)
-    # Count number of occurences of same word in subjjects
+    # Count number of occurences of same word in subjects
     no_occurences = sum([word in example[0] for example in st.session_state["examples"].values()][:idx])
     # Append count as ID
-    word = word + f"_{no_occurences}"
+    if no_occurences > 0:
+        word = word + f"_{no_occurences}"
 
     # Load word and context into session state
     st.session_state["examples"][example_id] = [word, context]
@@ -564,18 +613,15 @@ for idx, example in enumerate(st.session_state["rows_examples"], start=1):
 # Create button to add example to session state with unqiue ID
 st.button("Add Subject", on_click=add_example)
 
-# Debugging/Visualization
-# st.write(st.session_state)
-
 
 # SensePOLAR Logic
 
 @st.cache_resource
-def load_bert_model():
+def load_bert_model(model_name='bert-base-uncased'):
     """
     # Load Bert model.
     """
-    return BERTWordEmbeddings()
+    return BERTWordEmbeddings(model_name=model_name)
 
 @st.cache_data
 def create_sense_polar(_model_, antonyms, examples, method, selected_dict, api_key):
@@ -713,7 +759,7 @@ def convert_df_to_csv(df):
 
 
 @st.cache_data
-def convert_df(antonyms, definitions):
+def convert_df(antonyms, definitions, indices):
     """
     # Converts a the relevant session state data to a downloadable excel file.
 
@@ -723,6 +769,8 @@ def convert_df(antonyms, definitions):
         A dict containing antonym pairs.
     definitions: dict
         A dict containg the antonym definitions.
+    indices: dict
+        A dict containing the indices of the selected antonym definitions.
 
     Returns:
     -----------
@@ -733,6 +781,7 @@ def convert_df(antonyms, definitions):
     # Convert to list 
     antonyms = list(antonyms.values())
     definitions = list(definitions.values())
+    def_indices = list(indices.values())
 
     # Standard layout
     data = {
@@ -746,28 +795,20 @@ def convert_df(antonyms, definitions):
     
     # Update data dict dependent on the state of the filed text inputs
     if antonyms:
-        # Create dict to fetch examples for given word
-        dictionary = create_dictionary("wordnet", "")
-        for idx, antonym_pair in enumerate(antonyms):
+        for idx, antonym_pair in zip(def_indices, antonyms):
             # If antonym pair is initialized update data else populate with empty strings
             if len(antonym_pair) > 0:
                 data["antonym_1"].append(antonym_pair[0])
                 data["antonym_2"].append(antonym_pair[1])
 
-                # If antonym is populated fetch examples
-                try:
-                    if antonym_pair[0] != "" and definitions[idx][0]:
-                        example = dictionary.get_examples(antonym_pair[0])[0][0] if dictionary.get_examples(antonym_pair[0])[0] else antonym_pair[0]
-                        data["example_antonym_1"].append(example)
-                except:
-                     data["example_antonym_1"].append("")
+                 # Fetch examples from defintion
+                example1 = get_dict_example(antonym_pair[0], selected_dict, api_key, idx[0]) if antonym_pair[0] else ""
+                example2 = get_dict_example(antonym_pair[1], selected_dict, api_key, idx[1]) if antonym_pair[1] else ""
 
-                try:
-                    if antonym_pair[1] != "" and definitions[idx][1]:
-                        example = dictionary.get_examples(antonym_pair[1])[0][0] if dictionary.get_examples(antonym_pair[1])[0] else antonym_pair[1]
-                        data["example_antonym_2"].append(example)
-                except:
-                    data["example_antonym_2"].append("")
+                # Save to dict
+                data["example_antonym_1"].append(example1)
+                data["example_antonym_2"].append(example2)
+
             else:
                 data["antonym_1"].append("")
                 data["antonym_2"].append("")
@@ -779,6 +820,7 @@ def convert_df(antonyms, definitions):
             data["def1"] = [definition_pair[0] if len(definition_pair) > 0 else "" for definition_pair in definitions]
             data["def2"] = [definition_pair[1] if len(definition_pair) > 0 else "" for definition_pair in definitions]
 
+
     # Transform data dict to pandas dataframe to excel file
     # Orient index and transpose are necessary to fix some bugs that were caused by misalligned array sizes
     df = convert_df_to_csv(pd.DataFrame.from_dict(data, orient="index").transpose())
@@ -789,7 +831,7 @@ def convert_df(antonyms, definitions):
 downloadCol, executeCol, _ = st.columns([0.2, 0.3, 0.8])
 
 # Get excel file from inputs
-df = convert_df(st.session_state["antonyms"], st.session_state["definitions"])
+df = convert_df(st.session_state["antonyms"], st.session_state["definitions"], st.session_state["def_indices"])
 
 # Download button
 download_button = downloadCol.download_button(label="Download", data=df, file_name="SensePolar.csv")
@@ -903,6 +945,3 @@ if st.session_state["initial_page_load_example"]:
 # Signifies that first page load is over
 if st.session_state["initial_page_load_row"]:
     st.session_state["initial_page_load_row"] = False
-
-# Changes Color of select box widget in row that can't be changed by streamlit itself
-ColourWidgetText("Definition", "#FFFFFF")
