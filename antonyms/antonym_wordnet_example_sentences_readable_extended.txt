@@ -1,42 +1,34 @@
 {
-    "['happy', 'sad']": {
-        "happy": [
-            "i feel happy today "
+    "['right_0', 'wrong_0']": {
+        "right_0": [
+            "a right line "
         ],
-        "sad": [
-            "he looks sad "
+        "wrong_0": [
+            "injustice is a heinous wrong "
         ]
     },
-    "['hot', 'cold']": {
-        "hot": [
-            "it s hot outside "
+    "['good_1', 'bad_0']": {
+        "good_1": [
+            "good friday "
         ],
-        "cold": [
-            "the ice is cold to touch "
+        "bad_0": [
+            "abducting children is bad for mothers "
         ]
     },
-    "['big', 'small']": {
-        "big": [
-            "the elephant is big "
+    "['happy_0', 'sad_0']": {
+        "happy_0": [
+            "music makes me feel happy "
         ],
-        "small": [
-            "the ant is small "
+        "sad_0": [
+            "i can t believe you use drugs you re so sad "
         ]
     },
-    "['fast', 'slow']": {
-        "fast": [
-            "the cheetah runs fast "
+    "['good_0', 'bad_0']": {
+        "good_0": [
+            "good friday "
         ],
-        "slow": [
-            "the snail moves slow "
-        ]
-    },
-    "['good', 'bad']": {
-        "good": [
-            "eating healthy food is good for you "
-        ],
-        "bad": [
-            "smoking is bad for your health "
+        "bad_0": [
+            "abducting children is bad for mothers "
         ]
     }
 }

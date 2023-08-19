@@ -1,71 +1,57 @@
 [
     [
         [
-            "happy",
+            "right_0",
             [
-                "i feel happy today "
+                "a right line "
             ]
         ],
         [
-            "sad",
+            "wrong_0",
             [
-                "he looks sad "
+                "injustice is a heinous wrong "
             ]
         ]
     ],
     [
         [
-            "hot",
+            "good_1",
             [
-                "it s hot outside "
+                "good friday "
             ]
         ],
         [
-            "cold",
+            "bad_0",
             [
-                "the ice is cold to touch "
+                "abducting children is bad for mothers "
             ]
         ]
     ],
     [
         [
-            "big",
+            "happy_0",
             [
-                "the elephant is big "
+                "music makes me feel happy "
             ]
         ],
         [
-            "small",
+            "sad_0",
             [
-                "the ant is small "
+                "i can t believe you use drugs you re so sad "
             ]
         ]
     ],
     [
         [
-            "fast",
+            "good_0",
             [
-                "the cheetah runs fast "
+                "good friday "
             ]
         ],
         [
-            "slow",
+            "bad_0",
             [
-                "the snail moves slow "
-            ]
-        ]
-    ],
-    [
-        [
-            "good",
-            [
-                "eating healthy food is good for you "
-            ]
-        ],
-        [
-            "bad",
-            [
-                "smoking is bad for your health "
+                "abducting children is bad for mothers "
             ]
         ]
     ]

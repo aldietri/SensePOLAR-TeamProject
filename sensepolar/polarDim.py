@@ -70,7 +70,7 @@ class PolarDimensions:
         Returns:
             True if each antonym has one corresponding list of example sentences, and False otherwise.
         """
-        antonym_names =[anto.split('_')[0] for anto in list(sentences.keys())]
+        antonym_names = list(sentences.keys())
         if len(antonym_names) != 2:
             print("Each words needs to be paired with exactly one antonym.")
             print(antonym_names)
@@ -132,6 +132,9 @@ class PolarDimensions:
         print(antonym_dict)
         direction_vectors = []
         for antonym_wn, sentences in antonym_dict.items():
+            antonym_wn = [anto.split('_')[0] if '_' in list(anto) else anto for anto in antonym_wn]
+            sentences = {key.split('_')[0] if '_' in list(key) else key: value for key, value in sentences.items()}
+            print(sentences)
             if not self.check_sentences(sentences):
                 print("Unable to create POLAR dimensions.")
                 return
