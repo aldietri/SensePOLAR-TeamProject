@@ -21,7 +21,7 @@ class ALBERTWordEmbeddings:
         Takes a sentence and a word and returns the word embedding of that word in the sentence.
     """
 
-    def __init__(self, model_name='albert-base-v2'):
+    def __init__(self, model_name='albert-base-v2', layer=2):
         """
         Initializes an ALBERT fast tokenizer and model object.
 
@@ -30,6 +30,8 @@ class ALBERTWordEmbeddings:
         model_name : str, optional
             The name of the ALBERT model to be used for generating embeddings, by default 'albert-base-v2'
         """
+        self.model_name = model_name
+        self.layer = layer
         self.tokenizer = AlbertTokenizerFast.from_pretrained(model_name)
         self.model = AlbertModel.from_pretrained(model_name, output_hidden_states=True)
         self.model.eval()
@@ -75,6 +77,6 @@ class ALBERTWordEmbeddings:
         encoded = self.tokenizer(sentence, return_tensors="pt", return_token_type_ids=False)
         token_ids_word = np.where(encoded.word_ids()[0] == idx)
         states = self.get_hidden_states(encoded)
-        output = states[-2][0]
+        output = states[-self.layer][0]
         word_tokens_output = output[token_ids_word]
         return word_tokens_output.mean(dim=0)

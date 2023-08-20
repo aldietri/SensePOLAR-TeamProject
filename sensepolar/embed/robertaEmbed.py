@@ -23,7 +23,7 @@ class RoBERTaWordEmbeddings:
         at the specified layer.
     """
 
-    def __init__(self, model_name='roberta-base'):
+    def __init__(self, model_name='roberta-base', layer=2):
         """
         Initializes a RoBERTa tokenizer and model object.
 
@@ -32,6 +32,8 @@ class RoBERTaWordEmbeddings:
         model_name : str, optional
             The name of the RoBERTa model to be used for generating embeddings, by default 'roberta-base'.
         """
+        self.model_name = model_name
+        self.layer = layer
         self.tokenizer = RobertaTokenizerFast.from_pretrained(model_name)
         self.model = RobertaModel.from_pretrained(model_name, output_hidden_states=True)
         self.model.eval()
@@ -77,6 +79,6 @@ class RoBERTaWordEmbeddings:
         encoded = self.tokenizer.encode_plus(sentence, return_tensors="pt")
         token_ids_word =np.where(np.array(encoded.word_ids()) == idx)
         states = self.get_hidden_states(encoded)
-        output = states[-2][0]
+        output = states[-self.layer][0]
         word_tokens_output = output[token_ids_word]
         return word_tokens_output.mean(dim=0)
