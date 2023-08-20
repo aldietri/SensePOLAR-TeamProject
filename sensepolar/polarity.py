@@ -84,7 +84,7 @@ class WordPolarity:
         """
         stemmer = PorterStemmer()
         words = context.split()
-        word = word.split('_')[0] if '_' in list(word) else word
+        # word = word.split('_')[0] if '_' in list(word) else word
         replaced_words = [word if stemmer.stem(w) == stemmer.stem(word) else w for w in words]
         context = ' '.join(replaced_words)
         if word not in context.split():
@@ -115,16 +115,16 @@ class WordPolarity:
         """
         thisdict = {i: v for i, v in enumerate(word_embedding)}
         sorted_dic = sorted(thisdict.items(), key=lambda item: abs(item[1]), reverse=True)
-        print(sorted_dic)
+        # print(sorted_dic)
         axis_list = []
         if self.number_polar == -1:
             self.number_polar = len(sorted_dic)
         for i in range(self.number_polar):
             cur_index = sorted_dic[i][0]
             cur_value = sorted_dic[i][1]
-            left_polar = self.antonyms[cur_index][0][0]
+            left_polar = self.antonyms[cur_index][0][0].split(' ')[0] if '_' in list(self.antonyms[cur_index][0][0]) else self.antonyms[cur_index][0][0] 
             left_definition = self.definitions[cur_index][0]
-            right_polar = self.antonyms[cur_index][1][0]
+            right_polar = self.antonyms[cur_index][1][0].split(' ')[0] if '_' in list(self.antonyms[cur_index][1][0]) else self.antonyms[cur_index][1][0] 
             right_definition = self.definitions[cur_index][1]
             if isinstance(left_definition, list) :
                 axis = ((left_polar,left_definition[0]), (right_polar,right_definition[0]), cur_value)

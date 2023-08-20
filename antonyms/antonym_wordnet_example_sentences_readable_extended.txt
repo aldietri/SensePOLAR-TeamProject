@@ -1,34 +1,40 @@
 {
     "['right_0', 'wrong_0']": {
         "right_0": [
-            "a right line "
+            "they are endowed by their creator with certain unalienable right ",
+            "certain right can never be granted to the government but must be kept in the hands of the people ",
+            "a right is not something that somebody gives you it is something that nobody can take away "
         ],
         "wrong_0": [
-            "injustice is a heinous wrong "
+            "he feels that you are in the wrong "
         ]
     },
     "['good_1', 'bad_0']": {
         "good_1": [
-            "good friday "
+            "there is much good to be found in people "
         ],
         "bad_0": [
-            "abducting children is bad for mothers "
+            "take the bad with the good "
         ]
     },
     "['happy_0', 'sad_0']": {
         "happy_0": [
-            "music makes me feel happy "
+            "a happy smile ",
+            "spent many happy days on the beach ",
+            "a happy marriage "
         ],
         "sad_0": [
-            "i can t believe you use drugs you re so sad "
+            "feeling sad because his dog had died ",
+            "better by far that you should forget and smile than that you should remember and be sad "
         ]
     },
-    "['good_0', 'bad_0']": {
-        "good_0": [
-            "good friday "
+    "['good_2', 'bad_0']": {
+        "good_2": [
+            "weigh the good against the bad ",
+            "among the highest good of all are happiness and self-realization "
         ],
         "bad_0": [
-            "abducting children is bad for mothers "
+            "take the bad with the good "
         ]
     }
 }

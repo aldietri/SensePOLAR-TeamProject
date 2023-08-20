@@ -76,11 +76,14 @@ class LookupCreator:
             list: a list of example sentences
         """
         antonym = antonym.split('_')[0] if '_' in list(antonym) else antonym
-        # print(antonym)
         if antonym in self.example_cache:
-            return self.example_cache[antonym]
-        # print(self.dictionary.get_examples(antonym))
-        examples = self.dictionary.get_examples(antonym)[index]
+            return self.example_cache[(antonym, index)]
+        examples = self.dictionary.get_examples(antonym)
+        print(len(examples), index)
+        if len(examples) > index:
+             examples = self.dictionary.get_examples(antonym)[index]
+        else:
+            examples = []
         if type(examples) != list:
             examples = [examples]
         definition = self.dictionary.get_definitions(antonym)[index]
@@ -100,8 +103,8 @@ class LookupCreator:
         for example in examples:
             if re.search(r'\b'+ str(antonym).lower()+'\\b', example.lower(), re.I) is not None:
                 correct_examples.append(" ".join(example.split()).lower())
-        self.example_cache[antonym] = ['{} '.format(sent) for sent in correct_examples]
-        return self.example_cache[antonym]
+        self.example_cache[(antonym, index)] = ['{} '.format(sent) for sent in correct_examples]
+        return self.example_cache[(antonym, index)]
 
     def retrieve_from_file(self, file_path): #,file_path
         """

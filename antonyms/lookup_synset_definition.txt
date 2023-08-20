@@ -1,34 +1,34 @@
 [
     [
         [
-            "Straight, not bent."
+            "an abstract idea of that which is due to a person or governmental body by law or tradition or nature; ; - Eleanor Roosevelt"
         ],
         [
-            "Something that is immoral or not good."
+            "that which is contrary to the principles of justice or law"
         ]
     ],
     [
         [
-            "Holy (especially when capitalized) ."
+            "moral excellence or admirableness"
         ],
         [
-            "Unfavorable; negative; not good."
+            "that which is below standard or expectations as of ethics or decency"
         ]
     ],
     [
         [
-            "Having a feeling arising from a consciousness of well-being or of enjoyment; enjoying good of any kind, such as comfort, peace, or tranquillity; blissful, contented, joyous."
+            "enjoying or showing or marked by joy or pleasure"
         ],
         [
-            "Unfashionable; socially inadequate or undesirable."
+            "experiencing or showing sorrow or unhappiness; ; - Christina Rossetti"
         ]
     ],
     [
         [
-            "(when with and) Very, extremely. See good and."
+            "that which is pleasing or valuable or useful"
         ],
         [
-            "Unfavorable; negative; not good."
+            "that which is below standard or expectations as of ethics or decency"
         ]
     ]
 ]

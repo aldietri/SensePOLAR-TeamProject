@@ -126,9 +126,9 @@ class Dictionary:
                 if 'text' in entry.keys():
                     definition = entry['text']
                     examples = [example['text'] for example in entry['exampleUses'] if 'text' in example.keys()]
-                    if examples:
-                    #     examples = []
-                        all_examples.append(examples)
+                    # if examples:
+                    # #     examples = []
+                    all_examples.append(examples)
         else:
             raise ValueError(f"Dictionary '{self.dictionary_id}' not supported")
         return all_examples
@@ -176,8 +176,8 @@ class Dictionary:
                 if 'text' in entry.keys():
                     definition = entry['text']
                     examples = [example['text'] for example in entry.get('exampleUses', []) if example['text']]
-                    if examples:
-                        all_definitions.append([definition])
+                    # if examples:
+                    all_definitions.append([definition])
         return list(all_definitions)
     
     def get_synonyms(self, word):
