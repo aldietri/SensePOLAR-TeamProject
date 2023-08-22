@@ -1,34 +1,18 @@
 [
     [
-        [
-            "an abstract idea of that which is due to a person or governmental body by law or tradition or nature; ; - Eleanor Roosevelt"
-        ],
-        [
-            "that which is contrary to the principles of justice or law"
-        ]
+        "feeling of joy",
+        "feeling of sorrow"
     ],
     [
-        [
-            "moral excellence or admirableness"
-        ],
-        [
-            "that which is below standard or expectations as of ethics or decency"
-        ]
+        "high temperature ",
+        "low temperature"
     ],
     [
-        [
-            "enjoying or showing or marked by joy or pleasure"
-        ],
-        [
-            "experiencing or showing sorrow or unhappiness; ; - Christina Rossetti"
-        ]
+        "large size",
+        "tiny size"
     ],
     [
-        [
-            "that which is pleasing or valuable or useful"
-        ],
-        [
-            "that which is below standard or expectations as of ethics or decency"
-        ]
+        "high speed ",
+        "low speed"
     ]
 ]

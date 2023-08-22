@@ -84,7 +84,7 @@ class WordPolarity:
         """
         stemmer = PorterStemmer()
         words = context.split()
-        # word = word.split('_')[0] if '_' in list(word) else word
+        word = word.split('_')[0] if '_' in list(word) else word
         replaced_words = [word if stemmer.stem(w) == stemmer.stem(word) else w for w in words]
         context = ' '.join(replaced_words)
         if word not in context.split():

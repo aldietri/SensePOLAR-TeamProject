@@ -1,63 +1,57 @@
 [
     [
         [
-            "right_0",
+            "happy",
             [
-                "they are endowed by their creator with certain unalienable right ",
-                "certain right can never be granted to the government but must be kept in the hands of the people ",
-                "a right is not something that somebody gives you it is something that nobody can take away "
+                "i feel happy today "
             ]
         ],
         [
-            "wrong_0",
+            "sad",
             [
-                "he feels that you are in the wrong "
+                "he looks sad "
             ]
         ]
     ],
     [
         [
-            "good_1",
+            "hot",
             [
-                "there is much good to be found in people "
+                "it s hot outside "
             ]
         ],
         [
-            "bad_0",
+            "cold",
             [
-                "take the bad with the good "
+                "the ice is cold to touch "
             ]
         ]
     ],
     [
         [
-            "happy_0",
+            "big",
             [
-                "a happy smile ",
-                "spent many happy days on the beach ",
-                "a happy marriage "
+                "the elephant is big "
             ]
         ],
         [
-            "sad_0",
+            "small",
             [
-                "feeling sad because his dog had died ",
-                "better by far that you should forget and smile than that you should remember and be sad "
+                "the ant is small "
             ]
         ]
     ],
     [
         [
-            "good_2",
+            "fast",
             [
-                "weigh the good against the bad ",
-                "among the highest good of all are happiness and self-realization "
+                "the cheetah runs fast "
             ]
         ],
         [
-            "bad_0",
+            "slow",
             [
-                "take the bad with the good "
+                "the snail moves slow "
             ]
         ]
     ]

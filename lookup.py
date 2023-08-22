@@ -148,8 +148,8 @@ class LookupCreator:
         Return example sentences for a synset from file.
 
         """
-        antonym = antonym.split('_')[0] if '_' in list(antonym) else antonym
-        examples=dictionary[antonym].split(".")
+        # antonym = antonym.split('_')[0] if '_' in list(antonym) else antonym
+        examples=dictionary[antonym].split(".") if "." in list(dictionary[antonym]) else [dictionary[antonym]]
         definition = self.definitions[antonym]
         if self.generate_examples:
                 examples.extend(list(self.example_generator.generate_examples(antonym, definition, self.num_examples)))
@@ -181,6 +181,7 @@ class LookupCreator:
             self.definitions = synset_defs
         else:
             synset_defs = [[self.definitions[anto] for anto in pair] for pair in antonyms]
+            # print(synset_defs)
         if self.examples is None:
             self.examples = []
             for i, pair in enumerate(antonyms):

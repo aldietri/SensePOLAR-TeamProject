@@ -1,18 +1,18 @@
 [
     [
-        "right_0",
-        "wrong_0"
+        "happy",
+        "sad"
     ],
     [
-        "good_1",
-        "bad_0"
+        "hot",
+        "cold"
     ],
     [
-        "happy_0",
-        "sad_0"
+        "big",
+        "small"
     ],
     [
-        "good_2",
-        "bad_0"
+        "fast",
+        "slow"
     ]
 ]
