@@ -174,9 +174,8 @@ class PolarityPlotter:
         )
 
         return fig
-
     
-    def plot_word_polarity_polar(self, words, contexts, polar_dimension):
+    def plot_word_polarity_polar(self, words, contexts, polar_dimension, axes):
         """
         Plots the word polarity using Scatterpolar plots.
 
@@ -197,23 +196,24 @@ class PolarityPlotter:
             return arr1
         self.create_antonym_dict(words, contexts, polar_dimension)
         fig = go.Figure()
-
+    
         for word, context, polar_dim in zip(words, contexts, polar_dimension):
             r = []
             theta = []
 
             for antonym1, antonym2, value in polar_dim:
-                if value > 0:
-                    r.append(abs(value))
-                    theta.append(antonym2[0])
-                    r.append(0.0)
-                    theta.append(antonym1[0])
-                else:
-                    r.append(abs(value))
-                    theta.append(antonym1[0])
-                    r.append(0.0)
-                    theta.append(antonym2[0])
-            
+                if [antonym1[0].split('_')[0], antonym2[0].split('_')[0]] in axes:  
+                    if value > 0:
+                        r.append(abs(value))
+                        theta.append(antonym2[0])
+                        r.append(0.0)
+                        theta.append(antonym1[0])
+                    else:
+                        r.append(abs(value))
+                        theta.append(antonym1[0])
+                        r.append(0.0)
+                        theta.append(antonym2[0])
+                
 
             r = swap_values(r)
             theta = swap_values(theta)
@@ -222,8 +222,9 @@ class PolarityPlotter:
                 r=r,
                 theta=theta,
                 fill='toself',
-                name=f"Word: {word}<br>Context:{context}",
+                name=f"<b>Word: {word}</b><br>Context:{context}",
                 marker=dict(color=self.word_colors[word])
+                
             ))
 
         max_polar_value = max([max([abs(value) for _, _, value in dim]) for dim in polar_dimension])
@@ -231,7 +232,11 @@ class PolarityPlotter:
             polar=dict(
                 radialaxis=dict(
                     visible=True,
-                    range=[0, max_polar_value]
+                    range=[0, max_polar_value],
+                    angle=90
+                ),
+                angularaxis = dict(
+                direction = "clockwise",
                 )
             ),
             showlegend=True
@@ -239,6 +244,65 @@ class PolarityPlotter:
 
         return fig
 
+    def plot_word_polarity_polar_absolute(self, words, contexts, polar_dimension, axes):
+        """
+        Plots the word polarity using Scatterpolar plots.
+
+        Args:
+            words (list): A list of words.
+            polar_dimension (list): A list of polar dimensions.
+
+        Returns:
+            None
+        """
+        def swap_values(arr):
+            n = len(arr)
+            arr1 = []
+            for i in range(0, n, 2):
+                arr1.append(arr[i])
+            for i in range(1, n, 2):
+                arr1.append(arr[i])
+            return arr1
+        self.create_antonym_dict(words, contexts, polar_dimension)
+        fig = go.Figure()
+    
+        for word, context, polar_dim in zip(words, contexts, polar_dimension):
+            r = []
+            theta = []
+
+            for antonym1, antonym2, value in polar_dim:
+                if [antonym1[0].split('_')[0], antonym2[0].split('_')[0]] in axes:  
+                    r.append(abs(value))
+                    theta.append([antonym1[0], antonym2[0]])                
+
+            r = swap_values(r)
+            theta = swap_values(theta)
+
+            fig.add_trace(go.Scatterpolar(
+                r=r,
+                theta=theta,
+                fill='toself',
+                name=f"<b>Word: {word}</b><br>Context:{context}",
+                marker=dict(color=self.word_colors[word])
+                
+            ))
+
+        max_polar_value = max([max([abs(value) for _, _, value in dim]) for dim in polar_dimension])
+        fig.update_layout(
+            polar=dict(
+                radialaxis=dict(
+                    visible=True,
+                    range=[0, max_polar_value],
+                    angle=90
+                ),
+                angularaxis = dict(
+                direction = "clockwise",
+                )
+            ),
+            showlegend=True
+        )
+
+        return fig
 
     def plot_word_polarity_2d(self, words, contexts, polar_dimension, x_axis=None, y_axis=None):
         """
@@ -275,14 +339,14 @@ class PolarityPlotter:
                 ticks='outside',
                 showline=True,
                 showticklabels=True,
-                title=antonyms[0][0][0] + ' vs ' + antonyms[0][1][0],
+                title=antonyms[y_axis][0][0] + ' vs ' + antonyms[y_axis][1][0],
                 autorange=True,
             ),
             yaxis=dict(
                 ticks='outside',
                 showline=True,
                 showticklabels=True,
-                title=antonyms[1][0][0] + ' vs ' + antonyms[1][1][0],
+                title=antonyms[x_axis][0][0] + ' vs ' + antonyms[x_axis][1][0],
                 autorange=True,
             ),
             
@@ -300,10 +364,10 @@ class PolarityPlotter:
             fig.add_trace(go.Scatter(x=[x], y=[y], mode='markers', marker=dict(color=self.word_colors[word[0]], size=18),
                                     name=word[0], hoverinfo="text", text=hover_text))
 
-        fig.add_annotation(x=-max_value-0.2, y=0, text=antonyms[0][0][0], showarrow=False, xshift=-15, font=dict(size=18), hovertext=f"Definition: {antonyms[0][0][1]}")
-        fig.add_annotation(x=max_value+0.2, y=0, text=antonyms[0][1][0], showarrow=False, xshift=15, font=dict(size=18), hovertext=f"Definition: {antonyms[0][1][1]}")
-        fig.add_annotation(x=0, y=-max_value, text=antonyms[1][0][0], showarrow=False, yshift=-15, font=dict(size=18), hovertext=f"Definition: {antonyms[1][0][1]}")
-        fig.add_annotation(x=0, y=max_value, text=antonyms[1][1][0], showarrow=False, yshift=15, font=dict(size=18), hovertext=f"Definition: {antonyms[1][1][1]}")
+        fig.add_annotation(x=-max_value-0.2, y=0, text=antonyms[y_axis][0][0], showarrow=False, xshift=-15, font=dict(size=18), hovertext=f"Definition: {antonyms[0][0][1]}")
+        fig.add_annotation(x=max_value+0.2, y=0, text=antonyms[y_axis][1][0], showarrow=False, xshift=15, font=dict(size=18), hovertext=f"Definition: {antonyms[0][1][1]}")
+        fig.add_annotation(x=0, y=-max_value, text=antonyms[x_axis][0][0], showarrow=False, yshift=-15, font=dict(size=18), hovertext=f"Definition: {antonyms[1][0][1]}")
+        fig.add_annotation(x=0, y=max_value, text=antonyms[x_axis][1][0], showarrow=False, yshift=15, font=dict(size=18), hovertext=f"Definition: {antonyms[1][1][1]}")
 
         return fig
 

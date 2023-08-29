@@ -1,7 +1,6 @@
 from transformers import RobertaTokenizerFast, RobertaModel
 import numpy as np
 import torch
-from torchinfo import summary
 
 class RoBERTaWordEmbeddings:
     """

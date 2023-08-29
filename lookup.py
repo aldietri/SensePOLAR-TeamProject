@@ -122,8 +122,8 @@ class LookupCreator:
         """
         # TODO: May or may not need to be changed back
         # Why do we need this? - Look for a workaround
-        data = pd.read_excel(file_path, header=0)
-        # data = file_path
+        # data = pd.read_excel(file_path, header=0)
+        data = file_path
         antonyms = []
         definitions = defaultdict()
         examples = defaultdict()
@@ -155,12 +155,14 @@ class LookupCreator:
                 examples.extend(list(self.example_generator.generate_examples(antonym, definition, self.num_examples)))
         correct_examples=[]
         for example in examples:
-            if re.search(r'\b'+ str(antonym).lower()+'\\b', example.lower(), re.I) is not None:
+            # if re.search(r'\b'+ str(antonym).lower()+'\\b', example.lower(), re.I) is not None:
+            if re.search(r'\b' + str(antonym.split('_')[0]).lower() + '\\b', example.lower(), re.I) is not None:
                 correct_examples.append(" ".join(example.split()).lower())
         # replace punctuation symbols with spaces
         examples = [sent.translate(str.maketrans({k: " " for k in string.punctuation if k != '-'})) for sent in correct_examples]
         examples = [' '.join(re.sub(r"<.*?>", "", example).split()) for example in examples]
         # add a space after each sentence
+
         return ['{} '.format(sent) for sent in examples]
 
     def create_lookup_files(self, indices=None):
