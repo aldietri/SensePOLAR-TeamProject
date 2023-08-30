@@ -1,6 +1,7 @@
-word,antonym_1,antonym_2,value
-sun,hot,cold,-5.337394
-sun,happy,sad,-1.8447943
-sun,good,bad,-1.5550858
-sun,fast,slow,-0.78205514
-sun,big,small,-0.059285045
+word,context,antonym_1,definition_1,antonym_2,definition_2,value
+sun,The sun is shining brightly today,hot_0,used of physical heat| having a high or higher than desirable temperature or giving off heat or feeling or causing a sensation of heat or burning,cold_0,a mild viral infection involving the nose and respiratory passages (but not the lungs),-0.15288517
+sun,The sun is shining brightly today,good_0,benefit,bad_0,that which is below standard or expectations as of ethics or decency,-0.051811263
+sun,The sun is shining brightly today,happy_0,enjoying or showing or marked by joy or pleasure,sad_0,experiencing or showing sorrow or unhappiness| | - Christina Rossetti,0.032512564
+moon,The moon was magical,hot_0,used of physical heat| having a high or higher than desirable temperature or giving off heat or feeling or causing a sensation of heat or burning,cold_0,a mild viral infection involving the nose and respiratory passages (but not the lungs),-0.048841886
+moon,The moon was magical,good_0,benefit,bad_0,that which is below standard or expectations as of ethics or decency,0.03482732
+moon,The moon was magical,happy_0,enjoying or showing or marked by joy or pleasure,sad_0,experiencing or showing sorrow or unhappiness| | - Christina Rossetti,0.0017626919

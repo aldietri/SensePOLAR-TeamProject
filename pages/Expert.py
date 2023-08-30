@@ -720,15 +720,15 @@ if rightCol.button(label="Execute", key="execute") or st.session_state["result_d
         if not selected_options:
             st.warning("Please select some visualization options", icon="⚠️")
         else:
-            # try:
+            try:
                 polar_results, words, polar_dimensions = create_sense_polar(model, st.session_state["model_name"], st.session_state["df_value_polar"], sub, method)
                 # Check if polar dimensions calculation was possible for all words otherwise the context didn't contain the subject word
                 if None in polar_dimensions:
                     st.warning("The context must contain your example word", icon="⚠️")
                 else:
                     create_visualisations(selected_options, words, contexts, polar_dimensions, k, x_axis_index, y_axis_index, selected_ordering, polar_display, polar_axes)
-            # except:
-                # st.warning("An error has occured. Please check your selected Inputs", icon="⚠️")
+            except:
+                st.warning("An error has occured. Please check your selected Inputs", icon="⚠️")
 
 # If results were calculated show download button for it
 if polar_results:
