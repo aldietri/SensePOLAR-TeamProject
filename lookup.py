@@ -123,7 +123,10 @@ class LookupCreator:
         # TODO: May or may not need to be changed back
         # Why do we need this? - Look for a workaround
         # data = pd.read_excel(file_path, header=0)
-        data = file_path
+        if file_path.endswith(".csv"):
+            data = pd.read_csv(file_path,header=0)
+        else: 
+            data = file_path
         antonyms = []
         definitions = defaultdict()
         examples = defaultdict()
