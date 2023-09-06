@@ -10,6 +10,7 @@ import re
 import itertools
 from sensepolar.oracle.examples import ExampleGenerator
 from nltk.stem import PorterStemmer
+import os
 
 class LookupCreator:
     """
@@ -119,17 +120,18 @@ class LookupCreator:
         ----------
         list
             A list of antonym pairs.
-        """
-        # TODO: May or may not need to be changed back
-        # Why do we need this? - Look for a workaround
-        # data = pd.read_excel(file_path, header=0)
+        """       
+
         if file_path.endswith(".csv"):
             data = pd.read_csv(file_path,header=0)
+        elif file_path.endswith(".xlsx"):
+            data = pd.read_excel(file_path,header=0)
         else: 
             data = file_path
         antonyms = []
         definitions = defaultdict()
         examples = defaultdict()
+        antonyms_doppelt = defaultdict()
 
         for index, row in data.iterrows():
             antonym_1 = row['antonym_1']
@@ -201,6 +203,7 @@ class LookupCreator:
             examples_readable = {str(pair):{anto: self.get_examples_files(anto, self.examples) for anto in pair} for pair in antonyms}
             examples_lookup = [[[anto, self.get_examples_files(anto, self.examples)] for anto in pair] for pair in antonyms]
         # save 
+        files = os.listdir(self.out_path)
         with open(self.out_path + 'lookup_synset_dict.txt', 'w') as t:
             t.write(json.dumps(antonyms, indent=4))
         with open(self.out_path + 'lookup_synset_dict.pkl', 'wb') as p:

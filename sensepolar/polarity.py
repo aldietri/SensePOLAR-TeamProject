@@ -123,19 +123,19 @@ class WordPolarity:
             cur_index = sorted_dic[i][0]
             cur_value = sorted_dic[i][1]
             left_polar = self.antonyms[cur_index][0][0].split(' ')[0] if '_' in list(self.antonyms[cur_index][0][0]) else self.antonyms[cur_index][0][0] 
-            left_definition = self.definitions[cur_index][0]
+            left_definition = "" if not self.definitions[cur_index][0] else self.definitions[cur_index][0]
             right_polar = self.antonyms[cur_index][1][0].split(' ')[0] if '_' in list(self.antonyms[cur_index][1][0]) else self.antonyms[cur_index][1][0] 
-            right_definition = self.definitions[cur_index][1]
+            right_definition = "" if not self.definitions[cur_index][1] else self.definitions[cur_index][1] 
             if isinstance(left_definition, list) :
                 axis = ((left_polar,left_definition[0]), (right_polar,right_definition[0]), cur_value)
             else:
                 axis = ((left_polar,left_definition), (right_polar,right_definition), cur_value)
             axis_list.append(axis)
-            print("Top:", i + 1)
-            print("Dimension:", left_polar, "<------>", right_polar)
-            print(left_definition, right_definition)
-            print("Definitions: ", left_definition[0] + "<------>" + right_definition[0] if isinstance(left_definition, list) else left_definition+ "<------>" + right_definition)
-            print("Value: " + str(cur_value) if cur_value < 0 else f"Value:{cur_value}")
-            print("\n")
+            # print("Top:", i + 1)
+            # print("Dimension:", left_polar, "<------>", right_polar)
+            # print(left_definition, right_definition)
+            # print("Definitions: ", left_definition[0] + "<------>" + right_definition[0] if isinstance(left_definition, list) else left_definition+ "<------>" + right_definition)
+            # print("Value: " + str(cur_value) if cur_value < 0 else f"Value:{cur_value}")
+            # print("\n")
         return axis_list  # top dimensions for given word (string)
     
