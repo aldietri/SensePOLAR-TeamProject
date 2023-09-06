@@ -1,34 +1,314 @@
 {
-    "['happy', 'sad']": {
-        "happy": [
-            "i feel happy today "
+    "['positiv', 'negativ']": {
+        "positiv": [
+            "er hatte eine positiv lebenseinstellung "
         ],
-        "sad": [
-            "he looks sad "
+        "negativ": [
+            "sie \u00e4u\u00dferte eine negativ meinung \u00fcber den vorschlag "
         ]
     },
-    "['hot', 'cold']": {
-        "hot": [
-            "it s hot outside "
+    "['Freude', 'Trauer']": {
+        "Freude": [
+            "die freude in seinem gesicht war offensichtlich "
         ],
-        "cold": [
-            "the ice is cold to touch "
+        "Trauer": [
+            "sie konnte ihre trauer nach dem verlust nicht verbergen "
         ]
     },
-    "['big', 'small']": {
-        "big": [
-            "the elephant is big "
+    "['Liebe', 'Hass']": {
+        "Liebe": [
+            "sie empfanden liebe "
         ],
-        "small": [
-            "the ant is small "
+        "Hass": [
+            "er konnte seinen hass gegen\u00fcber seinem rivalen nicht verbergen "
         ]
     },
-    "['fast', 'slow']": {
-        "fast": [
-            "the cheetah runs fast "
+    "['Hoffnung', 'Verzweiflung']": {
+        "Hoffnung": [
+            "sie klammerte sich in schwierigen zeiten an die hoffnung "
         ],
-        "slow": [
-            "the snail moves slow "
+        "Verzweiflung": [
+            "er f\u00fchlte eine tiefe verzweiflung nach dem scheitern "
+        ]
+    },
+    "['Vergn\u00fcgen', 'Schmerz']": {
+        "Vergn\u00fcgen": [
+            "das essen bereitete ihm gro\u00dfes vergn\u00fcgen "
+        ],
+        "Schmerz": [
+            "er zuckte vor schmerz zusammen als er sich den zeh anstie\u00df "
+        ]
+    },
+    "['Optimismus', 'Pessimismus']": {
+        "Optimismus": [
+            "ihr optimismus blieb rotz der herausforderungen "
+        ],
+        "Pessimismus": [
+            "sein pessimismus f\u00fchrte oft zu negativen ergebnissen "
+        ]
+    },
+    "['Aufregung', 'Apathie']": {
+        "Aufregung": [
+            "er konnte seine aufregung \u00fcber die reise nicht verbergen "
+        ],
+        "Apathie": [
+            "sie f\u00fchlte eine gewisse apathie gegen\u00fcber dem ereignis "
+        ]
+    },
+    "['Freundlichkeit', 'Grausamkeit']": {
+        "Freundlichkeit": [
+            "ihre freundlichkeit gegen\u00fcber anderen wurde bewundert "
+        ],
+        "Grausamkeit": [
+            "er war bekannt f\u00fcr seine grausamkeit gegen\u00fcber tieren "
+        ]
+    },
+    "['Mut', 'Angst']": {
+        "Mut": [
+            "er zeigte mut in gefahrensituationen "
+        ],
+        "Angst": [
+            "ihre angst vor h\u00f6he hinderte sie daran die leiter zu besteigen "
+        ]
+    },
+    "['Gro\u00dfz\u00fcgigkeit', 'Gier']": {
+        "Gro\u00dfz\u00fcgigkeit": [
+            "seine gro\u00dfz\u00fcgigkeit kannte keine grenzen "
+        ],
+        "Gier": [
+            "ihre gier nach macht f\u00fchrte zu unethischen entscheidungen "
+        ]
+    },
+    "['Vergebung', 'Missgunst']": {
+        "Vergebung": [
+            "er bat sie um vergebung "
+        ],
+        "Missgunst": [
+            "er hegte tiefe missgunst gegen\u00fcber seinem ehemaligen freund "
+        ]
+    },
+    "['Mitgef\u00fchl', 'Gleichg\u00fcltigkeit']": {
+        "Mitgef\u00fchl": [
+            "sein mitgef\u00fchl f\u00fcr bed\u00fcrftige war lobenswert "
+        ],
+        "Gleichg\u00fcltigkeit": [
+            "sie zeigte gleichg\u00fcltigkeit gegen\u00fcber dem leiden anderer "
+        ]
+    },
+    "['Gl\u00fcck', 'Traurigkeit']": {
+        "Gl\u00fcck": [
+            "die nachricht brachte gro\u00dfes gl\u00fcck f\u00fcr die familie "
+        ],
+        "Traurigkeit": [
+            "ihr gesicht war nach der trennung von traurigkeit erf\u00fcllt "
+        ]
+    },
+    "['Tapferkeit', 'Feigheit']": {
+        "Tapferkeit": [
+            "er zeigte tapferkeit in gefahrensituationen "
+        ],
+        "Feigheit": [
+            "ihre feigheit hinderte sie daran den schl\u00e4ger zu konfrontieren "
+        ]
+    },
+    "['Selbstvertrauen', 'Unsicherheit']": {
+        "Selbstvertrauen": [
+            "er strahlte selbstvertrauen w\u00e4hrend des interviews aus "
+        ],
+        "Unsicherheit": [
+            "sie k\u00e4mpfte mit gef\u00fchlen der unsicherheit bez\u00fcglich ihres aussehens "
+        ]
+    },
+    "['Freiheit', 'Gefangenschaft']": {
+        "Freiheit": [
+            "sie k\u00e4mpften f\u00fcr die freiheit von unterdr\u00fcckung "
+        ],
+        "Gefangenschaft": [
+            "er f\u00fchlte eine art gefangenschaft in seiner monotonen routine "
+        ]
+    },
+    "['Sieg', 'Niederlage']": {
+        "Sieg": [
+            "ihr sieg im turnier war wohlverdient "
+        ],
+        "Niederlage": [
+            "er f\u00fchlte sich nach der niederlage besiegt "
+        ]
+    },
+    "['Zufriedenheit', 'Unzufriedenheit']": {
+        "Zufriedenheit": [
+            "er \u00e4u\u00dferte zufriedenheit mit dem ergebnis des projekts "
+        ],
+        "Unzufriedenheit": [
+            "ihr st\u00e4ndiges klagen zeigte ihre unzufriedenheit mit der aktuellen situation "
+        ]
+    },
+    "['Verwirrung', 'Klarheit']": {
+        "Verwirrung": [
+            "die anweisungen waren unklar was zu verwirrung f\u00fchrte "
+        ],
+        "Klarheit": [
+            "sie sorgte f\u00fcr klarheit zu dem komplexen thema "
+        ]
+    },
+    "['Freundschaft', 'Feindschaft']": {
+        "Freundschaft": [
+            "ihre freundschaft hatte \u00fcber jahre hinweg bestand "
+        ],
+        "Feindschaft": [
+            "er hegte feindschaft gegen\u00fcber seinem rivalen "
+        ]
+    },
+    "['Gerechtigkeit', 'Ungerechtigkeit']": {
+        "Gerechtigkeit": [
+            "das urteil des gerichts gew\u00e4hrleistete gerechtigkeit f\u00fcr das opfer "
+        ],
+        "Ungerechtigkeit": [
+            "er sah das urteil als eine ungerechtigkeit an "
+        ]
+    },
+    "['Treue', 'Verrat']": {
+        "Treue": [
+            "ihre treue zu ihrem partner war unersch\u00fctterlich "
+        ],
+        "Verrat": [
+            "er f\u00fchlte sich von seinem engsten freund verrat "
+        ]
+    },
+    "['Furchtlosigkeit', 'Sch\u00fcchternheit']": {
+        "Furchtlosigkeit": [
+            "sie konfrontierte ihre \u00e4ngste mit furchtlosigkeit "
+        ],
+        "Sch\u00fcchternheit": [
+            "seine sch\u00fcchternheit hinderte ihn daran sich zu \u00e4u\u00dfern "
+        ]
+    },
+    "['Bewunderung', 'Missbilligung']": {
+        "Bewunderung": [
+            "sie betrachtete ihn mit bewunderung "
+        ],
+        "Missbilligung": [
+            "er \u00e4u\u00dferte seine missbilligung gegen\u00fcber der neuen politik "
+        ]
+    },
+    "['Dankbarkeit', 'Undankbarkeit']": {
+        "Dankbarkeit": [
+            "er dr\u00fcckte dankbarkeit f\u00fcr ihre hilfe aus "
+        ],
+        "Undankbarkeit": [
+            "ihre undankbarkeit gegen\u00fcber ihren eltern verletzte sie tief "
+        ]
+    },
+    "['Harmonie', 'Konflikt']": {
+        "Harmonie": [
+            "ihre stimmen verschmolzen in perfekter harmonie "
+        ],
+        "Konflikt": [
+            "er konnte dem konflikt zwischen seinen werten und w\u00fcnschen nicht entkommen "
+        ]
+    },
+    "['Demut', 'Stolz']": {
+        "Demut": [
+            "ihre demut zeigte sich in der art und weise wie sie andere behandelte "
+        ],
+        "Stolz": [
+            "sein stolz hinderte ihn daran seine fehler zuzugeben "
+        ]
+    },
+    "['Weisheit', 'Dummheit']": {
+        "Weisheit": [
+            "ihre weisheit f\u00fchrte sie zu klugen entscheidungen "
+        ],
+        "Dummheit": [
+            "seine dummheit f\u00fchrte oft zu bedauerlichen entscheidungen "
+        ]
+    },
+    "['Sch\u00f6nheit', 'H\u00e4sslichkeit']": {
+        "Sch\u00f6nheit": [
+            "die sch\u00f6nheit des sonnenuntergangs versetzte sie in ehrfurcht "
+        ],
+        "H\u00e4sslichkeit": [
+            "er war entsetzt \u00fcber die h\u00e4sslichkeit der graffiti "
+        ]
+    },
+    "['Ehrlichkeit', 'Unehrlichkeit']": {
+        "Ehrlichkeit": [
+            "ihre ehrlichkeit ihren fehler zuzugeben war lobenswert "
+        ],
+        "Unehrlichkeit": [
+            "seine unehrlichkeit f\u00fchrte zu einem vertrauensbruch in der beziehung "
+        ]
+    },
+    "['Hoffnungslosigkeit', 'Zuversicht']": {
+        "Hoffnungslosigkeit": [
+            "sie sp\u00fcrte nach wiederholten misserfolgen eine gewisse hoffnungslosigkeit "
+        ],
+        "Zuversicht": [
+            "seine zuversicht angesichts von herausforderungen war inspirierend "
+        ]
+    },
+    "['Lachen', 'Schluchzen']": {
+        "Lachen": [
+            "ihr lachen erf\u00fcllte den raum mit freude "
+        ],
+        "Schluchzen": [
+            "sie konnte ihr schluchzen nach der emotionalen enth\u00fcllung nicht kontrollieren "
+        ]
+    },
+    "['Einsamkeit', 'Gesellschaft']": {
+        "Einsamkeit": [
+            "er k\u00e4mpfte mit gef\u00fchlen der einsamkeit "
+        ],
+        "Gesellschaft": [
+            "die gesellschaft seiner freunde gab ihm trost "
+        ]
+    },
+    "['Geduld', 'Ungeduld']": {
+        "Geduld": [
+            "sie wartete mit geduld auf ihre wende "
+        ],
+        "Ungeduld": [
+            "seine ungeduld \u00fcberw\u00e4ltigte ihn und er ging frustriert weg "
+        ]
+    },
+    "['Frieden', 'Streit']": {
+        "Frieden": [
+            "sie suchten inmitten des krieges nach frieden "
+        ],
+        "Streit": [
+            "der streit zwischen den beiden parteien eskalierte in gewalt "
+        ]
+    },
+    "['St\u00e4rke', 'Schw\u00e4che']": {
+        "St\u00e4rke": [
+            "er demonstrierte gro\u00dfe physische st\u00e4rke "
+        ],
+        "Schw\u00e4che": [
+            "seine schw\u00e4che angesichts von widrigkeiten \u00fcberraschte ihn "
+        ]
+    },
+    "['Z\u00e4rtlichkeit', 'K\u00e4lte']": {
+        "Z\u00e4rtlichkeit": [
+            "er ber\u00fchrte ihre wange mit z\u00e4rtlichkeit "
+        ],
+        "K\u00e4lte": [
+            "die k\u00e4lte seiner antwort verletzte sie tief "
+        ]
+    },
+    "['Vertrauen', 'Misstrauen']": {
+        "Vertrauen": [
+            "sie setzte ihr vertrauen in ihre engsten freunde "
+        ],
+        "Misstrauen": [
+            "er konnte nicht umhin seinem neuen kollegen zu misstrauen "
+        ]
+    },
+    "['Entspanntheit', 'Rastlosigkeit']": {
+        "Entspanntheit": [
+            "er empfand entspanntheit in seinem einfachen leben "
+        ],
+        "Rastlosigkeit": [
+            "sie konnte die rastlosigkeit in ihrem herzen nicht absch\u00fctteln "
         ]
     }
 }

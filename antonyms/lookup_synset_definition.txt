@@ -1,18 +1,158 @@
 [
     [
-        "feeling of joy",
-        "feeling of sorrow"
+        "Die \u00c4u\u00dferung von Zustimmung, Wohlwollen oder Zuversicht; zeigt eine g\u00fcnstige Haltung oder Perspektive",
+        "Die \u00c4u\u00dferung von Missbilligung, Unzufriedenheit oder Pessimismus; zeigt eine ung\u00fcnstige Haltung oder Perspektive"
     ],
     [
-        "high temperature ",
-        "low temperature"
+        " Ein Gef\u00fchl von gro\u00dfer Freude, Gl\u00fcck oder Entz\u00fccken; eine Emotion, die mit positiven Erfahrungen verbunden ist",
+        " Ein Gef\u00fchl von tiefer Not, Traurigkeit oder Trauer; eine Emotion, die mit negativen Erfahrungen verbunden ist"
     ],
     [
-        "large size",
-        "tiny size"
+        " Ein intensives Gef\u00fchl von Zuneigung, F\u00fcrsorge und Bindung zu jemandem oder etwas",
+        " Ein starkes Gef\u00fchl von Feindschaft, Abneigung oder intensivem Missfallen gegen\u00fcber jemandem oder etwas"
     ],
     [
-        "high speed ",
-        "low speed"
+        " Ein Gef\u00fchl von Optimismus und Erwartung auf ein positives Ergebnis oder zuk\u00fcnftiges Ereignis",
+        " Ein Gef\u00fchl der v\u00f6lligen Hoffnungslosigkeit, des Verlusts des Glaubens oder des v\u00f6lligen Mangels an Hoffnung"
+    ],
+    [
+        " Ein Gef\u00fchl von Genuss, Zufriedenheit oder Freude, das aus einer positiven Erfahrung resultiert",
+        " Eine k\u00f6rperliche oder emotionale Empfindung von Unbehagen, Leiden oder Leid"
+    ],
+    [
+        " Eine positive Denkweise, die g\u00fcnstige Ergebnisse erwartet und in jeder Situation nach dem Besten sucht",
+        " Eine negative Denkweise, die ung\u00fcnstige Ergebnisse erwartet und sich auf die schlechtesten Aspekte einer Situation konzentriert"
+    ],
+    [
+        " Ein Gef\u00fchl von Begeisterung, Eifer, oder intensivem Interesse an etwas",
+        " Ein Mangel an Interesse, Enthusiasmus oder Sorge; ein Gef\u00fchl von Gleichg\u00fcltigkeit oder Desinteresse"
+    ],
+    [
+        " Zeigen von Wohlwollen, Mitgef\u00fchl oder Wohlwollen gegen\u00fcber anderen",
+        " Zeigen von Gleichg\u00fcltigkeit, Bosheit oder Bereitschaft, anderen Schaden zuzuf\u00fcgen"
+    ],
+    [
+        " Die F\u00e4higkeit, Gefahr, Schwierigkeiten oder Schmerz ohne \u00dcberw\u00e4ltigung durch Angst zu bew\u00e4ltigen",
+        " Ein unangenehmes Gef\u00fchl, verursacht durch die \u00dcberzeugung, dass jemand oder etwas gef\u00e4hrlich ist, Schmerzen verursachen k\u00f6nnte oder eine Bedrohung darstellt"
+    ],
+    [
+        " Bereitschaft, zu geben oder zu teilen, ohne etwas im Gegenzug zu erwarten",
+        " Ein \u00fcberm\u00e4\u00dfiges Verlangen nach Reichtum, Besitzt\u00fcmern oder materiellem Gewinn auf Kosten anderer"
+    ],
+    [
+        " Der Akt des Verzeihens oder das Aufh\u00f6ren, Wut oder Groll gegen\u00fcber einem T\u00e4ter zu empfinden",
+        " Das Gef\u00fchl von Bitterkeit oder Emp\u00f6rung aufgrund einer wahrgenommenen Ungerechtigkeit oder Beleidigung"
+    ],
+    [
+        " Ein Gef\u00fchl von tiefem Mitgef\u00fchl und Trauer f\u00fcr das Leiden oder das Ungl\u00fcck anderer",
+        " Ein Mangel an Interesse, Sorge oder Mitgef\u00fchl f\u00fcr die Gef\u00fchle oder Umst\u00e4nde anderer"
+    ],
+    [
+        " Ein Zustand, der von Gef\u00fchlen der Freude, Zufriedenheit oder Freude gekennzeichnet ist",
+        " Ein Zustand der Unzufriedenheit, Trauer oder Melancholie"
+    ],
+    [
+        " Die Qualit\u00e4t des Mutigen oder Mutigen angesichts von Gefahr oder Widrigkeiten",
+        " Der Mangel an Mut, Gefahr, Schwierigkeiten oder Schmerzen zu begegnen; Furcht"
+    ],
+    [
+        " Ein Gef\u00fchl von Selbstsicherheit, Selbstvertrauen oder Glaube an die eigenen F\u00e4higkeiten",
+        " Ein Mangel an Selbstvertrauen oder Zuversicht; Unsicherheit \u00fcber sich selbst oder die eigenen F\u00e4higkeiten"
+    ],
+    [
+        " Der Zustand der Freiheit von Zwang, Einschr\u00e4nkung oder Gefangenschaft; die F\u00e4higkeit, ohne Hindernisse oder Beschr\u00e4nkungen zu handeln oder zu sprechen",
+        " Der Zustand des Eingesperrtseins oder Gefangenseins, insbesondere in einem Gef\u00e4ngnis oder in einer restriktiven Situation"
+    ],
+    [
+        " Der Akt des Gewinnens oder des Triumphierens in einem Wettbewerb, Konflikt oder Wettbewerb; das Gegenteil von Niederlage oder Verlust",
+        " Der Akt des Geschlagenwerdens oder des \u00dcberw\u00e4ltigtwerdens in einem Wettbewerb, Konflikt oder Wettbewerb; das Gegenteil von Sieg oder Erfolg"
+    ],
+    [
+        " Ein Gef\u00fchl von Erf\u00fcllung oder Zufriedenheit mit den eigenen Leistungen, Umst\u00e4nden oder Erfahrungen",
+        " Ein Gef\u00fchl der Unzufriedenheit, des Ungl\u00fccks oder der Unzufriedenheit mit der aktuellen Situation oder den Umst\u00e4nden"
+    ],
+    [
+        " Ein Zustand des Erstaunens, der Unsicherheit oder der Unklarheit \u00fcber etwas",
+        " Ein Zustand des Seins klar, verst\u00e4ndlich oder leicht verst\u00e4ndlich; das Gegenteil von Verwirrung oder Unklarheit"
+    ],
+    [
+        " Eine Bindung gegenseitiger Zuneigung, des Vertrauens und der Unterst\u00fctzung zwischen Einzelpersonen oder Gruppen",
+        " Ein Gef\u00fchl von Feindseligkeit, Hass oder Antagonismus gegen\u00fcber jemandem oder etwas"
+    ],
+    [
+        " Fairness und Unparteilichkeit in der Behandlung anderer oder bei der Verteilung von Ressourcen oder Chancen",
+        " Der Mangel an Fairness, Gerechtigkeit oder Einhaltung von Prinzipien des Rechts oder der Moral"
+    ],
+    [
+        " Die Qualit\u00e4t des Loyalit\u00e4ts, Zuverl\u00e4ssigkeit und Standhaftigkeit in Verpflichtungen oder Versprechen",
+        " Der Akt des Vertrauensbruchs oder des Vertrauensverlusts durch Illoyalit\u00e4t oder Untreue"
+    ],
+    [
+        " Die F\u00e4higkeit, Gefahr, Schwierigkeiten oder Schmerzen ohne \u00dcberw\u00e4ltigung durch Angst zu bew\u00e4ltigen",
+        " Der Mangel an Mut, Gefahr, Schwierigkeiten oder Schmerzen zu begegnen; Furcht"
+    ],
+    [
+        " Ein Gef\u00fchl der Zustimmung, des Respekts oder der hohen Achtung f\u00fcr jemanden oder etwas",
+        " Ein Gef\u00fchl der Missbilligung oder Kritik gegen\u00fcber jemandem oder etwas"
+    ],
+    [
+        " Ein Gef\u00fchl der Dankbarkeit und Wertsch\u00e4tzung f\u00fcr Freundlichkeit oder erhaltene Gef\u00e4lligkeiten",
+        " Ein Mangel an Dankbarkeit oder das Vers\u00e4umnis, Freundlichkeit oder erhaltene Gef\u00e4lligkeiten zu erkennen und zu sch\u00e4tzen"
+    ],
+    [
+        " Der Zustand des friedlichen Zusammenlebens, der Einigung oder des Einvernehmens zwischen Einzelpersonen oder Gruppen",
+        " Der Zustand der Meinungsverschiedenheit, des Widerspruchs oder der Feindseligkeit zwischen Einzelpersonen oder Gruppen"
+    ],
+    [
+        " Eine bescheidene oder niedrige Meinung von der eigenen Bedeutung oder Stellung; das Gegenteil von Arroganz oder Hochmut",
+        " Ein Gef\u00fchl tiefen Vergn\u00fcgens oder Zufriedenheit, das aus den eigenen Leistungen, Qualit\u00e4ten oder Besitzt\u00fcmern resultiert"
+    ],
+    [
+        " Die Qualit\u00e4t des Habens von Erfahrung, Wissen und Urteilsverm\u00f6gen; das Gegenteil von Dummheit oder Ignoranz",
+        " Ein Mangel an Urteilsverm\u00f6gen, gesundem Menschenverstand oder praktischer Intelligenz; das Gegenteil von Weisheit"
+    ],
+    [
+        " Die Qualit\u00e4t des Seins angenehm oder attraktiv f\u00fcr die Sinne, insbesondere f\u00fcr das Sehen; das Gegenteil von H\u00e4sslichkeit oder Unattraktivit\u00e4t",
+        " Die Qualit\u00e4t des Missfallens oder der Unattraktivit\u00e4t f\u00fcr die Sinne, insbesondere das Sehen; das Gegenteil von Sch\u00f6nheit"
+    ],
+    [
+        " Die Qualit\u00e4t des Wahrhaftigen, Ehrlichen und Freien von T\u00e4uschung oder Betrug",
+        " Der Akt des T\u00e4uschens, der Unwahrheit oder des Mangels an Integrit\u00e4t"
+    ],
+    [
+        " Ein Gef\u00fchl der v\u00f6lligen Hoffnungslosigkeit, des Verlusts des Glaubens oder des v\u00f6lligen Mangels an Hoffnung",
+        " Eine positive Denkweise, die g\u00fcnstige Ergebnisse erwartet und in jeder Situation nach dem Besten sucht"
+    ],
+    [
+        " Der Akt des Ausdrucks von Am\u00fcsement, Freude oder Gl\u00fcck durch stimmliche Ger\u00e4usche",
+        " Der Akt des Ausdrucks von Trauer, Traurigkeit oder Not durch stimmliche Ger\u00e4usche, insbesondere beim Weinen"
+    ],
+    [
+        " Der Zustand des Alleinseins, der Isolation oder des Fehlens von Begleitern",
+        " Der Zustand des Zusammenlebens, der Unterst\u00fctzung oder der Anwesenheit von anderen"
+    ],
+    [
+        " Die F\u00e4higkeit, das Warten, die Verz\u00f6gerung oder die Provokation ohne \u00c4rger oder Angst zu ertragen",
+        " Der Mangel an F\u00e4higkeit, das Warten, die Verz\u00f6gerung oder die Provokation zu ertragen; Unruhe oder das Verlangen, dass etwas schnell passiert"
+    ],
+    [
+        " Der Zustand der Freiheit von Krieg, Gewalt oder Feindseligkeit",
+        " Der Zustand der Meinungsverschiedenheit, des Widerspruchs oder der Feindseligkeit zwischen Einzelpersonen oder Gruppen"
+    ],
+    [
+        " Die Qualit\u00e4t oder der Zustand k\u00f6rperlicher St\u00e4rke oder geistiger Widerstandsf\u00e4higkeit; das Gegenteil von Schw\u00e4che oder Zerbrechlichkeit",
+        " Die Qualit\u00e4t oder der Zustand des Mangels an physischer St\u00e4rke, Widerstandsf\u00e4higkeit oder Kapazit\u00e4t; das Gegenteil von St\u00e4rke"
+    ],
+    [
+        " Ein Gef\u00fchl von Sanftheit, Zuneigung oder W\u00e4rme gegen\u00fcber jemandem oder etwas",
+        " Ein Mangel an Gef\u00fchl oder emotionaler W\u00e4rme; eine distanzierte oder gleichg\u00fcltige Haltung gegen\u00fcber jemandem oder etwas"
+    ],
+    [
+        " Das Vertrauen oder die Zuversicht in die Integrit\u00e4t, die F\u00e4higkeiten oder den Charakter von jemandem oder etwas",
+        " Ein Mangel an Vertrauen, Verdacht oder Skepsis in Bezug auf die Integrit\u00e4t, die F\u00e4higkeiten oder den Charakter von jemandem oder etwas"
+    ],
+    [
+        " Ein Gef\u00fchl von Zufriedenheit, Gl\u00fcck oder Leichtigkeit mit der aktuellen Situation oder den Umst\u00e4nden",
+        " Ein Gef\u00fchl der Unzufriedenheit oder des Unbehagens mit der aktuellen Situation oder den Umst\u00e4nden"
     ]
 ]
