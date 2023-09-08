@@ -7,6 +7,7 @@ from sensepolar.polarity import WordPolarity
 from sensepolar.embed.bertEmbed import BERTWordEmbeddings
 from sensepolar.embed.albertEmbed import ALBERTWordEmbeddings
 from sensepolar.embed.robertaEmbed import RoBERTaWordEmbeddings
+from sensepolar.embed.gptEmbed import GPT2WordEmbeddings
 from sensepolar.polarDim import PolarDimensions
 from sensepolar.oracle.dictionaryapi import Dictionary
 import nltk
@@ -196,12 +197,12 @@ from itertools import product
 from sklearn.metrics import classification_report
 
 experiment_settings = {
-        "embed_model": [RoBERTaWordEmbeddings, BERTWordEmbeddings, ALBERTWordEmbeddings],  
+        "embed_model": [GPT2WordEmbeddings],  
         "polar_dimension": [ 786, 1586], 
         "WordPolarity_method": ["base-change", "projection"], 
         "PoemSentimentDataset_method": ["avg", "cls"], 
         "layer": [2, 3, 4, 5], 
-        "avg_embed": [True]
+        "avg_embed": [True, False]
     }
 # Create a list of lists containing values for each setting
 setting_values = [values for values in experiment_settings.values()]
@@ -228,7 +229,7 @@ for setting_combination in product(*setting_values):
         embed_model = embed_model(layer=layer, avg_layers=avg_embed)
         
         dictionary = Dictionary('wordnet', api_key='')    
-        lookupSpace = LookupCreator(dictionary, out_path, antonyms_file_path=antonym_path)
+        lookupSpace = LookupCreator(dictionary, out_path, antonyms_file_path=antonym_path, is_path=True)
         lookupSpace.create_lookup_files()
         antonym_path = out_path + "polar_dimensions.pkl"
 

@@ -1,18 +1,1 @@
-[
-    [
-        "happy",
-        "sad"
-    ],
-    [
-        "hot",
-        "cold"
-    ],
-    [
-        "big",
-        "small"
-    ],
-    [
-        "fast",
-        "slow"
-    ]
-]
+[]

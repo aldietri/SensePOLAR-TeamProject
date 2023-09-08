@@ -23,6 +23,7 @@ class AntonymSpace:
             W_norm (np.ndarray): Normalized antonym space matrix.
             W_inverse (np.ndarray): Inverse of the transpose of the normalized antonym space matrix.
         """
+        print('Antonyms', self.antonyms)
         if len(self.antonyms[0]) == 3:
             # Case [anto-1, anto1, direction]
             axisList=[]

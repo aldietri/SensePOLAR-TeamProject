@@ -23,7 +23,7 @@ class LookupCreator:
         The directory path to store the lookup files.
     """
 
-    def __init__(self, dictionary, out_path="./antonyms/", antonym_pairs=None, antonyms_file_path=None, generate_examples=False, num_examples=2):
+    def __init__(self, dictionary, out_path="./antonyms/", antonym_pairs=None, antonyms_file_path=None, generate_examples=False, num_examples=2, is_path=False):
         """
         Initialize the LookupCreator.
 
@@ -37,6 +37,7 @@ class LookupCreator:
         self.antonym_pairs = antonym_pairs
         self.definitions = None
         self.examples = None
+        self.is_path = is_path
         if antonyms_file_path is not None:
             self.antonym_pairs, self.definitions, self.examples = self.retrieve_from_file(antonyms_file_path)
         self.out_path = out_path
@@ -122,8 +123,10 @@ class LookupCreator:
         """
         # TODO: May or may not need to be changed back
         # Why do we need this? - Look for a workaround
-        # data = pd.read_excel(file_path, header=0)
-        data = file_path
+        if self.is_path:
+            data = pd.read_excel(file_path, header=0)
+        else:
+            data = file_path
         antonyms = []
         definitions = defaultdict()
         examples = defaultdict()
@@ -183,7 +186,7 @@ class LookupCreator:
             self.definitions = synset_defs
         else:
             synset_defs = [[self.definitions[anto] for anto in pair] for pair in antonyms]
-            # print(synset_defs)
+            print(synset_defs)
         if self.examples is None:
             self.examples = []
             for i, pair in enumerate(antonyms):

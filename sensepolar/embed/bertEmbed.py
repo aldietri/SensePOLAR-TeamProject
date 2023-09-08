@@ -21,7 +21,7 @@ class BERTWordEmbeddings:
         Takes a sentence and a word and returns the word embedding of that word in the sentence.
     """
 
-    def __init__(self, model_name='bert-base-uncased', layer=2):
+    def __init__(self, model_name='bert-base-uncased', layer=2, avg_layers=False):
         """
         Initializes a BERT tokenizer and model object.
 
@@ -32,6 +32,7 @@ class BERTWordEmbeddings:
         """
         self.model_name = model_name
         self.layer = layer
+        self.avg_layers = avg_layers
         self.tokenizer = BertTokenizerFast.from_pretrained(model_name)
         self.model = BertModel.from_pretrained(model_name, output_hidden_states=True)
         self.model.eval()
@@ -77,6 +78,13 @@ class BERTWordEmbeddings:
         encoded = self.tokenizer.encode_plus(sentence, return_tensors="pt")
         token_ids_word =np.where(np.array(encoded.word_ids()) == idx)
         states = self.get_hidden_states(encoded)
-        output = states[-self.layer][0]
-        word_tokens_output = output[token_ids_word]
-        return word_tokens_output.mean(dim=0)
+        print(states[-self.layer][0].shape)
+        if self.avg_layers:
+            embeddings_to_average = states[-self.layer:]
+            word_tokens_output = torch.cat([output[0][token_ids_word] for output in embeddings_to_average], dim=0)
+            word_embedding = word_tokens_output.mean(dim=0)
+        else:
+            output = states[-self.layer][0]
+            word_embedding = output[token_ids_word].mean(dim=0)
+        
+        return word_embedding

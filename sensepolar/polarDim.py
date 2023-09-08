@@ -104,6 +104,7 @@ class PolarDimensions:
         embedding_list = []
         for sent in sentences:
             wordpart_list = [self.model.get_word_embedding(sent, w) for w in words]
+            # print(wordpart_list)
             cur_embedding = torch.mean(torch.stack(wordpart_list), dim=0)
             if torch.isnan(cur_embedding).any():
                 print("Nan in sentence: " + sent)

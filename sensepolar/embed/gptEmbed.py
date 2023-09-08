@@ -21,7 +21,7 @@ class GPT2WordEmbeddings:
         Takes a sentence and a word and returns the word embedding of that word in the sentence from the specified layer.
     """
 
-    def __init__(self, model_name='gpt2'):
+    def __init__(self, model_name='gpt2', layer=2, avg_layers=False):
         """
         Initializes a GPT-2 fast tokenizer and model object.
 
@@ -31,6 +31,9 @@ class GPT2WordEmbeddings:
             The name of the GPT-2 model to be used for generating embeddings, by default 'gpt2'
         """
         self.tokenizer = GPT2TokenizerFast.from_pretrained(model_name)
+        self.model_name = model_name
+        self.layer = layer
+        self.avg_layers = avg_layers
         self.model = GPT2Model.from_pretrained(model_name, output_hidden_states=True)
         self.model.eval()
 
@@ -55,7 +58,7 @@ class GPT2WordEmbeddings:
         states = output.hidden_states[layer]
         return states
 
-    def get_word_embedding(self, sentence, word, layer=-1):
+    def get_word_embedding(self, sentence, word):
         """
         Takes a sentence, a word, and an optional layer index and returns the word embedding of that word in the sentence
         at the specified layer.
@@ -81,6 +84,16 @@ class GPT2WordEmbeddings:
         with torch.no_grad():
             output = self.model(**encoded, output_hidden_states=True)
         states = output.hidden_states
-        output_layer = states[layer][0]
-        word_embedding = torch.mean(output_layer[token_ids_word], dim=0)
+        if self.avg_layers:
+            embeddings_to_average = states[-self.layer:]
+            word_tokens_output = torch.cat([output[0][token_ids_word] for output in embeddings_to_average], dim=0)
+            word_embedding = word_tokens_output.mean(dim=0)
+        else:
+            output = states[-self.layer][0]
+            # print(output[token_ids_word])
+            word_embedding = output[token_ids_word].mean(dim=0)
+        # print(word_embedding)
         return word_embedding
+        # output_layer = states[layer][0]
+        # word_embedding = torch.mean(output_layer[token_ids_word], dim=0)
+        # return word_embedding

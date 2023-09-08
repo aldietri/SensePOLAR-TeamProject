@@ -93,7 +93,6 @@ class WordPolarity:
             return None
 
         cur_word_emb = self.model.get_word_embedding(context, word)
-
         if self.normalize_term is not None:
             cur_word_emb -= self.normalize_term
         polar_emb = torch.matmul(self.W_torch, cur_word_emb)
