@@ -80,15 +80,14 @@ class LookupCreator:
         if antonym in self.example_cache:
             return self.example_cache[(antonym, index)]
         examples = self.dictionary.get_examples(antonym)
-        print(len(examples), index)
         if len(examples) > index:
-             examples = self.dictionary.get_examples(antonym)[index]
+             examples = examples[index]
         else:
             examples = []
         if type(examples) != list:
             examples = [examples]
-        definition = self.dictionary.get_definitions(antonym)[index]
         if self.generate_examples:
+            definition = self.dictionary.get_definitions(antonym)[index]
             examples.extend(list(self.example_generator.generate_examples(antonym, definition, self.num_examples)))
         examples = [sent.translate(str.maketrans({k: " " for k in string.punctuation if k != '-'})) for sent in examples]
         examples = [' '.join(re.sub(r"<[^>]+>", "", example).split()) for example in examples]
@@ -186,7 +185,6 @@ class LookupCreator:
             self.definitions = synset_defs
         else:
             synset_defs = [[self.definitions[anto] for anto in pair] for pair in antonyms]
-            print(synset_defs)
         if self.examples is None:
             self.examples = []
             for i, pair in enumerate(antonyms):

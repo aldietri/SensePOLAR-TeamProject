@@ -36,6 +36,8 @@ class Dictionary:
         self.api_key = api_key
         self.source_lang = source_lang
         self.urls = self._get_urls()
+        self.examples_cache = {} 
+        self.definitions_cache = {} 
 
     def _get_urls(self):
         """
@@ -49,8 +51,8 @@ class Dictionary:
             urls['definitions'] = 'https://od-api.oxforddictionaries.com/api/v2/entries/{source_lang}/{word_id}'
             urls['examples'] = 'https://od-api.oxforddictionaries.com/api/v2/entries/{source_lang}/{word_id}/sentences'
         elif self.dictionary_id == 'wordnik':
-            urls['definitions'] = 'https://api.wordnik.com/v4/word.json/{word}/definitions?limit=100&includeRelated=false&useCanonical=false&includeTags=false&api_key={api_key}'
-            urls['examples'] = 'https://api.wordnik.com/v4/word.json/{word}/definitions?limit=100&includeRelated=false&useCanonical=false&includeTags=false&api_key={api_key}'
+            urls['definitions'] = 'https://api.wordnik.com/v4/word.json/{word}/definitions?limit=20&includeRelated=false&useCanonical=false&includeTags=false&api_key={api_key}'
+            urls['examples'] = 'https://api.wordnik.com/v4/word.json/{word}/definitions?limit=20&includeRelated=false&useCanonical=false&includeTags=false&api_key={api_key}'
         elif self.dictionary_id == 'wordnet':
             urls['definitions'] = None
             urls['examples'] = None
@@ -83,11 +85,13 @@ class Dictionary:
         """
         Get the definitions for a given word from the chosen dictionary.
         """
+        if word in self.examples_cache:
+            return self.examples_cache[word] 
         all_examples = []
         if self.dictionary_id == 'wordnet':
             for synset in wordnet.synsets(word):
-                # if len(synset.examples()) == 0:
-                #     continue
+                if len(synset.examples()) == 0:
+                    continue
                 all_examples.append(synset.examples())
             # print(len(all_examples),'all_examples', all_examples)
             return all_examples
@@ -118,7 +122,7 @@ class Dictionary:
                     if definitions:
                         for definition in definitions:
                             example_uses = definition.get("example")
-                            if example_uses:
+                            if example_uses and len(example_uses) > 1:
                             #     example_uses = []
                                 all_examples.append(example_uses)  
         elif self.dictionary_id == 'wordnik':
@@ -126,11 +130,11 @@ class Dictionary:
                 if 'text' in entry.keys():
                     definition = entry['text']
                     examples = [example['text'] for example in entry['exampleUses'] if 'text' in example.keys()]
-                    # if examples:
-                    # #     examples = []
-                    all_examples.append(examples)
+                    if len(examples) > 0:
+                        all_examples.append(examples)
         else:
             raise ValueError(f"Dictionary '{self.dictionary_id}' not supported")
+        self.examples_cache[word] = all_examples
         return all_examples
         
 
@@ -139,6 +143,8 @@ class Dictionary:
         """
         Get the examples for a given word from the chosen dictionary.
         """
+        if word in self.definitions_cache:
+            return self.definitions_cache[word]
         all_definitions = []
         if self.dictionary_id == 'wordnet':
             definitions = []
@@ -148,6 +154,7 @@ class Dictionary:
                 all_definitions.append([synset.definition()])
             return all_definitions
         url = self.urls['definitions'].format(word=word, api_key=self.api_key, source_lang=self.source_lang)
+        # print(url)
         response = self._make_request(url)
         if response is None:
             return []
@@ -161,7 +168,7 @@ class Dictionary:
                     if definitions:
                         for definition in definitions:
                             example_uses = definition.get("example")
-                            if example_uses:
+                            if example_uses and len(example_uses) > 0:
                                 all_definitions.append([definition.get("definition")])
         elif self.dictionary_id == 'oxford':
             entries = response.get('results', [{}])[0].get('lexicalEntries', [])
@@ -176,8 +183,10 @@ class Dictionary:
                 if 'text' in entry.keys():
                     definition = entry['text']
                     examples = [example['text'] for example in entry.get('exampleUses', []) if example['text']]
-                    # if examples:
-                    all_definitions.append([definition])
+                    if len(examples) > 0:
+                        all_definitions.append([definition])
+                    # print('Def:', word, all_definitions, len(all_definitions))
+        self.definitions_cache[word] = list(all_definitions)
         return list(all_definitions)
     
     def get_synonyms(self, word):
