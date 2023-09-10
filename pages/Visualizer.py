@@ -249,7 +249,7 @@ with st.sidebar:
     x_axis_index = 0
     y_axis_index = 0
     axes_values = list(zip(st.session_state["df_results"]["antonym_1"][:antonym_count], st.session_state["df_results"]["antonym_2"][:antonym_count]))
-    axes_values = [[re.sub("_\d", "", ant) for ant in axis] for axis in axes_values]
+    axes_values = [[re.sub("_\d", "", ant) for ant in axis] for axis in axes_values if (str(axis[0]) != "nan" and str(axis[1]) != "nan")]
     if "2D" in selected_options:
         st.markdown("## 2D")
         axes_column = st.columns(2)
