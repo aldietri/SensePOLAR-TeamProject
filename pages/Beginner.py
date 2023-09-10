@@ -11,7 +11,6 @@ import streamlit.components.v1 as components
 
 import pandas as pd
 import numpy as np
-import re
 
 st.set_page_config(layout="centered", page_title="SensePOLAR", page_icon="🌊")
 st.elements.utils._shown_default_value_warning=True
@@ -181,7 +180,6 @@ with st.sidebar:
     # Select method (projection or base-change)
     st.markdown("# Visualization")
     method = st.selectbox("Please select a transformation method for the antonym space", ["base-change", "projection"])
-    
     if len(st.session_state["antonyms"]) < 2:
         given_options = ["Standard", "Polar", "Most discriminative"]
     else:
@@ -196,14 +194,14 @@ with st.sidebar:
         # Ascending or Descending ordering of Most descriminative antonym pairs
         selected_ordering = st.selectbox("Please select the ordering of the antonym pairs", options=["Ascending", "Descending"])
         
-    # Axes choice for 2D plot
+    # Axes choice for 2d plot and polar plot
     x_axis_index = 0
     y_axis_index = 0
+    axes_values = list(st.session_state["antonyms"].values())
+    axes_values = [[ant.split("_")[0] for ant in axis] for axis in axes_values]
     if "2D" in selected_options:
         st.markdown("## 2D")
         axes_column = st.columns(2)
-        axes_values = list(st.session_state["antonyms"].values())
-        axes_values = [[re.sub("_\d", "", ant) for ant in axis] for axis in axes_values]
         x_axis = axes_column[0].selectbox("x-axis", axes_values, format_func=lambda x: ", ".join(x))
         x_axis_index = axes_values.index(x_axis)
         y_axis = axes_column[1].selectbox("y-axis", axes_values, format_func=lambda x: ", ".join(x))

@@ -13,7 +13,6 @@ from sensepolar.embed.robertaEmbed import RoBERTaWordEmbeddings
 
 import pandas as pd
 import numpy as np
-import re
 
 st.set_page_config(layout="centered", page_title="SensePOLAR", page_icon="🌊")
 st.elements.utils._shown_default_value_warning=True
@@ -582,7 +581,8 @@ with st.sidebar:
 
 
     # Select visualisations
-    if len(st.session_state["df_value_polar"]) < 2:
+    nan_count = st.session_state["df_value_polar"][["antonym_1", "antonym_2"]].isna().any(axis=1).sum()
+    if len(st.session_state["df_value_polar"]) - nan_count < 2:
         given_options = ["Standard", "Polar", "Most discriminative"]
     else:
         given_options = ["Standard", "2D", "Polar", "Most discriminative"]                 
@@ -596,11 +596,13 @@ with st.sidebar:
         # Ascending or Descending ordering of Most descriminative antonym pairs
         selected_ordering = st.selectbox("Please select the ordering of the antonym pairs", options=["Ascending", "Descending"])
 
-    # Axes choice for 2d plot
+    # Axes choice for 2d plot and polar plot
     x_axis_index = 0
     y_axis_index = 0
+    st.session_state["df_value_polar"].replace(np.nan, None, inplace=True)
     axes_values = list(zip(st.session_state["df_value_polar"]["antonym_1"], st.session_state["df_value_polar"]["antonym_2"]))
-    axes_values = [[re.sub("_\d", "", ant) for ant in axis] for axis in axes_values if (str(axis[0]) != "nan" and str(axis[1]) != "nan")]
+    axes_values = [[ant.split("_")[0] for ant in axis] for axis in axes_values if axis[0] and axis[1]]
+
     if "2D" in selected_options:
         st.markdown("## 2D")
         axes_column = st.columns(2)
