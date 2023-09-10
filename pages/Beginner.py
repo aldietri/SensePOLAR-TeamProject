@@ -802,7 +802,7 @@ def create_visualisations(options, words, contexts, polar_dimensions, k, x_axis,
 
     # TODO Fix ordering and implemnent polar axes like in expert page
     ordering = "asec" if ordering == "Ascending" else "desc"
-    plotter = PolarityPlotter(order_by=ordering)
+    plotter = PolarityPlotter(sort_by="descriptive", order_by=ordering)
 
     tabs = st.tabs(options)
 
