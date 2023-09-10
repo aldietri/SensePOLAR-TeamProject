@@ -93,6 +93,16 @@ tooltip_hover_target = """
 """
 st.markdown(tooltip_hover_target, unsafe_allow_html=True) 
 
+#
+colour_widget_display = """
+<style>
+[data-stale="false"] {
+    display: None
+}
+</style>
+"""
+# st.markdown(colour_widget_display, unsafe_allow_html=True) 
+
 # def ChangeWidgetFontSize(wgt_txt, wch_font_size = '12px'):
 #     htmlstr = """<script>var elements = window.parent.document.querySelectorAll('*'), i;
 #                     for (i = 0; i < elements.length; ++i) { if (elements[i].innerText == |wgt_txt|) 
@@ -159,7 +169,7 @@ if "mem_api_key" not in st.session_state:
 with st.sidebar:
     # Dictionary selection
     st.markdown("# Dictionary")
-    selected_dict = st.selectbox("Please select a dictionary", ["wordnet", "wordnik", "dictionaryapi"]) 
+    selected_dict = st.selectbox("Please select a dictionary", ["wordnet", "wordnik [Experimental]", "dictionaryapi [Experimental]"]).split(" ")[0]
     api_key = ""
     if selected_dict == "wordnik":
         api_key = st.text_input("Please insert your API KEY", key="api_key", value=st.session_state["mem_api_key"]).strip()
@@ -206,7 +216,7 @@ with st.sidebar:
         st.markdown("## Polar")
         polar_display = st.selectbox("Please select the way the polar axes should be displayed in", ["solo", "grouped"])
 
-        polar_axes = st.multiselect("Please select the axis values that are to be displayed in the polar plot", axes_values, default=axes_values[0:2], format_func=lambda x: ", ".join(x))
+        polar_axes = st.multiselect("Please select the axis values that are to be displayed in the polar plot", axes_values, default=axes_values[0:len(axes_values)], format_func=lambda x: ", ".join(x))
 
     # Number Input for Most discriminative plot
     k = 3
@@ -469,9 +479,9 @@ def generate_row(row_id, selected_dict, api_key):
         # Definition Selectboxes
         def1 = defCol.selectbox("Definition", definitions1, index=def1_index, key=f"select1_{row_id}")
         def2 = defCol.selectbox("Definition", definitions2, index=def2_index, key=f"select2_{row_id}", label_visibility="hidden")
-
+        
         # Change color of defintion text
-        ColourWidgetText("Definition", "#FFFFFF")
+        # ColourWidgetText("Definition", "#FFFFFF")
 
     # Get idx to have a boundary of which examples are to be checked, i.e., only previous subjects are to be checked and not all to achieve consistent numbering
     idx = st.session_state["rows_antonyms"].index(row_id)
@@ -715,7 +725,6 @@ def create_sense_polar(_model_, antonyms, examples, indices, method, selected_di
     dictionary = create_dictionary(selected_dict, api_key)
     lookupSpace = LookupCreator(dictionary=dictionary, out_path=out_path, antonym_pairs=antonyms)
     lookupSpace.create_lookup_files(indices)
-    # st.write(lookupSpace.definitions)
 
     # Create polar Dimensions
     pdc = PolarDimensions(_model_, antonym_path=out_path + "antonym_wordnet_example_sentences_readable_extended.txt")
@@ -1021,6 +1030,9 @@ if executeCol.button("Execute") or st.session_state["result_download"]:
 if polar_results:
         result_download = st.download_button(label="Download Results", data=polar_results, file_name="SensePolar_Results.csv", key="result_download")
  
+# Change color of defintion text
+ColourWidgetText("Definition", "#FFFFFF")
+
 # Signifies that first page load is over
 if st.session_state["initial_page_load_example"]:
     st.session_state["initial_page_load_example"] = False

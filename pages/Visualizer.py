@@ -265,7 +265,7 @@ with st.sidebar:
         st.markdown("## Polar")
         polar_display = st.selectbox("Please select the way the polar axes should be displayed in", ["solo", "grouped"])
 
-        polar_axes = st.multiselect("Please select the axis values that are to be displayed in the polar plot", axes_values, default=axes_values[0:2], format_func=lambda x: ", ".join(x))
+        polar_axes = st.multiselect("Please select the axis values that are to be displayed in the polar plot", axes_values, default=axes_values[0:len(axes_values)], format_func=lambda x: ", ".join(x))
 
     # Number Input for Most discriminative plot
     k = 3

@@ -8,7 +8,6 @@ from sensepolar.plotter import PolarityPlotter
 import streamlit.components.v1 as components
 
 from sensepolar.embed.bertEmbed import BERTWordEmbeddings
-from sensepolar.embed.albertEmbed import ALBERTWordEmbeddings
 from sensepolar.embed.gptEmbed import GPT2WordEmbeddings
 from sensepolar.embed.robertaEmbed import RoBERTaWordEmbeddings
 
@@ -105,7 +104,7 @@ with st.expander("Intro", expanded=True):
     st.write("""
         Welcome to our expert page! 🚀 Here, we delve deeper into the powerful SensePOLAR Framework, 
         a versatile page that empowers users with extensive customization options and advanced capabilities. 
-        Use in-field customization and effortlessly manage files for optimal NLP performance to 
+        Use in-field customization, switch between language models and effortlessly manage files for optimal NLP performance to 
         unleash the full potential of the SensePOLAR Framework and shape the future of NLP. Let your expertise soar! 🏆
     """)
 
@@ -429,9 +428,7 @@ def load_bert_model(model_name='bert-base-uncased'):
     # Load Bert model.
     """
 
-    if model_name == "albert-base-v2":
-        return ALBERTWordEmbeddings(model_name=model_name)
-    elif model_name == "bert-base-uncased":
+    if model_name == "bert-base-uncased":
         return BERTWordEmbeddings(model_name=model_name)
     elif model_name == "gpt2":
         return GPT2WordEmbeddings(model_name=model_name)
@@ -577,7 +574,7 @@ def create_visualisations(options, words, contexts, polar_dimensions, k, x_axis,
 with st.sidebar:
     st.markdown("# Visualization")
     # Select Bert Model
-    model_name = st.selectbox("Please select the language model that you want to use", ["albert-base-v2", "bert-base-uncased", "gpt2", "roberta-base"], index=1)
+    model_name = st.selectbox("Please select the language model that you want to use", ["bert-base-uncased", "gpt2", "roberta-base"])
     st.session_state["model_name"] = model_name
 
     # Select method (projection or base-change)
@@ -603,7 +600,7 @@ with st.sidebar:
     x_axis_index = 0
     y_axis_index = 0
     axes_values = list(zip(st.session_state["df_value_polar"]["antonym_1"], st.session_state["df_value_polar"]["antonym_2"]))
-    axes_values = [[re.sub("_\d", "", ant) for ant in axis] for axis in axes_values]
+    axes_values = [[re.sub("_\d", "", ant) for ant in axis] for axis in axes_values if (str(axis[0]) != "nan" and str(axis[1]) != "nan")]
     if "2D" in selected_options:
         st.markdown("## 2D")
         axes_column = st.columns(2)
@@ -619,7 +616,7 @@ with st.sidebar:
         st.markdown("## Polar")
         polar_display = st.selectbox("Please select the way the polar axes should be displayed in", ["solo", "grouped"])
 
-        polar_axes = st.multiselect("Please select the axis values that are to be displayed in the polar plot", axes_values, default=axes_values[0:2], format_func=lambda x: ", ".join(x))
+        polar_axes = st.multiselect("Please select the axis values that are to be displayed in the polar plot", axes_values, default=axes_values[0:len(axes_values)], format_func=lambda x: ", ".join(x))
 
     # Number Input for Most discriminative plot
     k = 3
