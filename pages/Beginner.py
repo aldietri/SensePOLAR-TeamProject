@@ -423,9 +423,8 @@ def generate_row(row_id, selected_dict, api_key):
         def1 = st.session_state[f"mem_select1_{row_id}"]
         def2 = st.session_state[f"mem_select2_{row_id}"]
 
-    # TODO: Icon of minimize button dependent on state
-    minIcon = ":heavy_minus_sign:" #"🗕" if st.session_state[f"min_{row_id}"] else "🗖"
-    delIcon = ":x:" #✖
+    minIcon = ":heavy_minus_sign:"
+    delIcon = ":x:"
 
     # Minimze and Delete buttons
     minCol, delCol = buttonColumns.columns(2)
@@ -742,12 +741,17 @@ def create_sense_polar(_model_, antonyms, examples, indices, method, selected_di
 
     # Create result dataframe
 
+    ordered_polar_dimensions = []
+    for dim in polar_dimensions:
+            order_dim = sorted(dim, key=lambda x: (x[0][0][0], x[0][1][0]))
+            ordered_polar_dimensions.append(order_dim)
+
     # Value sorting of the respective columns
-    antonym_1 = [dim[0][0] for dim in polar_dimensions[0]] * len(words)
-    definition_1 = [dim[0][1] for dim in polar_dimensions[0]] * len(words)
-    antonym_2 = [dim[1][0] for dim in polar_dimensions[0]] * len(words)
-    definition_2 = [dim[1][1] for dim in polar_dimensions[0]] * len(words)
-    polar_values = [dim[2] for subdim in polar_dimensions for dim in subdim]
+    antonym_1 = [dim[0][0] for dim in ordered_polar_dimensions[0]] * len(words)
+    definition_1 = [dim[0][1] for dim in ordered_polar_dimensions[0]] * len(words)
+    antonym_2 = [dim[1][0] for dim in ordered_polar_dimensions[0]] * len(words)
+    definition_2 = [dim[1][1] for dim in ordered_polar_dimensions[0]] * len(words)
+    polar_values = [dim[2] for subdim in ordered_polar_dimensions for dim in subdim]
 
     polar_words = np.repeat(words, len(antonym_1)/len(words))
     polar_contexts = np.repeat(contexts, len(antonym_1)/len(contexts))
@@ -800,7 +804,6 @@ def create_visualisations(options, words, contexts, polar_dimensions, k, x_axis,
         A list containing the axes that are to be displayed in the polar plot.
     """
 
-    # TODO Fix ordering and implemnent polar axes like in expert page
     ordering = "asec" if ordering == "Ascending" else "desc"
     plotter = PolarityPlotter(sort_by="descriptive", order_by=ordering)
 
@@ -822,7 +825,6 @@ def create_visualisations(options, words, contexts, polar_dimensions, k, x_axis,
         tabs[options.index("Polar")].plotly_chart(fig, use_container_width=True)
 
     if "Most discriminative" in options:
-        # TODO: Use selected ordering
         fig = plotter.plot_descriptive_antonym_pairs(words, contexts, polar_dimensions, words, k)
         tabs[options.index("Most discriminative")].plotly_chart(fig, use_container_width=True)
 

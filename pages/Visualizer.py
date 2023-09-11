@@ -177,9 +177,8 @@ def create_visualisations(options, dataframe, k, x_axis, y_axis, ordering, polar
         A list containing the axes that are to be displayed in the polar plot.
     """
 
-    # TODO Fix ordering and implemnent polar axes like in expert page
     ordering = "asec" if ordering == "Ascending" else "desc"
-    plotter = PolarityPlotter(order_by=ordering)
+    plotter = PolarityPlotter(sort_by="descriptive", order_by=ordering)
 
     # Get all unique words
     words = dataframe["word"].unique().tolist()
@@ -215,11 +214,10 @@ def create_visualisations(options, dataframe, k, x_axis, y_axis, ordering, polar
         if polar_absolute == "grouped":
             fig = plotter.plot_word_polarity_polar_absolute(words, contexts, polar_dimensions, polar_axes)
         else:
-            fig = plotter.plot_word_polarity_polar(words, contexts, polar_dimensions, polar_axes)
+            fig = plotter.plot_word_polarity_polar(words, contexts, polar_dimensions, polar_axes)   
         tabs[options.index("Polar")].plotly_chart(fig, use_container_width=True)
 
     if "Most discriminative" in options:
-        # TODO: Use selected ordering
         fig = plotter.plot_descriptive_antonym_pairs(words, contexts, polar_dimensions, words, k)
         tabs[options.index("Most discriminative")].plotly_chart(fig, use_container_width=True)
 

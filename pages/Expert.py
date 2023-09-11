@@ -486,12 +486,17 @@ def create_sense_polar(_model_, model_name, df, examples, method):
 
     # Create result dataframe
 
+    ordered_polar_dimensions = []
+    for dim in polar_dimensions:
+            order_dim = sorted(dim, key=lambda x: (x[0][0][0], x[0][1][0]))
+            ordered_polar_dimensions.append(order_dim)
+
     # Value sorting of the respective columns
-    antonym_1 = [dim[0][0] for dim in polar_dimensions[0]] * len(words)
-    definition_1 = [dim[0][1] for dim in polar_dimensions[0]] * len(words)
-    antonym_2 = [dim[1][0] for dim in polar_dimensions[0]] * len(words)
-    definition_2 = [dim[1][1] for dim in polar_dimensions[0]] * len(words)
-    polar_values = [dim[2] for subdim in polar_dimensions for dim in subdim]
+    antonym_1 = [dim[0][0] for dim in ordered_polar_dimensions[0]] * len(words)
+    definition_1 = [dim[0][1] for dim in ordered_polar_dimensions[0]] * len(words)
+    antonym_2 = [dim[1][0] for dim in ordered_polar_dimensions[0]] * len(words)
+    definition_2 = [dim[1][1] for dim in ordered_polar_dimensions[0]] * len(words)
+    polar_values = [dim[2] for subdim in ordered_polar_dimensions for dim in subdim]
 
     polar_words = np.repeat(words, len(antonym_1)/len(words))
     polar_contexts = np.repeat(contexts, len(antonym_1)/len(contexts))
@@ -543,9 +548,8 @@ def create_visualisations(options, words, contexts, polar_dimensions, k, x_axis,
         A list containing the axes that are to be displayed in the polar plot.
     """
 
-    # TODO implement ordering properly
     ordering = "asec" if ordering == "Ascending" else "desc"
-    plotter = PolarityPlotter(sort_by="descriptive",order_by=ordering)
+    plotter = PolarityPlotter(sort_by="descriptive", order_by=ordering)
 
     tabs = st.tabs(options)
 
