@@ -357,7 +357,7 @@ def get_dict_definitions(word, selected_dict, api_key):
 def get_dict_example(word, selected_dict, api_key, index):
     if word == "":
         return 0, ""
-
+    
     # Create dicitonary
     oracle = create_dictionary(selected_dict, api_key)
 
@@ -370,7 +370,7 @@ def get_dict_example(word, selected_dict, api_key, index):
 
     # Loop through examples until an example can be fetched
     example = ""
-    for i in range(len(examples)):
+    for _ in range(len(examples)):
         if len(examples[index]) > 0:
            example = examples[index][0]
            break 
@@ -886,15 +886,15 @@ def convert_df(antonyms, definitions, indices):
         for idx, antonym_pair in zip(def_indices, antonyms):
             # If antonym pair is initialized update data else populate with empty strings
             if len(antonym_pair) > 0:
-                ant1 = antonym_pair[0]
-                ant2 = antonym_pair[1]
+                ant1 = antonym_pair[0].split("_")[0]
+                ant2 = antonym_pair[1].split("_")[0]
 
                 data["antonym_1"].append(ant1)
                 data["antonym_2"].append(ant2)
 
                  # Fetch examples from defintion
-                example1 = get_dict_example(ant1, selected_dict, api_key, idx[0]) if ant1 else ""
-                example2 = get_dict_example(ant2, selected_dict, api_key, idx[1]) if ant2 else ""
+                _, example1 = get_dict_example(ant1, selected_dict, api_key, idx[0]) if ant1 else ""
+                _, example2 = get_dict_example(ant2, selected_dict, api_key, idx[1]) if ant2 else ""
 
                 # Save to dict
                 data["example_antonym_1"].append(example1)
