@@ -128,10 +128,11 @@ class PolarDimensions:
         Raises:
             None.
         """
-        antonym_dict = self.load_antonyms_from_json(self.antonym_path)
+        antonym_dict = self.load_antonyms_from_json(self.antonym_path)       
         print(antonym_dict)
         direction_vectors = []
-        for antonym_wn, sentences in antonym_dict.items():
+        for antonym_wn_0, sentences in antonym_dict.items():
+            antonym_wn = list(map(str.lower,antonym_wn_0))
             antonym_wn = [anto.split('_')[0] if '_' in list(anto) else anto for anto in antonym_wn]
             sentences = {key.split('_')[0] if '_' in list(key) else key: value for key, value in sentences.items()}
             print(sentences)

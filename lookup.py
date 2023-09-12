@@ -134,8 +134,8 @@ class LookupCreator:
         antonyms_doppelt = defaultdict()
 
         for index, row in data.iterrows():
-            antonym_1 = row['antonym_1']
-            antonym_2 = row['antonym_2']
+            antonym_1 = row['antonym_1'].lower()
+            antonym_2 = row['antonym_2'].lower()
             example_antonym_1 = row['example_antonym_1']
             example_antonym_2 = row['example_antonym_2']
             def1 = row['def1']
