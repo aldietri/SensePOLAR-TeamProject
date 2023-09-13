@@ -370,12 +370,20 @@ def get_dict_example(word, selected_dict, api_key, index):
 
     # Loop through examples until an example can be fetched
     example = ""
-    for _ in range(len(examples)):
-        if len(examples[index]) > 0:
-           example = examples[index][0]
-           break 
-        else:
-            index += 1
+    if selected_dict == "dictionaryapi":
+        if len(examples) > 0:
+            example = examples[index]
+            while not example:
+                index += 1
+                example = examples[index]
+
+    else:   
+        for _ in range(len(examples)):
+            if len(examples[index]) > 0:
+                example = examples[index][0]
+            while not example:
+                index += 1
+                example = examples[index][0]
 
     return index, example
 
@@ -831,7 +839,6 @@ def create_visualisations(options, antonyms, definitions, words, contexts, polar
         x_axis_value = ant_def_pair[x_axis]
         y_axis_value = ant_def_pair[y_axis]
 
-        # fig = plotter.plot_word_polarity_2d(words, contexts, polar_dimensions, x_axis=x_axis, y_axis=y_axis)
         fig = plotter.plot_word_polarity_2d(words, contexts, polar_dimensions, x_axis=x_axis_value, y_axis=y_axis_value)
         tabs[options.index("2D")].plotly_chart(fig, use_container_width=True)
 
