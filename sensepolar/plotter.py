@@ -372,10 +372,10 @@ class PolarityPlotter:
             fig.add_trace(go.Scatter(x=[x], y=[y], mode='markers', marker=dict(color=self.word_colors[word[0]], size=18),
                                     name=word[0], hoverinfo="text", text=hover_text))
 
-        fig.add_annotation(x=-max_value-0.2, y=0, text=antonyms[y_axis][0][0], showarrow=False, xshift=-15, font=dict(size=18), hovertext=f"Definition: {antonyms[y_axis][0][1]}")
-        fig.add_annotation(x=max_value+0.2, y=0, text=antonyms[y_axis][1][0], showarrow=False, xshift=15, font=dict(size=18), hovertext=f"Definition: {antonyms[y_axis][1][1]}")
-        fig.add_annotation(x=0, y=-max_value, text=antonyms[x_axis][0][0], showarrow=False, yshift=-15, font=dict(size=18), hovertext=f"Definition: {antonyms[x_axis][0][1]}")
-        fig.add_annotation(x=0, y=max_value, text=antonyms[x_axis][1][0], showarrow=False, yshift=15, font=dict(size=18), hovertext=f"Definition: {antonyms[x_axis][1][1]}")
+        fig.add_annotation(x=-max_value-0.2, y=0, text=antonyms[x_axis][0][0], showarrow=False, xshift=-15, font=dict(size=18), hovertext=f"Definition: {antonyms[x_axis][0][1]}")
+        fig.add_annotation(x=max_value+0.2, y=0, text=antonyms[x_axis][1][0], showarrow=False, xshift=15, font=dict(size=18), hovertext=f"Definition: {antonyms[x_axis][1][1]}")
+        fig.add_annotation(x=0, y=-max_value, text=antonyms[y_axis][0][0], showarrow=False, yshift=-15, font=dict(size=18), hovertext=f"Definition: {antonyms[y_axis][0][1]}")
+        fig.add_annotation(x=0, y=max_value, text=antonyms[y_axis][1][0], showarrow=False, yshift=15, font=dict(size=18), hovertext=f"Definition: {antonyms[y_axis][1][1]}")
 
         return fig
 
