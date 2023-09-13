@@ -209,7 +209,6 @@ def create_visualisations(options, dataframe, k, x_axis, y_axis, ordering, polar
         tabs[options.index("Standard")].plotly_chart(fig, use_container_width=True)
 
     if "2D" in options:
-        st.write(dataframe)
         antonyms = dataframe[["antonym_1", "antonym_2"]].values.tolist()
         definitions = dataframe[["definition_1", "definition_2"]].values.tolist()
 
