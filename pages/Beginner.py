@@ -774,9 +774,8 @@ def create_sense_polar(_model_, antonyms, examples, indices, method, selected_di
 
     return df, words, polar_dimensions
 
-
 @st.cache_data
-def create_visualisations(options, words, contexts, polar_dimensions, k, x_axis, y_axis, ordering, polar_absolute, polar_axes):
+def create_visualisations(options, antonyms, definitions, words, contexts, polar_dimensions, k, x_axis, y_axis, ordering, polar_absolute, polar_axes):
     """
     # Creates visualizations for the word embeddings based on the SensePOLAR Framework implementation.
 
@@ -784,6 +783,10 @@ def create_visualisations(options, words, contexts, polar_dimensions, k, x_axis,
     -----------
     options : list
         A list containing the specified plots that are to be returned.
+    antonyms : dict
+        A dict containing antonym pairs.
+    definitions: dict
+        A dict containg the antonym definitions.
     words : list
         A list containing the analyzed words.
     contexts: list
@@ -814,7 +817,22 @@ def create_visualisations(options, words, contexts, polar_dimensions, k, x_axis,
         tabs[options.index("Standard")].plotly_chart(fig, use_container_width=True)
 
     if "2D" in options:
+        antonyms = list(antonyms.values())
+        definitions = list(definitions.values())
+
+        # Iterate through both lists and create antonym definition pairs
+        ant_def_pair = []
+        for sublist1, sublist2 in zip(antonyms, definitions):
+            pair = []
+            for ant, definition in zip(sublist1, sublist2):
+                pair.append([ant, definition])
+            ant_def_pair.append(pair)
+
+        x_axis_value = ant_def_pair[x_axis]
+        y_axis_value = ant_def_pair[y_axis]
+
         fig = plotter.plot_word_polarity_2d(words, contexts, polar_dimensions, x_axis=x_axis, y_axis=y_axis)
+        # fig = plotter.plot_word_polarity_2d(words, contexts, polar_dimensions, x_axis=x_axis_value, y_axis=y_axis_value)
         tabs[options.index("2D")].plotly_chart(fig, use_container_width=True)
 
     if "Polar" in options:
@@ -893,8 +911,8 @@ def convert_df(antonyms, definitions, indices):
                 data["antonym_2"].append(ant2)
 
                  # Fetch examples from defintion
-                _, example1 = get_dict_example(ant1, selected_dict, api_key, idx[0]) if ant1 else ""
-                _, example2 = get_dict_example(ant2, selected_dict, api_key, idx[1]) if ant2 else ""
+                _, example1 = get_dict_example(ant1, selected_dict, api_key, idx[0]) if ant1 else ("", "")
+                _, example2 = get_dict_example(ant2, selected_dict, api_key, idx[1]) if ant2 else ("", "")
 
                 # Save to dict
                 data["example_antonym_1"].append(example1)
@@ -1022,7 +1040,7 @@ if executeCol.button("Execute") or st.session_state["result_download"]:
                     st.warning("The context must contain your example word", icon="⚠️")
                 else:
                     contexts = [elem[1] for elem in st.session_state["examples"].values()]
-                    create_visualisations(selected_options, words, contexts, polar_dimensions, k, x_axis_index, y_axis_index, selected_ordering, polar_display, polar_axes)
+                    create_visualisations(selected_options, st.session_state["antonyms"], st.session_state["definitions"], words, contexts, polar_dimensions, k, x_axis_index, y_axis_index, selected_ordering, polar_display, polar_axes)
             except:
                 st.warning("An error has occured. Please check your selected antonyms or API KEY", icon="⚠️")
 

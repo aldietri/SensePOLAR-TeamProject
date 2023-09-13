@@ -520,7 +520,7 @@ def create_sense_polar(_model_, model_name, df, examples, method):
     return df, words, polar_dimensions
 
 @st.cache_data
-def create_visualisations(options, words, contexts, polar_dimensions, k, x_axis, y_axis, ordering, polar_absolute, polar_axes):
+def create_visualisations(options, df, words, contexts, polar_dimensions, k, x_axis, y_axis, ordering, polar_absolute, polar_axes):
     """
     # Creates visualizations for the word embeddings based on the SensePOLAR Framework implementation.
 
@@ -528,6 +528,8 @@ def create_visualisations(options, words, contexts, polar_dimensions, k, x_axis,
     -----------
     options : list
         A list containing the specified plots that are to be returned.
+    df : pandas.DataFrame
+        A dataframe containing words, antonym pairs, and polar values.
     words : list
         A list containing the analyzed words.
     contexts: list
@@ -558,7 +560,22 @@ def create_visualisations(options, words, contexts, polar_dimensions, k, x_axis,
         tabs[options.index("Standard")].plotly_chart(fig, use_container_width=True)
 
     if "2D" in options:
+        antonyms = df[["antonym_1", "antonym_2"]].values.tolist()
+        definitions = df[["def1", "def2"]].values.tolist()
+
+        # Iterate through both lists and create antonym definition pairs
+        ant_def_pair = []
+        for sublist1, sublist2 in zip(antonyms, definitions):
+            pair = []
+            for ant, definition in zip(sublist1, sublist2):
+                pair.append([ant, definition])
+            ant_def_pair.append(pair)
+
+        x_axis_value = ant_def_pair[x_axis]
+        y_axis_value = ant_def_pair[y_axis]
+
         fig = plotter.plot_word_polarity_2d(words, contexts, polar_dimensions, x_axis=x_axis, y_axis=y_axis)
+        # fig = plotter.plot_word_polarity_2d(words, contexts, polar_dimensions, x_axis=x_axis_value, y_axis=y_axis_value)
         tabs[options.index("2D")].plotly_chart(fig, use_container_width=True)
 
     if "Polar" in options:
@@ -729,7 +746,7 @@ if rightCol.button(label="Execute", key="execute") or st.session_state["result_d
                 if None in polar_dimensions:
                     st.warning("The context must contain your example word", icon="⚠️")
                 else:
-                    create_visualisations(selected_options, words, contexts, polar_dimensions, k, x_axis_index, y_axis_index, selected_ordering, polar_display, polar_axes)
+                    create_visualisations(selected_options, st.session_state["df_value_polar"], words, contexts, polar_dimensions, k, x_axis_index, y_axis_index, selected_ordering, polar_display, polar_axes)
             except:
                 st.warning("An error has occured. Please check your selected Inputs", icon="⚠️")
 
