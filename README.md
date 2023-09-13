@@ -32,7 +32,7 @@ represent a particular sense of a word. For example, “Tide.v.01” represents 
 
 ### Install Requirements
 To install the necessary dependencies, run the following command:
-
+Python verison : 3.10.10
 ```
 pip install -r requirements.txt
 ```
