@@ -1,6 +1,7 @@
 sensepolar/embed/__pycache__/
 sensepolar/oracle/__pycache__/
 antonyms/
+antonyms/*
 .DS_Store
 
 external/
