@@ -223,8 +223,8 @@ def create_visualisations(options, dataframe, k, x_axis, y_axis, ordering, polar
         x_axis_value = ant_def_pair[x_axis]
         y_axis_value = ant_def_pair[y_axis]
 
-        fig = plotter.plot_word_polarity_2d(words, contexts, polar_dimensions, x_axis=x_axis, y_axis=y_axis)
-        # fig = plotter.plot_word_polarity_2d(words, contexts, polar_dimensions, x_axis=x_axis_value, y_axis=y_axis_value)
+        # fig = plotter.plot_word_polarity_2d(words, contexts, polar_dimensions, x_axis=x_axis, y_axis=y_axis)
+        fig = plotter.plot_word_polarity_2d(words, contexts, polar_dimensions, x_axis=x_axis_value, y_axis=y_axis_value)
         tabs[options.index("2D")].plotly_chart(fig, use_container_width=True)
 
     if "Polar" in options:
