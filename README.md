@@ -29,13 +29,19 @@ represent a particular sense of a word. For example, “Tide.v.01” represents 
 
 
 ## Usage
-This first commit only contains the most basic functionalities of the SensePOLAR framework.  
-Any given word will be transformed into our interpretable Word Embedding space and the individual ratings on the scales can be analyzed.  
-The scales, where the word is rated the highest (we call these the 'top SensePOLAR dimensions'), are shown.  
-These dimensions are usually the most descriptive dimensions for a word.  
 
-After installing the python packages below:  
-Simply run 'python polarC.py' in the main folder and follow the instructions.
+### Install Requirements
+To install the necessary dependencies, run the following command:
+
+```
+pip install -r requirements.txt
+```
+
+### Running the web application
+To run the web application, use the following command:
+```
+streamlit run Introduction.py
+```
 
 
 ## GLUE
