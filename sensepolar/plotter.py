@@ -65,21 +65,14 @@ class PolarityPlotter:
         Returns:
             None
         """
-        print(polar_dimension)
+        print("0:Polar", polar_dimension)
         if self.sort_by == 'descriptive':
-            polar_dimension = self.get_most_descriptive_antonym_pairs(words, polar_dimension, words, len(polar_dimension))
-            polar_dimension = polar_dimension if self.order_by == 'desc' else polar_dimension[::-1]
-            converted_data = []
-            for i in range(len(polar_dimension[0][1])):
-                temp = []
-                for pair, values in polar_dimension:
-                    temp.append((*pair, values[i]))
-                converted_data.append(temp)
-            polar_dimension = converted_data
+            self.get_most_descriptive_antonym_pairs(words, polar_dimension, words, -1)
             
         antonym_dict = OrderedDict()
         colors = self.generate_color_list(len(words))
-        print('sorted antonym pairs', self.sorted_antonym_pair)
+        print("1:Polar", polar_dimension)
+        # print('sorted antonym pairs', self.sorted_antonym_pair)
         for w_i in range(len(words)):
             for antonym1, antonym2, value in polar_dimension[w_i]:
                 key = (antonym1, antonym2)
@@ -87,10 +80,12 @@ class PolarityPlotter:
                     antonym_dict[key] = []
                 antonym_dict[key].append(((words[w_i], contexts[w_i]), value))
             self.word_colors[words[w_i]] = colors[w_i]
-        if len(self.sorted_antonym_pair) > 0:
-            self.antonym_dict = OrderedDict((key, antonym_dict[key]) for key in self.sorted_antonym_pair)
+        sorted_antonyms = self.sorted_antonym_pair[::-1]
+        if len(sorted_antonyms) > 0:
+            self.antonym_dict = OrderedDict((key, antonym_dict[key]) for key in sorted_antonyms)
         else:
             self.antonym_dict = antonym_dict
+        print("AntonymDict", self.antonym_dict)
 
     def plot_word_polarity(self, words, contexts, polar_dimension):
         """
@@ -239,9 +234,9 @@ class PolarityPlotter:
                     range=[0, max_polar_value],
                     angle=90
                 ),
-                angularaxis = dict(
-                direction = "clockwise",
-                )
+                # angularaxis = dict(
+                # # direction = "clockwise",
+                # )
             ),
             showlegend=True
         )
@@ -332,6 +327,9 @@ class PolarityPlotter:
         antonym_dict = self.antonym_dict
         antonyms = list(antonym_dict.keys())
 
+        # x_axis = antonyms.index(x_axis)
+        # y_axis = antonyms.index(y_axis)
+
         max_value = max(max([abs(val) for val in word_dict[word][:2]]) for word in word_dict) + 0.5
 
         fig.update_layout(
@@ -417,8 +415,8 @@ class PolarityPlotter:
             sorted_pairs = [pair for _, pair in sorted(zip(scores, descriptive_pairs), reverse=False)]
         else:
             sorted_pairs = [pair for _, pair in sorted(zip(scores, descriptive_pairs), reverse=True)]
-        if len(sorted_pairs) > n:
-            sorted_pairs = sorted_pairs[:n]
+        # if len(sorted_pairs) > n:
+        #     sorted_pairs = sorted_pairs[:len(polar_dimensions)]
         self.sorted_antonym_pair = sorted_pairs
         result = []
         for pair in sorted_pairs:
