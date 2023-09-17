@@ -4,8 +4,27 @@ from sensepolar.antonyms import AntonymSpace
 from collections import defaultdict
 import nltk
 from nltk.stem import PorterStemmer
+
 class WordPolarity:
-    "WordPolarity class is used for analyzing the polarity of a word in a given context."
+    """
+    The `WordPolarity` class is used for analyzing the polarity of a word in a given context.
+
+    Attributes:
+        - model: A pre-trained word embedding model, with a get_word_embedding method.
+        - antonym_path: Path to the pickled antonyms file.
+        - lookup_path: Path to the antonym lookup dictionary.
+        - normalize_term_path: Path to the pickled normalize_term file.
+        - number_polar: Number of polar dimensions to consider.
+        - method: Transformation method for antonyms space.
+    
+    Methods:
+        - load_antonyms(): Loads antonyms from a pickled file
+        - load_definitions(): Loads word definitions from a pickled file.
+        - load_W(): Loads antonyms space and transforms it based on the method parameter.
+        - analyze_word(word: str, context: str): Analyzes the polarity of a word in a given context.
+        - get_top_word_dimensions(word_embedding: numpy.ndarray): Retrieves the top dimensions for a given word based on its word embedding.
+    """
+
     def __init__(self, model, antonym_path="", lookup_path="./antonyms/", normalize_term_path="wordnet_normalize.pkl", number_polar=-1, method="base-change"):
         """
         Initialize a WordPolarity object.
@@ -14,8 +33,8 @@ class WordPolarity:
             model: A pre-trained word embedding model, with a get_word_embedding method that takes in a context and a word.
             antonym_path (str, optional): Path to the pickled antonyms file. Defaults to "".
             lookup_path (str, optional): Path to the antonym lookup dictionary. Defaults to "./antonyms/".
-            normalize_term_path (str, optional): Path to the pickled normalize_term file. Defaults to "antonyms/wordnet_normalize.pkl".
-            number_polar (int, optional): Number of polar dimensions to consider. Defaults to 5.
+            normalize_term_path (str, optional): Path to the pickled normalize_term file. Defaults to "wordnet_normalize.pkl".
+            number_polar (int, optional): Number of polar dimensions to consider. Defaults to -1.
             method (str, optional): Transformation method for antonyms space. Valid options are "base-change" and "projection". Defaults to "base-change".
         """
         self.antonym_path = antonym_path
@@ -88,7 +107,6 @@ class WordPolarity:
         replaced_words = [word if stemmer.stem(w) == stemmer.stem(word) else w for w in words]
         context = ' '.join(replaced_words)
         if word not in context.split():
-            # print(word, context)
             print("Warning: The context must contain the *exact* word you want to analyze!")
             return None
 
@@ -114,7 +132,6 @@ class WordPolarity:
         """
         thisdict = {i: v for i, v in enumerate(word_embedding)}
         sorted_dic = sorted(thisdict.items(), key=lambda item: abs(item[1]), reverse=True)
-        # print(sorted_dic)
         axis_list = []
         if self.number_polar == -1:
             self.number_polar = len(sorted_dic)
@@ -130,11 +147,11 @@ class WordPolarity:
             else:
                 axis = ((left_polar,left_definition), (right_polar,right_definition), cur_value)
             axis_list.append(axis)
-            print("Top:", i + 1)
-            print("Dimension:", left_polar, "<------>", right_polar)
-            print(left_definition, right_definition)
-            print("Definitions: ", left_definition[0] + "<------>" + right_definition[0] if isinstance(left_definition, list) else left_definition+ "<------>" + right_definition)
-            print("Value: " + str(cur_value) if cur_value < 0 else f"Value:{cur_value}")
-            print("\n")
-        return axis_list  # top dimensions for given word (string)
+            # print("Top:", i + 1)
+            # print("Dimension:", left_polar, "<------>", right_polar)
+            # print(left_definition, right_definition)
+            # print("Definitions: ", left_definition[0] + "<------>" + right_definition[0] if isinstance(left_definition, list) else left_definition+ "<------>" + right_definition)
+            # print("Value: " + str(cur_value) if cur_value < 0 else f"Value:{cur_value}")
+            # print("\n")
+        return axis_list 
     

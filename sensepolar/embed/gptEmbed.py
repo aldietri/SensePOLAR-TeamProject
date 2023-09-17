@@ -90,10 +90,5 @@ class GPT2WordEmbeddings:
             word_embedding = word_tokens_output.mean(dim=0)
         else:
             output = states[-self.layer][0]
-            # print(output[token_ids_word])
             word_embedding = output[token_ids_word].mean(dim=0)
-        # print(word_embedding)
         return word_embedding
-        # output_layer = states[layer][0]
-        # word_embedding = torch.mean(output_layer[token_ids_word], dim=0)
-        # return word_embedding

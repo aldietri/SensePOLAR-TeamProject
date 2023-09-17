@@ -78,7 +78,6 @@ class BERTWordEmbeddings:
         encoded = self.tokenizer.encode_plus(sentence, return_tensors="pt")
         token_ids_word =np.where(np.array(encoded.word_ids()) == idx)
         states = self.get_hidden_states(encoded)
-        print(states[-self.layer][0].shape)
         if self.avg_layers:
             embeddings_to_average = states[-self.layer:]
             word_tokens_output = torch.cat([output[0][token_ids_word] for output in embeddings_to_average], dim=0)

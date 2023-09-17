@@ -2,7 +2,25 @@ import numpy as np
 from scipy import linalg
 
 class AntonymSpace:
-    " AntonymSpace class provides a way to obtain word embeddings for a given word, based on a set of antonyms and definitions."
+    """
+    AntonymSpace class provides a way to obtain word embeddings for a given word, based on a set of antonyms and definitions.
+
+    Attributes:
+        antonyms (np.ndarray): A NumPy array containing antonyms and their associated embeddings.
+        definitions (np.ndarray): A NumPy array containing word definitions and their associated embeddings.
+        W_norm (np.ndarray): Normalized antonym space matrix.
+        W_inverse (np.ndarray): Inverse of the transpose of the normalized antonym space matrix.
+
+    Methods:
+        __init__(self, antonym_path: str, definition_path: str):
+            Initializes the AntonymSpace object by loading the antonyms and definitions data.
+
+        get_W(self):
+            Returns two matrices: the normalized version of the antonym space matrix, and the inverse of the transpose of the normalized antonym space matrix.
+
+        get_word_embedding(self, word: str, use_definition: bool = True) -> np.ndarray:
+            Returns the word embedding for a given word, based on the antonyms and definitions data.
+    """
     def __init__(self, antonym_path, definition_path):
         """
         Initializes the AntonymSpace object by loading the antonyms and definitions data.
@@ -23,15 +41,12 @@ class AntonymSpace:
             W_norm (np.ndarray): Normalized antonym space matrix.
             W_inverse (np.ndarray): Inverse of the transpose of the normalized antonym space matrix.
         """
-        # print('Antonyms', self.antonyms)
         if len(self.antonyms[0]) == 3:
-            # Case [anto-1, anto1, direction]
             axisList=[]
             for antony in self.antonyms:
                 axisList.append(antony[2])
         else:
-            # Case [direction1, direction2]
-            axisList=self.antonyms #[0:768] # 1763 pairs
+            axisList=self.antonyms 
         W = np.matrix(axisList)
         W_inverse = linalg.pinv(np.transpose(W))
         W_norm = W/np.linalg.norm(W, axis=1, keepdims=True)

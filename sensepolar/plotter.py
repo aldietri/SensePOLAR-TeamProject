@@ -488,4 +488,3 @@ class PolarityPlotter:
         )
         fig.update_yaxes(showticklabels=False)
         return fig
-

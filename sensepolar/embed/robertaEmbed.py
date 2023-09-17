@@ -86,5 +86,4 @@ class RoBERTaWordEmbeddings:
         else:
             output = states[-self.layer][0]
             word_embedding = output[token_ids_word].mean(dim=0)
-        
         return word_embedding

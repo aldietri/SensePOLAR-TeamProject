@@ -77,9 +77,7 @@ class ALBERTWordEmbeddings:
             return None
         encoded = self.tokenizer(sentence, return_tensors="pt", return_token_type_ids=False)
         token_ids_word = np.where(encoded.word_ids()[0] == idx)
-        # print(token_ids_word)
         states = self.get_hidden_states(encoded)
-        # print(states[-self.layer][0].shape)
         if self.avg_layers:
             embeddings_to_average = states[-self.layer:]
             word_tokens_output = torch.cat([output[0][token_ids_word] for output in embeddings_to_average], dim=0)
@@ -88,5 +86,4 @@ class ALBERTWordEmbeddings:
             output = states[-self.layer][0]
             print(output[token_ids_word])
             word_embedding = output[token_ids_word].mean(dim=0)
-        # print(word_embedding)
         return word_embedding
