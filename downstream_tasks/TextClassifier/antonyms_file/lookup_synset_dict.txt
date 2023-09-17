@@ -1,6 +1,0 @@
-[
-    [
-        "positive",
-        "negative"
-    ]
-]
