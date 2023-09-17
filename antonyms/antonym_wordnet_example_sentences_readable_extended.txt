@@ -1,1 +1,18 @@
-{}
+{
+    "['happy_0', 'sad_0']": {
+        "happy_0": [
+            "happy to help "
+        ],
+        "sad_0": [
+            "a sad face "
+        ]
+    },
+    "['good_0', 'bad_0']": {
+        "good_0": [
+            "a good experience good news from the hospital "
+        ],
+        "bad_0": [
+            "a bad concert "
+        ]
+    }
+}

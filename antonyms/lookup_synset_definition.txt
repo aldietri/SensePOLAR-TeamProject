@@ -1,1 +1,18 @@
-[]
+[
+    [
+        [
+            "Cheerful; willing."
+        ],
+        [
+            "Showing, expressing, or feeling sorrow or unhappiness."
+        ]
+    ],
+    [
+        [
+            "Being positive or desirable in nature; not bad or poor."
+        ],
+        [
+            "Not achieving an adequate standard; poor."
+        ]
+    ]
+]

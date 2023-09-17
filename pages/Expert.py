@@ -700,9 +700,9 @@ def check_inputs(antonyms, examples):
 
     # Check antonyms
     # If dataframe contains any null or empty string values parse warning and return false
-    if antonyms.isnull().values.any() or antonyms.eq("").values.any():
-        st.warning("Please check whether all necessary antonym fields have been populated before executing", icon="⚠️")
-        return False
+    # if antonyms.isnull().values.any() or antonyms.eq("").values.any():
+    #     st.warning("Please check whether all necessary antonym fields have been populated before executing", icon="⚠️")
+    #     return False
 
     # Check examples
     eval = check_input(examples)
