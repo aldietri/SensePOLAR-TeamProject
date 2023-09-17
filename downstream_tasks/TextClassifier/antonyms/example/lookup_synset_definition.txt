@@ -1,0 +1,6 @@
+[
+    [
+        "of long duration; not new",
+        "not of long duration; having just (or relatively recently) come into being or been made or acquired or discovered"
+    ]
+]

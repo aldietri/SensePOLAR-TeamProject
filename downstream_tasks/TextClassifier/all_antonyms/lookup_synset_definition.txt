@@ -1,0 +1,542 @@
+[
+    [
+        "offensive or even (of persons) malicious; ; ; ; ; ; - Ezra Pound",
+        "pleasant or pleasing or agreeable in nature or appearance; - George Meredith"
+    ],
+    [
+        "(comparative of `good') superior to another (of the same class or set or kind) in excellence or quality or desirability or suitability; more highly skilled than another",
+        "(comparative of `bad') inferior to another in quality or condition or desirability"
+    ],
+    [
+        "(comparative of `good') changed for the better in health or fitness",
+        "changed for the worse in health or fitness"
+    ],
+    [
+        "having undesirable or negative qualities",
+        "having desirable or positive qualities especially those suitable for a thing specified"
+    ],
+    [
+        "affected by an impairment of normal physical or mental function",
+        "in good health especially after having suffered illness or injury"
+    ],
+    [
+        "(`ill' is often used as a combining form) in a poor or improper or unsatisfactory manner; not well",
+        "(often used as a combining form) in a good or proper or satisfactory manner or to a high standard (`good' is a nonstandard dialectal variant for `well')"
+    ],
+    [
+        "unfavorably or with disapproval",
+        "favorably; with approval"
+    ],
+    [
+        "without skill or in a displeasing manner",
+        "with skill or in a pleasing manner"
+    ],
+    [
+        "in a disadvantageous way; to someone's disadvantage",
+        "in a manner affording benefit or advantage"
+    ],
+    [
+        "with unusual distress or resentment or regret or emotional display",
+        "without unusual distress or resentment; with good humor"
+    ],
+    [
+        "free from blood or bloodshed",
+        "having or covered with or accompanied by blood"
+    ],
+    [
+        "people who are brave",
+        "people who are fearful and cautious"
+    ],
+    [
+        "possessing or displaying courage; able to face and deal with danger or fear without flinching; - Herman Melville; - William Wordsworth",
+        "lacking courage; ignobly timid and faint-hearted; - P.B.Shelley"
+    ],
+    [
+        "actively or fully engaged or occupied",
+        "not in action or at work"
+    ],
+    [
+        "showing careful forethought",
+        "lacking in caution"
+    ],
+    [
+        "free from dirt or impurities; or having clean habits",
+        "soiled or likely to soil with dirt or grime"
+    ],
+    [
+        "not spreading pollution or contamination; especially radioactive contamination",
+        "spreading pollution or contamination; especially radioactive contamination"
+    ],
+    [
+        "(of behavior or especially language) free from objectionable elements; fit for all observers",
+        "(of behavior or especially language) characterized by obscenity or indecency"
+    ],
+    [
+        "in conformity with the rules or laws and without fraud or cheating",
+        "in an unfair manner"
+    ],
+    [
+        "free from clouds or mist or haze",
+        "full of or covered with clouds"
+    ],
+    [
+        "overfilled or compacted or concentrated",
+        "having or allowing sufficient room"
+    ],
+    [
+        "people who are no longer living",
+        "people who are still living"
+    ],
+    [
+        "possessing life",
+        "no longer having or seeming to have or expecting to have life"
+    ],
+    [
+        "not showing characteristics of life especially the capacity to sustain life; no longer exerting force or having energy or heat",
+        "exerting force or containing energy"
+    ],
+    [
+        "unlike in nature or quality or form or degree",
+        "closely similar or comparable in kind or quality or quantity or degree"
+    ],
+    [
+        "resembling or similar; having the same or some of the same characteristics; often used in combination",
+        "marked by dissimilarity"
+    ],
+    [
+        "easy to perceive; especially clearly outlined",
+        "not clearly defined or easy to perceive or understand"
+    ],
+    [
+        "having or showing keen interest or intense desire or impatient expectancy",
+        "lacking interest or spirit or animation"
+    ],
+    [
+        "depriving of confidence or hope or enthusiasm and hence often deterring action",
+        "giving courage or confidence or hope"
+    ],
+    [
+        "relatively low in price or charging low prices",
+        "high in price or charging high prices"
+    ],
+    [
+        "steadfast in affection or allegiance",
+        "not true to duty or obligation or promises"
+    ],
+    [
+        "not having sexual relations with anyone except your husband or wife, or your boyfriend or girlfriend",
+        "having sexual relations with someone other than your husband or wife, or your boyfriend or girlfriend"
+    ],
+    [
+        "of textures that are rough to the touch or substances consisting of relatively large particles",
+        "of textures that are smooth to the touch or substances consisting of relatively small particles"
+    ],
+    [
+        "physically weak",
+        "sturdy and strong in form, constitution, or construction"
+    ],
+    [
+        "having or deserving or conferring glory",
+        "not bringing honor and glory"
+    ],
+    [
+        "having or indicating good health in body or mind; free from infirmity or disease",
+        "not in or exhibiting good health in body or mind"
+    ],
+    [
+        "to a moderately sufficient extent or degree",
+        "to a degree that exceeds the bounds or reason or moderation"
+    ],
+    [
+        "having or bringing good fortune",
+        "having or bringing misfortune"
+    ],
+    [
+        "not perfect; defective or inadequate",
+        "being complete of its kind and without defect or blemish"
+    ],
+    [
+        "being or occurring in fact or actuality; having verified existence; not illusory; ; ; ; ; ; - Longfellow",
+        "lacking in reality or substance or genuineness; not corresponding to acknowledged facts or criteria"
+    ],
+    [
+        "no less than what is stated; worthy of the name",
+        "not actually such; being or seeming fanciful or imaginary"
+    ],
+    [
+        "of, relating to, or characteristic of an amount that is not adjusted for inflation",
+        "of, relating to, or representing an amount that is corrected for inflation"
+    ],
+    [
+        "lacking material form or substance; unreal",
+        "having substance or capable of being treated as fact; not imaginary; ; ; - Shakespeare"
+    ],
+    [
+        "having little money or few possessions",
+        "possessing material wealth"
+    ],
+    [
+        "lacking in specific resources, qualities or substances",
+        "having an abundant supply of desirable qualities or substances (especially natural resources)"
+    ],
+    [
+        "lacking in mineral content or combustible material",
+        "high in mineral content; having a high proportion of fuel to air; ,"
+    ],
+    [
+        "characterized by or indicating poverty",
+        "suggestive of or characterized by great expense"
+    ],
+    [
+        "having a shiny surface or coating",
+        "not having a shiny coating"
+    ],
+    [
+        "having the capacity for thought and reason especially to a high degree",
+        "lacking intelligence"
+    ],
+    [
+        "given to sympathy or gentleness or sentimentality",
+        "not given to gentleness or sentimentality"
+    ],
+    [
+        "physically untoughened",
+        "physically toughened"
+    ],
+    [
+        "feeling or showing gratitude",
+        "not feeling or showing gratitude; ; - Shakespeare"
+    ],
+    [
+        "not tired; refreshed as by sleeping or relaxing",
+        "depleted of strength or energy"
+    ],
+    [
+        "delighting the senses or exciting intellectual or emotional admiration",
+        "displeasing to the senses"
+    ],
+    [
+        "anything in accord with principles of justice",
+        "that which is contrary to the principles of justice or law"
+    ],
+    [
+        "free from error; especially conforming to fact or truth",
+        "not correct; not in conformity with fact or truth"
+    ],
+    [
+        "in conformance with justice or law or morality",
+        "contrary to conscience or morality or law"
+    ],
+    [
+        "correct in opinion or judgment",
+        "based on or acting or judging in error"
+    ],
+    [
+        "in an accurate manner",
+        "in an inaccurate manner"
+    ],
+    [
+        "pleasing to the eye or mind especially through beauty or charm",
+        "lacking beauty or charm"
+    ],
+    [
+        "having the properties of a magnet; the ability to draw or pull",
+        "possessing the ability to repel"
+    ],
+    [
+        "that which is below standard or expectations as of ethics or decency",
+        "that which is pleasing or valuable or useful"
+    ],
+    [
+        "feeling or expressing regret or sorrow or a sense of loss over something done or undone",
+        "feeling no regret"
+    ],
+    [
+        "capable of being broken or damaged",
+        "impossible to break especially under ordinary usage"
+    ],
+    [
+        "(of weather) free from storm or wind",
+        "(especially of weather) affected or characterized by storms or commotion"
+    ],
+    [
+        "readily apparent to the mind",
+        "not clear to the mind"
+    ],
+    [
+        "allowing light to pass through",
+        "not transmitting or reflecting light or radiant energy; impenetrable to sight"
+    ],
+    [
+        "providing or experiencing physical well-being or relief (`comfy' is informal)",
+        "providing or experiencing physical discomfort"
+    ],
+    [
+        "free from stress or conducive to mental ease; having or affording peace of mind",
+        "conducive to or feeling mental discomfort"
+    ],
+    [
+        "involving or causing danger or risk; liable to hurt or harm",
+        "free from danger or the risk of harm"
+    ],
+    [
+        "beaten or overcome; not victorious",
+        "victorious"
+    ],
+    [
+        "not easy; requiring great physical or mental effort to accomplish or comprehend or endure",
+        "posing no difficulty; requiring little effort"
+    ],
+    [
+        "with rapid movements",
+        "without speed (`slow' is sometimes used informally for `slowly')"
+    ],
+    [
+        "possessing or exerting or displaying energy",
+        "deficient in alertness or activity"
+    ],
+    [
+        "the quality of being morally wrong in principle or practice",
+        "moral excellence or admirableness"
+    ],
+    [
+        "devoid of good sense or judgment",
+        "having or prompted by wisdom or discernment"
+    ],
+    [
+        "feeling hunger; feeling a need or desire to eat food",
+        "feeling a need or desire to drink"
+    ],
+    [
+        "of great significance or value",
+        "not important"
+    ],
+    [
+        "responsible for or chargeable with a reprehensible act",
+        "free from evil or guilt"
+    ],
+    [
+        "not experiencing or inspiring joy",
+        "full of or characterized by joy"
+    ],
+    [
+        "of comparatively great physical weight or density",
+        "of comparatively little physical weight or density"
+    ],
+    [
+        "(used of color) having a dark hue",
+        "(used of color) having a relatively small amount of coloring agent"
+    ],
+    [
+        "of the military or industry; using (or being) the heaviest and most powerful armaments or weapons or equipment",
+        "of the military or industry; using (or being) relatively small or light arms or equipment"
+    ],
+    [
+        "unusually great in degree or quantity or number",
+        "not great in degree or quantity or number"
+    ],
+    [
+        "marked by great psychological weight; weighted down especially with sadness or troubles or weariness",
+        "psychologically light; especially free from sadness or troubles"
+    ],
+    [
+        "devoid of or deficient in light or brightness; shadowed or black",
+        "characterized by or emitting light"
+    ],
+    [
+        "of great intensity or power or force",
+        "of little intensity or power or force"
+    ],
+    [
+        "(physics, chemistry) being or containing an isotope with greater than average atomic mass or weight",
+        "(physics, chemistry) not having atomic weight greater than average"
+    ],
+    [
+        "primarily temporal sense; being or indicating a relatively great or greater than average duration or passage of time or a duration as specified",
+        "primarily temporal sense; indicating or being or seeming to be limited in duration"
+    ],
+    [
+        "primarily spatial sense; of relatively great or greater than average spatial extension or extension as specified",
+        "(primarily spatial sense) having little length or lacking in length"
+    ],
+    [
+        "holding securities or commodities in expectation of a rise in prices",
+        "not holding securities or commodities that one sells in expectation of a fall in prices"
+    ],
+    [
+        "not obeying or complying with commands of those in authority",
+        "dutifully complying with the commands or instructions of those in authority; ; ; ; - Edmund Burke"
+    ],
+    [
+        "not plain; decorative or ornamented",
+        "not elaborate or elaborated; simple"
+    ],
+    [
+        "having or marked by confidence or assurance",
+        "lacking self-confidence"
+    ],
+    [
+        "used of wines and waters; charged naturally or artificially with carbon dioxide",
+        "not sparkling"
+    ],
+    [
+        "very restrained or quiet",
+        "marked by extreme lack of restraint or control"
+    ],
+    [
+        "brought from wildness into a domesticated state",
+        "in a natural state; not tamed or domesticated or cultivated"
+    ],
+    [
+        "lacking in strength or firmness or resilience",
+        "taut or rigid; stretched tight"
+    ],
+    [
+        "exhibiting or characterized by careful thought",
+        "showing lack of careful thought"
+    ],
+    [
+        "taking heed; giving close and thoughtful attention",
+        "marked by or paying little heed or attention; --Franklin D. Roosevelt"
+    ],
+    [
+        "not usual or common or ordinary",
+        "occurring or encountered or experienced or observed frequently or in accordance with regular practice or procedure"
+    ],
+    [
+        "within normal everyday experience; common and ordinary; not strange",
+        "being definitely out of the ordinary and unexpected; slightly odd or even a bit weird"
+    ],
+    [
+        "being of the achromatic color of maximum darkness; having little or no hue owing to absorption of almost all incident light",
+        "being of the achromatic color of maximum lightness; having little or no hue owing to reflection of almost all incident light"
+    ],
+    [
+        "of or belonging to a racial group having dark skin especially of sub-Saharan African origin; - Martin Luther King Jr.",
+        "of or belonging to a racial group having light skin coloration"
+    ],
+    [
+        "emitting or reflecting light readily or in large amounts",
+        "emitting or reflecting very little light"
+    ],
+    [
+        "made dim or less bright",
+        "not made dim or less bright"
+    ],
+    [
+        "exercising caution or showing care or attention",
+        "marked by lack of attention or consideration or forethought or thoroughness; not careful"
+    ],
+    [
+        "being full of or promoting cheer; having or showing good spirits",
+        "causing sad feelings of gloom and inadequacy"
+    ],
+    [
+        "striking in variety and interest",
+        "lacking in variety and interest"
+    ],
+    [
+        "having color or a certain color; sometimes used in combination",
+        "without color"
+    ],
+    [
+        "feeling or showing worry or solicitude",
+        "lacking in interest or care or feeling"
+    ],
+    [
+        "done with or working with others for a common purpose or benefit",
+        "unwilling to cooperate"
+    ],
+    [
+        "eager to investigate and learn or learn more (sometimes about others' concerns)",
+        "showing absence of intellectual inquisitiveness or natural curiosity"
+    ],
+    [
+        "disposed or willing to comply",
+        "boldly resisting authority or an opposing force"
+    ],
+    [
+        "lacking in liveliness or animation",
+        "full of life and energy"
+    ],
+    [
+        "not keenly felt",
+        "keenly and painfully felt; as if caused by a sharp edge or point"
+    ],
+    [
+        "not having a sharp edge or point",
+        "having or made by a thin edge or sharp point; suitable for cutting or piercing"
+    ],
+    [
+        "affected or marked by low spirits",
+        "exultantly proud and joyful; in high spirits"
+    ],
+    [
+        "having or showing great excitement and interest",
+        "not enthusiastic; lacking excitement or ardor"
+    ],
+    [
+        "free from favoritism or self-interest or bias or deception; conforming with established standards or rules",
+        "not fair; marked by injustice or partiality or deception"
+    ],
+    [
+        "characteristic of or befitting a friend",
+        "not disposed to friendship or friendliness"
+    ],
+    [
+        "easy to understand or use",
+        "not easy to understand or use"
+    ],
+    [
+        "of or belonging to your own country's forces or those of an ally",
+        "not belonging to your own country's forces or those of an ally"
+    ],
+    [
+        "enjoying or showing or marked by joy or pleasure",
+        "experiencing or marked by or causing sadness or sorrow or discontent"
+    ],
+    [
+        "not capable of occurring or being accomplished or dealt with",
+        "capable of happening or existing"
+    ],
+    [
+        "having or showing a tender and considerate and helpful nature; used especially of persons and their behavior",
+        "lacking kindness"
+    ],
+    [
+        "affording unobstructed entrance and exit; not shut or closed",
+        "not open"
+    ],
+    [
+        "not open or affording passage or access",
+        "affording free passage or access"
+    ],
+    [
+        "used especially of mouth or eyes",
+        "used of mouth or eyes"
+    ],
+    [
+        "secret or hidden; not openly practiced or engaged in or shown or avowed",
+        "open and observable; not secret or hidden"
+    ],
+    [
+        "affording pleasure; being in harmony with your taste or likings",
+        "disagreeable to the senses, to the mind, or feelings"
+    ],
+    [
+        "marked by meekness or modesty; not arrogant or prideful; ; - B.K.Malinowski",
+        "feeling self-respect or pleasure in something by which you measure your self-worth; or being a reason for pride"
+    ],
+    [
+        "relating to or originating in or characteristic of another place or part of the world",
+        "characteristic of or existing by virtue of geographic origin"
+    ],
+    [
+        "characterized by or indicative of distress or affliction or danger or need",
+        "not beset by troubles or disturbance or distress"
+    ],
+    [
+        "having or showing interest; especially curiosity or fascination or concern",
+        "not having or showing interest"
+    ]
+]
